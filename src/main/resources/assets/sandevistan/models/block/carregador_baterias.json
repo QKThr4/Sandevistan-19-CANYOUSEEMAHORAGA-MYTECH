@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "sandevistan:block/carregador_baterias_top",
+    "side": "sandevistan:block/carregador_baterias_side",
+    "bottom": "sandevistan:block/carregador_baterias_bottom"
+  }
+}
