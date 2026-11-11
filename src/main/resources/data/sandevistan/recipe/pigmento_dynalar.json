@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:blue_dye"
+    },
+    {
+      "item": "sandevistan:fluido_refrigerante"
+    }
+  ],
+  "result": {
+    "id": "sandevistan:pigmento_dynalar",
+    "count": 2
+  }
+}

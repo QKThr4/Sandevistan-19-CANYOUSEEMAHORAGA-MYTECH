@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ILI",
+    "SCS",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "minecraft:lava_bucket"
+    },
+    "S": {
+      "item": "sandevistan:servo_motor"
+    },
+    "C": {
+      "item": "sandevistan:capacitor"
+    }
+  },
+  "result": {
+    "id": "sandevistan:gerador_termico",
+    "count": 1
+  }
+}

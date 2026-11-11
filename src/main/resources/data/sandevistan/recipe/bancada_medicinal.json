@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "PCP",
+    "PPP"
+  ],
+  "key": {
+    "S": {
+      "item": "sandevistan:seringa"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "C": {
+      "item": "minecraft:composter"
+    }
+  },
+  "result": {
+    "id": "sandevistan:bancada_medicinal",
+    "count": 1
+  }
+}

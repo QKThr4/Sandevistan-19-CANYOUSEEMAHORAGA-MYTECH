@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:amethyst_shard"
+    },
+    {
+      "item": "sandevistan:barra_solda"
+    }
+  ],
+  "result": {
+    "id": "sandevistan:capacitor",
+    "count": 2
+  }
+}

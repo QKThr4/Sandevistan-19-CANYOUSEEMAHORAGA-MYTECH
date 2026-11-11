@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IVI",
+    "SHS",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "V": {
+      "item": "sandevistan:ventoinha"
+    },
+    "S": {
+      "item": "sandevistan:servo_motor"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "result": {
+    "id": "sandevistan:reciclador_sucata",
+    "count": 1
+  }
+}

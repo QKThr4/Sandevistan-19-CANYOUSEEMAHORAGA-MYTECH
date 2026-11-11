@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:yellow_dye"
+    },
+    {
+      "item": "sandevistan:fluido_refrigerante"
+    }
+  ],
+  "result": {
+    "id": "sandevistan:pigmento_zetatech",
+    "count": 2
+  }
+}

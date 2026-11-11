@@ -1,0 +1,14 @@
+{
+  "values": [
+    "sandevistan:clinica_ripperdoc",
+    "sandevistan:bancada_montagem",
+    "sandevistan:bancada_medicinal",
+    "sandevistan:reciclador_sucata",
+    "sandevistan:minerio_sucata",
+    "sandevistan:carregador_baterias",
+    "sandevistan:gerador_combustivel",
+    "sandevistan:painel_solar",
+    "sandevistan:turbina_eolica",
+    "sandevistan:gerador_termico"
+  ]
+}
