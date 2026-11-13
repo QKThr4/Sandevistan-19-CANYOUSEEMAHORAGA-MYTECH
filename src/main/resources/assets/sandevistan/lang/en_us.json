@@ -463,5 +463,6 @@
   "sandevistan.mantis.cost": "Repair:",
   "sandevistan.mantis.broken": "A Mantis Blade broke! Repair it at the Ripperdoc.",
   "sandevistan.mantis.nomat": "Missing materials for the repair.",
-  "sandevistan.mantis.repaired": "Mantis Blade repaired."
+  "sandevistan.mantis.repaired": "Mantis Blade repaired.",
+  "sandevistan.btn.musicvol": "Psychosis music volume: %s%%"
 }

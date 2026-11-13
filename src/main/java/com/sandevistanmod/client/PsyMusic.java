@@ -73,7 +73,7 @@ public final class PsyMusic {
             return;
         }
         if (current != null && currentChoice != choice) stopNow();
-        float vol = 0.12f + 0.38f * Mth.clamp((d.psy - 60f) / 40f, 0f, 1f);
+        float vol = (0.12f + 0.38f * Mth.clamp((d.psy - 60f) / 40f, 0f, 1f)) * ClientLayout.musicVol;
         long now = System.currentTimeMillis();
         // enquanto toca a musica da ciberpsicose, a musica do jogo (so deste jogador) fica parada
         mc.getMusicManager().stopPlaying();

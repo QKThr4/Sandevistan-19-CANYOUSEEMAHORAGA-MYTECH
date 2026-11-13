@@ -463,5 +463,6 @@
   "sandevistan.mantis.cost": "Reparação:",
   "sandevistan.mantis.broken": "Uma Lâmina Mantis partiu! Repara-a no Ripperdoc.",
   "sandevistan.mantis.nomat": "Faltam materiais para a reparação.",
-  "sandevistan.mantis.repaired": "Lâmina Mantis reparada."
+  "sandevistan.mantis.repaired": "Lâmina Mantis reparada.",
+  "sandevistan.btn.musicvol": "Volume da música da psicose: %s%%"
 }

@@ -1001,6 +1001,7 @@ public final class SandevistanLogic {
 
     /** Sobe a Insanidade (a carga alta e o uso do Sandevistan caem aqui; ela e que sobe a ciberpsicose). */
     private static void gainIns(ServerPlayer p, SandevistanData d, float amount) {
+        if (!p.isAlive()) return;
         // com a Mente fragil a Insanidade sobe um pouco mais facil
         if (d.ins < 100f) amount *= LowMind.gainFactor(d);
         d.ins = Math.min(100f, d.ins + amount);
@@ -1034,11 +1035,12 @@ public final class SandevistanLogic {
 
     private static final float PILL_SECONDS = 30f;
     /** Segundos para perder 1 de Insanidade parado, por fase da propria Insanidade (igual a ciberpsicose). */
-    private static final float INS_START_PERIOD = 10f;
-    private static final float INS_END_PERIOD = 2f;
+    private static final float INS_START_PERIOD = 7f;
+    private static final float INS_END_PERIOD = 1f;
 
     /** Insanidade: efeito da pilula, subida da ciberpsicose a partir de 20% e descida igual a da ciberpsicose. dt = segundos reais. */
     private static void insanityTick(ServerPlayer p, SandevistanData d, float dt) {
+        if (!p.isAlive()) return;
         if (d.insCalm > 0f) {
             float use = Math.min(dt, d.insCalm);
             d.insCalm -= use;

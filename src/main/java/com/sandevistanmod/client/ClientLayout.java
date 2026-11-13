@@ -36,6 +36,8 @@ public final class ClientLayout {
     public static float abilY = 0.88f;
     /** Musica da ciberpsicose: 0 nenhuma, 1 e 2 as duas musicas. */
     public static int music = 1;
+    /** Volume da musica da ciberpsicose (0 a 1). */
+    public static float musicVol = 1f;
 
     static {
         load();
@@ -118,6 +120,7 @@ public final class ClientLayout {
                 p.load(in);
             }
             music = Math.max(0, Math.min(2, (int) num(p, "music", 1f)));
+            musicVol = Math.max(0f, Math.min(1f, num(p, "musicVol", 1f)));
             mindX = num(p, "mindX", 0f);
             mindY = num(p, "mindY", 0f);
             psyX = num(p, "psyX", 0f);
@@ -135,6 +138,7 @@ public final class ClientLayout {
         try {
             Properties p = new Properties();
             p.setProperty("music", Integer.toString(music));
+            p.setProperty("musicVol", Float.toString(musicVol));
             p.setProperty("mindX", Float.toString(mindX));
             p.setProperty("mindY", Float.toString(mindY));
             p.setProperty("psyX", Float.toString(psyX));

@@ -433,6 +433,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
         h = h * 31L + (injOn ? 1 : 0);
         h = h * 31L + (mantisOn ? 1 : 0);
         h = h * 31L + mantisDur[0] * 2003L + mantisDur[1];
+        h = h * 31L + useShown;
         h = h * 31L + licence * 2L + (qOn ? 1 : 0);
         for (int i = 0; i < qp.length; i++) h = h * 31L + qp[i];
         h = h * 31L + (eyeOn ? 1 : 0);
@@ -500,7 +501,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final int[] BOOT_ALTITUDE = {4, 5, 6};
     public static final float[] BOOT_GLIDE_COST = {6f, 5f, 4f};
     public static final float[] JET_SPEED = {0.05f, 0.06f, 0.07f, 0.09f};
-    public static final float[] JET_COST = {14f, 12f, 10f, 8f};
+    public static final float[] JET_COST = {28f, 24f, 20f, 16f};
     public static final float[] XP_BONUS = {0.2f, 0.3f, 0.4f};
     public static final int[] XRAY_RADIUS = {8, 12, 16};
     public static final float[] XRAY_COOLDOWN = {35f, 30f, 25f};
@@ -585,6 +586,9 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public int batType;
     public int batEnergy;
     public transient float batFrac;
+    /** Consumo de energia agora (FE/s), somado a cada tick pelos implantes que gastam por segundo; so para mostrar no HUD. */
+    public transient float feRate;
+    public int useShown;
 
     public int batCap() {
         return BAT_CAP[Math.max(0, Math.min(BAT_TYPES, batType))];
@@ -630,6 +634,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
         t.putBoolean("injon", injOn);
         t.putBoolean("mantison", mantisOn);
         t.putIntArray("mantisdur", mantisDur.clone());
+        t.putInt("useshown", useShown);
         t.putInt("lic", licence);
         t.putBoolean("qon", qOn);
         t.putIntArray("qp", qp.clone());
@@ -694,6 +699,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
         eyeOn = t.getBoolean("eyeon") && eyeType >= 2;
         injOn = !t.contains("injon") || t.getBoolean("injon");
         mantisOn = !t.contains("mantison") || t.getBoolean("mantison");
+        useShown = t.getInt("useshown");
         int[] md = t.getIntArray("mantisdur");
         for (int i = 0; i < 2; i++) mantisDur[i] = i < md.length ? Math.max(0, Math.min(MANTIS_MAX, md[i])) : MANTIS_MAX;
         licence = t.contains("lic") ? Math.max(1, Math.min(4, t.getInt("lic"))) : 1;

@@ -120,6 +120,14 @@ public final class ClientOverlay {
         }
         if (d.batType != 0) {
             bar(gg, 0, y, 110, 4, d.batEnergy / (float) d.batCap(), 0xFF33CCFF);
+            if (d.useShown > 0) {
+                String u = "-" + d.useShown + " FE/s  (" + String.format(java.util.Locale.ROOT, "%.1f", d.useShown / 20f) + "/t)";
+                gg.pose().pushPose();
+                gg.pose().translate(113f, -1f, 0f);
+                gg.pose().scale(0.6f, 0.6f, 1f);
+                gg.drawString(f, u, 0, 0, 0xFF66DDFF, true);
+                gg.pose().popPose();
+            }
             y += 6;
         }
         bar(gg, 0, y, 110, 7, d.mind / SandevistanData.MAX_MIND, mindColor(d.mind));

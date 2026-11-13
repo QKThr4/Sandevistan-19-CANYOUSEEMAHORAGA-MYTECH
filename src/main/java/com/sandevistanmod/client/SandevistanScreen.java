@@ -65,7 +65,26 @@ public class SandevistanScreen extends Screen {
                 .bounds(bx + 176, y + 222, 86, 20).build()));
         page0.add(addRenderableWidget(Button.builder(Tx.t("btn.close"), b -> onClose())
                 .bounds(bx + 264, y + 222, 86, 20).build()));
+        volSlider = addRenderableWidget(new net.minecraft.client.gui.components.AbstractSliderButton(bx, y + 246, 350, 20,
+                volLabel(ClientLayout.musicVol), ClientLayout.musicVol) {
+            @Override
+            protected void updateMessage() {
+                setMessage(volLabel((float) value));
+            }
+
+            @Override
+            protected void applyValue() {
+                ClientLayout.musicVol = (float) value;
+                ClientLayout.save();
+            }
+        });
         updateWidgets();
+    }
+
+    private net.minecraft.client.gui.components.AbstractSliderButton volSlider;
+
+    private static Component volLabel(float v) {
+        return Tx.t("btn.musicvol", Math.round(v * 100f));
     }
 
     private void setTab(int t) {
@@ -75,6 +94,7 @@ public class SandevistanScreen extends Screen {
 
     private void updateWidgets() {
         for (Button b : page0) b.visible = tab == 0;
+        if (volSlider != null) volSlider.visible = tab == 0;
         if (armBtn != null) armBtn.visible = tab == 0 && ClientData.DATA.arms() + ClientData.DATA.legs() > 0;
         if (tab0 != null) tab0.active = tab != 0;
         if (tab1 != null) tab1.active = tab != 1;
@@ -194,7 +214,7 @@ public class SandevistanScreen extends Screen {
         int cx = cx();
         int y0 = y0();
         int hw = tab == 0 ? 180 : 200;
-        gg.fill(cx - hw, y0, cx + hw, y0 + (tab == 0 ? 250 : 204), 0xC0101410);
+        gg.fill(cx - hw, y0, cx + hw, y0 + (tab == 0 ? 274 : 204), 0xC0101410);
         gg.fill(cx - hw, y0, cx + hw, y0 + 2, 0xFF39FF14);
         if (tab == 1) {
             drawEffects(gg, cx, y0);

@@ -146,6 +146,7 @@ public final class ExtLogic {
 
     /** Gasta fe por segundo (vezes o multiplicador de implantes e dt). */
     private static boolean drain(SandevistanData d, float perSecond, float dt) {
+        d.feRate += perSecond * mult(d);
         return SandevistanLogic.drainEnergy(d, perSecond * mult(d) * dt);
     }
 
@@ -236,6 +237,7 @@ public final class ExtLogic {
         if (d.laserCd > 0f) d.laserCd = Math.max(0f, d.laserCd - dt);
         if (d.xrayCd > 0f) d.xrayCd = Math.max(0f, d.xrayCd - dt);
         if (d.xrayOn > 0f) d.xrayOn = Math.max(0f, d.xrayOn - dt);
+        d.feRate = 0f;
         Quests.tick(p, d, dt);
         energyTick(p, d, dt);
         mantisTick(d, dt);
@@ -244,6 +246,7 @@ public final class ExtLogic {
         glide(p, d, dt);
         eyeTick(p, d, dt);
         laserTick(p, d, dt);
+        d.useShown = Math.round(d.feRate);
     }
 
     /** Lamina ligada gasta energia o tempo todo (4 FE/s por lamina inteira). */
@@ -370,13 +373,12 @@ public final class ExtLogic {
         if (d.injPillCd > 0f) d.injPillCd = Math.max(0f, d.injPillCd - dt);
         if (d.injImmunoCd > 0f) d.injImmunoCd = Math.max(0f, d.injImmunoCd - dt);
         int t = d.extTier(SandevistanData.EXT_INJECTOR);
-        if (t == 0 || !d.injOn || SandevistanLogic.locked(d)) return;
+        if (t == 0 || !d.injOn) return;
         d.injT += dt;
         if (d.injT < 1f) return;
         d.injT = 0f;
-        if (d.psy >= SandevistanData.INJ_PSY[t - 1] && d.injImmunoCd <= 0f && d.doses.isEmpty() && d.immuSeq == 0
-                && find(p, ImmunoItem.class) != null) {
-            d.injImmunoCd = 180f;
+        if (d.psy >= SandevistanData.INJ_PSY[t - 1] && d.injImmunoCd <= 0f && find(p, ImmunoItem.class) != null) {
+            d.injImmunoCd = 30f;
             ItemStack syr = find(p, ImmunoItem.class);
             if (SandevistanLogic.takeImmuno(p, ((ImmunoItem) syr.getItem()).tier())) {
                 syr.shrink(1);
@@ -461,7 +463,7 @@ public final class ExtLogic {
                     p.setDeltaMovement(m.x, Math.min(m.y, -0.15), m.z);
                     p.hurtMarked = true;
                 }
-                drain(d, (jet ? SandevistanData.JET_COST[jt - 1] : 9f) * (d.active ? 0.5f : 1f), dt);
+                drain(d, (jet ? SandevistanData.JET_COST[jt - 1] : 18f) * (d.active ? 0.5f : 1f), dt);
                 p.fallDistance = 0f;
             }
         } else if (d.flightGranted) {

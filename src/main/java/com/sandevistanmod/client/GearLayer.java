@@ -99,14 +99,7 @@ public class GearLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Abs
         ps.scale(JET_SCALE, JET_SCALE, JET_SCALE);
         ps.translate(0f, -5.8f / 16f, 0f);
         MeshModel.get("jetpack").render(ps, buffer, light);
-        if (fly) {
-            for (int k = 0; k < 2; k++) {
-                float cx = k == 0 ? -2.9f : 2.9f;
-                float len = 3.5f + 1.6f * (float) Math.sin(age * 1.9f + k * 1.3f);
-                bx(ps, buffer, GEAR, BRIGHT, FLAME, cx - 0.9f, 11.6f, 2.2f, cx + 0.9f, 11.6f + len, 4.0f);
-                bx(ps, buffer, GEAR, BRIGHT, CYAN, cx - 0.45f, 11.6f, 2.65f, cx + 0.45f, 11.6f + len * 0.6f, 3.55f);
-            }
-        }
+        // sem chama modelada: o fogo do jetpack e so de particulas (FlightSounds)
         ps.popPose();
     }
 

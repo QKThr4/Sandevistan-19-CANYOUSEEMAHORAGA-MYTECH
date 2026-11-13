@@ -54,6 +54,11 @@ public final class ClientPsyControl {
     private static int lookT;
     private static int lookCd;
 
+    /** Apagao ou Sandevistan ligando sozinho (psicose a partir de 100%): o corpo vai atras de quem esta por perto. */
+    private static boolean chase(SandevistanData d) {
+        return d.blind || (d.psy >= 100f && d.active);
+    }
+
     private static boolean sick(SandevistanData d) {
         return d.psychotic && d.psy > 50f;
     }
@@ -77,7 +82,9 @@ public final class ClientPsyControl {
 
     private static LivingEntity nearest(Minecraft mc, LocalPlayer p, double range) {
         LivingEntity best = null;
+        LivingEntity bestEnemy = null;
         double bd = range * range;
+        double be = range * range;
         for (Entity e : mc.level.entitiesForRendering()) {
             if (e == p || !(e instanceof LivingEntity le) || !le.isAlive() || le.isSpectator()) continue;
             double dd = le.distanceToSqr(p);
@@ -85,8 +92,13 @@ public final class ClientPsyControl {
                 bd = dd;
                 best = le;
             }
+            if (e instanceof net.minecraft.world.entity.monster.Enemy && dd < be) {
+                be = dd;
+                bestEnemy = le;
+            }
         }
-        return best;
+        // inimigos (monstros) primeiro; sem nenhum, a entidade mais proxima
+        return bestEnemy != null ? bestEnemy : best;
     }
 
     /** Vira a cabeca aos poucos para um ponto. */
@@ -206,7 +218,7 @@ public final class ClientPsyControl {
         }
         float k = Mth.clamp((d.psy - 50f) / 100f, 0f, 2f);
 
-        if (d.blind) {
+        if (chase(d)) {
             lookT = 0;
             blindTick(mc, p);
             return;
@@ -252,7 +264,7 @@ public final class ClientPsyControl {
         LocalPlayer p = mc.player;
         SandevistanData d = ClientData.DATA;
         if (p == null || e.getEntity() != p || !sick(d)) return;
-        if (d.blind) {
+        if (chase(d)) {
             e.getInput().forwardImpulse = navForward;
             e.getInput().leftImpulse = 0f;
             e.getInput().jumping = navJump;

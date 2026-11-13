@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,6 +20,11 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
     private static final int ROWS = 7;
     private static final int PANEL_W = 136;
     private int scroll;
+    private boolean open = true;
+    private int selected = -1;
+    private Button toggle;
+    private Button fill;
+    private Button back;
 
     public BenchScreen(BenchMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
@@ -27,12 +33,35 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
+    @Override
+    protected void init() {
+        super.init();
+        toggle = addRenderableWidget(Button.builder(Tx.t("bench.toggle"), b -> {
+            open = !open;
+            selected = -1;
+            sync();
+        }).bounds(leftPos + imageWidth - 58, topPos - 20, 58, 18).build());
+        fill = addRenderableWidget(Button.builder(Tx.t("bench.fill"), b -> {
+            if (selected >= 0) PacketDistributor.sendToServer(new BenchFillPayload(selected));
+        }).bounds(panelX() + 4, topPos + imageHeight - 22, 74, 18).build());
+        back = addRenderableWidget(Button.builder(Tx.t("bench.back"), b -> {
+            selected = -1;
+            sync();
+        }).bounds(panelX() + 80, topPos + imageHeight - 22, 52, 18).build());
+        sync();
+    }
+
+    private void sync() {
+        if (fill != null) fill.visible = open && selected >= 0;
+        if (back != null) back.visible = open && selected >= 0;
+    }
+
     private List<BenchRecipes.Recipe> recipes() {
         return BenchRecipes.of(menu.kind());
     }
 
     private int panelX() {
-        return leftPos + imageWidth + 4;
+        return leftPos - PANEL_W - 4;
     }
 
     private int have(BenchRecipes.Req q) {
@@ -64,12 +93,34 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
         }
         gg.drawString(font, "->", leftPos + 100, topPos + 39, 0xFF9FD4FF, false);
 
+        if (!open) return;
         // livro de receitas
         int px = panelX();
         gg.fill(px - 1, topPos - 1, px + PANEL_W + 1, topPos + imageHeight + 1, 0xFF0B1116);
         gg.fill(px, topPos, px + PANEL_W, topPos + imageHeight, 0xFF26323C);
         gg.drawString(font, Tx.t(ChatFormatting.AQUA, "bench.book"), px + 4, topPos + 4, 0xFFFFFF, false);
         List<BenchRecipes.Recipe> list = recipes();
+        if (selected >= list.size()) selected = -1;
+        if (selected >= 0) {
+            BenchRecipes.Recipe r = list.get(selected);
+            gg.renderItem(r.out(), px + 4, topPos + 18);
+            if (r.out().getCount() > 1) gg.renderItemDecorations(font, r.out(), px + 4, topPos + 18);
+            gg.drawString(font, font.plainSubstrByWidth(r.out().getHoverName().getString(), PANEL_W - 28), px + 24, topPos + 22, 0xFFFFFFFF, false);
+            gg.drawString(font, Tx.t(ChatFormatting.GRAY, "bench.needs"), px + 4, topPos + 40, 0xFFFFFF, false);
+            int y = topPos + 52;
+            for (BenchRecipes.Req q : r.in()) {
+                if (y > topPos + imageHeight - 28) break;
+                boolean ok = have(q) >= q.count();
+                gg.renderItem(q.icon(), px + 4, y);
+                Component nm = q.key() != null ? Component.translatable("sandevistan." + q.key()) : q.icon().getHoverName();
+                String line = q.count() + "x " + font.plainSubstrByWidth(nm.getString(), PANEL_W - 52);
+                gg.drawString(font, line, px + 24, y + 4, ok ? 0xFF7CFFA0 : 0xFFFF7777, false);
+                y += 17;
+            }
+            if (locked(r)) gg.drawString(font, Tx.t(ChatFormatting.RED, "bench.locked.tip", com.sandevistanmod.logic.Quests.needed(r.out())),
+                    px + 4, topPos + imageHeight - 36, 0xFFFFFF, false);
+            return;
+        }
         scroll = Math.max(0, Math.min(Math.max(0, list.size() - ROWS), scroll));
         for (int row = 0; row < ROWS; row++) {
             int idx = scroll + row;
@@ -94,6 +145,7 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
     @Override
     protected void renderTooltip(GuiGraphics gg, int mouseX, int mouseY) {
         super.renderTooltip(gg, mouseX, mouseY);
+        if (!open || selected >= 0) return;
         int px = panelX();
         List<BenchRecipes.Recipe> list = recipes();
         for (int row = 0; row < ROWS; row++) {
@@ -122,13 +174,14 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
     public boolean mouseClicked(double mx, double my, int button) {
         int px = panelX();
         List<BenchRecipes.Recipe> list = recipes();
-        if (button == 0 && mx >= px && mx < px + PANEL_W) {
+        if (button == 0 && open && selected < 0 && mx >= px && mx < px + PANEL_W) {
             for (int row = 0; row < ROWS; row++) {
                 int idx = scroll + row;
                 if (idx >= list.size()) break;
                 int ry = topPos + 16 + row * ROW_H;
                 if (my >= ry && my < ry + ROW_H) {
-                    PacketDistributor.sendToServer(new BenchFillPayload(idx));
+                    selected = idx;
+                    sync();
                     return true;
                 }
             }
@@ -138,7 +191,7 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
 
     @Override
     public boolean mouseScrolled(double mx, double my, double dx, double dy) {
-        if (mx >= panelX() && mx < panelX() + PANEL_W) {
+        if (open && selected < 0 && mx >= panelX() && mx < panelX() + PANEL_W) {
             scroll -= (int) Math.signum(dy);
             return true;
         }
