@@ -143,7 +143,7 @@ public final class BenchRecipes {
         Req melh2 = i(ModRegistries.COMP_MELHORADO, 2);
         Req alta2 = i(ModRegistries.COMP_ALTA, 2);
         Req placa2 = i(ModRegistries.PLACA, 2);
-        out.add(r(ModRegistries.BOTAS.get(0).get(), 1, musc2, servo, i(ModRegistries.LIGA, 2), cap, melh2, i(Items.BLAZE_ROD, 2)));
+        out.add(r(ModRegistries.BOTAS.get(0).get(), 1, musc2, servo, i(ModRegistries.LIGA, 2), cap, melh2, i(Items.BLAZE_ROD, 2), i(Items.IRON_BLOCK, 1)));
         out.add(r(ModRegistries.BOTAS.get(1).get(), 1, i(ModRegistries.BOTAS.get(0).get(), 1), musc2, melh3, cap, i(Items.BLAZE_ROD, 2), chip));
         out.add(r(ModRegistries.BOTAS.get(2).get(), 1, i(ModRegistries.BOTAS.get(1).get(), 1), musc2, alta3, cap, i(Items.BLAZE_ROD, 2), chip));
         out.add(r(ModRegistries.JETPACKS.get(0).get(), 1, i(ModRegistries.LIGA, 3), i(ModRegistries.SERVO, 2), fluido, cap2, melh3,
@@ -204,7 +204,7 @@ public final class BenchRecipes {
         out.add(r(ModRegistries.SOLARES.get(1).get(), 1, i(ModRegistries.SOLARES.get(0).get(), 1), i(ModRegistries.PAINEL_SOLAR, 1), melh3, chip));
         out.add(r(ModRegistries.SOLARES.get(2).get(), 1, i(ModRegistries.SOLARES.get(1).get(), 1), i(ModRegistries.PAINEL_SOLAR, 1), alta3, cap, chip));
         // Laminas Mantis (a mesma receita serve para um braco; faca duas para os dois)
-        out.add(r(ModRegistries.MANTIS.get(0).get(), 1, i(Items.IRON_SWORD, 1), i(ModRegistries.LIGA, 2), musc2, servo,
+        out.add(r(ModRegistries.MANTIS.get(0).get(), 1, i(Items.DIAMOND_SWORD, 1), i(Items.IRON_INGOT, 5), i(ModRegistries.LIGA, 2), musc2, servo,
                 i(ModRegistries.COMP_ALTA, 3), i(ModRegistries.CHIP, 3)));
         out.add(r(ModRegistries.MANTIS.get(1).get(), 1, i(ModRegistries.MANTIS.get(0).get(), 1), alta3, i(ModRegistries.LIGA, 2), servo,
                 i(Items.DIAMOND_SWORD, 1), nucleo));
@@ -238,7 +238,12 @@ public final class BenchRecipes {
                 {fios2, cristal, cap, sol},
                 {musc2, cap, placa, sol}};
         for (int k = 0; k < slots.length; k++) {
-            out.add(new Recipe(Arrays.asList(cat(new Req[] {comum3}, t1[k])), new ItemStack(ModRegistries.tierImplant(slots[k], 1))));
+            boolean leg = slots[k] == SandevistanData.SLOT_LEG_R;
+            boolean heart = slots[k] == SandevistanData.SLOT_HEART;
+            boolean bone = slots[k] == SandevistanData.SLOT_BONE;
+            boolean nerve = slots[k] == SandevistanData.SLOT_NERVE;
+            Req[] base1 = bone ? new Req[] {i(ModRegistries.COMP_COMUM, 6), i(Items.BONE, 3)} : nerve ? new Req[] {melh3} : leg ? new Req[] {melh3, i(Items.IRON_INGOT, 1)} : heart ? new Req[] {melh3} : new Req[] {comum3};
+            out.add(new Recipe(Arrays.asList(cat(base1, t1[k])), new ItemStack(ModRegistries.tierImplant(slots[k], 1))));
             out.add(new Recipe(Arrays.asList(cat(join(i(ModRegistries.tierImplant(slots[k], 1), 1), melh3), t2[k])),
                     new ItemStack(ModRegistries.tierImplant(slots[k], 2))));
             out.add(new Recipe(Arrays.asList(cat(join(i(ModRegistries.tierImplant(slots[k], 2), 1), alta3, chip), t3[k])),
