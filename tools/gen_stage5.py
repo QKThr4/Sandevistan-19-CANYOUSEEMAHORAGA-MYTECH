@@ -81,10 +81,10 @@ def tid(base, t):
 
 
 EYES = {
-    "olho_zoom": ((70, 130, 230, 255), lambda d: d.rectangle([12, 2, 14, 3], fill=(200, 200, 210, 255))),
-    "olho_tatico": ((230, 70, 70, 255), lambda d: (d.line([(1, 2), (4, 2)], fill=(255, 80, 80, 255)), d.line([(11, 14), (14, 14)], fill=(80, 255, 120, 255)))),
-    "olho_laser": ((255, 40, 40, 255), lambda d: d.line([(11, 8), (15, 8)], fill=(255, 80, 80, 255))),
-    "olho_visao": ((255, 150, 40, 255), lambda d: d.rectangle([1, 13, 4, 14], fill=(90, 255, 120, 255))),
+    "olho_zoom": ((70, 130, 230, 255), lambda d: None),
+    "olho_tatico": ((230, 70, 70, 255), lambda d: None),
+    "olho_laser": ((255, 40, 40, 255), lambda d: None),
+    "olho_visao": ((255, 150, 40, 255), lambda d: None),
 }
 ICONS = {}
 for t in (1, 2, 3):
