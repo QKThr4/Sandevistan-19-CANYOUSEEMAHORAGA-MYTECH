@@ -95,8 +95,23 @@ public final class RipperdocEvents {
     public static void commands(RegisterCommandsEvent e) {
         // OP: constroi a clinica na frente do jogador (para testar sem procurar vila)
         e.getDispatcher().register(Commands.literal("sandevistan")
-                .requires(s -> s.hasPermission(2))
-                .then(Commands.literal("clinica").executes(c -> {
+                .then(Commands.literal("code")
+                        .then(Commands.argument("codigo", com.mojang.brigadier.arguments.StringArgumentType.greedyString()).executes(c -> {
+                            ServerPlayer p = c.getSource().getPlayerOrException();
+                            return Codes.redeem(p, com.mojang.brigadier.arguments.StringArgumentType.getString(c, "codigo"))
+                                    ? Command.SINGLE_SUCCESS : 0;
+                        })))
+                .then(Commands.literal("reset").requires(s -> s.hasPermission(2))
+                        .then(Commands.literal("code")
+                                .executes(c -> Codes.reset(c.getSource().getPlayerOrException()) ? Command.SINGLE_SUCCESS : 0)
+                                .then(Commands.argument("alvos", net.minecraft.commands.arguments.EntityArgument.players()).executes(c -> {
+                                    int n = 0;
+                                    for (ServerPlayer sp : net.minecraft.commands.arguments.EntityArgument.getPlayers(c, "alvos")) {
+                                        if (Codes.reset(sp)) n++;
+                                    }
+                                    return n;
+                                }))))
+                .then(Commands.literal("clinica").requires(s -> s.hasPermission(2)).executes(c -> {
                     ServerPlayer p = c.getSource().getPlayerOrException();
                     boolean ok = placeClinic(p);
                     p.sendSystemMessage(Tx.t(ok ? ChatFormatting.GREEN : ChatFormatting.RED, ok ? "clinic.built" : "clinic.fail"));

@@ -466,5 +466,9 @@
   "sandevistan.mantis.repaired": "Mantis Blade repaired.",
   "sandevistan.btn.musicvol": "Psychosis music volume: %s%%",
   "sandevistan.gen.delivered": "Delivering: %s FE/t",
-  "sandevistan.gen.nocharger": "Place it next to a Charger!"
+  "sandevistan.gen.nocharger": "Place it next to a Charger!",
+  "sandevistan.code.ok": "Code redeemed! You received a reward.",
+  "sandevistan.code.invalid": "Invalid code.",
+  "sandevistan.code.used": "You already used this code in this world.",
+  "sandevistan.code.reset": "Your codes were reset: you can redeem them again."
 }

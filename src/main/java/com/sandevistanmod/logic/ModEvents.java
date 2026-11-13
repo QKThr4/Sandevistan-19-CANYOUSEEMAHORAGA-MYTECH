@@ -291,9 +291,9 @@ public final class ModEvents {
     /** Comando de teste (OP): /sandevistan psicose <0-300> define a ciberpsicose. */
     @SubscribeEvent
     public static void commands(RegisterCommandsEvent e) {
+        // a raiz fica livre (o /sandevistan code e para todos); so estes comandos exigem OP
         e.getDispatcher().register(Commands.literal("sandevistan")
-                .requires(s -> s.hasPermission(2))
-                .then(Commands.literal("mente")
+                .then(Commands.literal("mente").requires(s -> s.hasPermission(2))
                         .then(mindMode("add", 0))
                         .then(mindMode("remove", 1))
                         .then(mindMode("set", 2))
@@ -301,14 +301,14 @@ public final class ModEvents {
                                 .then(mindMode("add", 0, true))
                                 .then(mindMode("remove", 1, true))
                                 .then(mindMode("set", 2, true))))
-                .then(Commands.literal("insanidade")
+                .then(Commands.literal("insanidade").requires(s -> s.hasPermission(2))
                         .then(Commands.argument("valor", FloatArgumentType.floatArg(0f, 100f))
                                 .executes(c -> {
                                     ServerPlayer p = c.getSource().getPlayerOrException();
                                     SandevistanLogic.setIns(p, FloatArgumentType.getFloat(c, "valor"));
                                     return Command.SINGLE_SUCCESS;
                                 })))
-                .then(Commands.literal("psicose")
+                .then(Commands.literal("psicose").requires(s -> s.hasPermission(2))
                         .then(Commands.argument("valor", FloatArgumentType.floatArg(0f, 300f))
                                 .executes(c -> {
                                     ServerPlayer p = c.getSource().getPlayerOrException();

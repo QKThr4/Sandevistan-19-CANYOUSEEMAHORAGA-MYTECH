@@ -466,5 +466,9 @@
   "sandevistan.mantis.repaired": "Lâmina Mantis reparada.",
   "sandevistan.btn.musicvol": "Volume da música da psicose: %s%%",
   "sandevistan.gen.delivered": "A entregar: %s FE/t",
-  "sandevistan.gen.nocharger": "Coloca-o encostado a um Carregador!"
+  "sandevistan.gen.nocharger": "Coloca-o encostado a um Carregador!",
+  "sandevistan.code.ok": "Código resgatado! Recebeste uma recompensa.",
+  "sandevistan.code.invalid": "Código inválido.",
+  "sandevistan.code.used": "Já usaste este código neste mundo.",
+  "sandevistan.code.reset": "Os teus códigos foram repostos: podes resgatá-los de novo."
 }

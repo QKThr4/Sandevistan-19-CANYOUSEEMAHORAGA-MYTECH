@@ -465,16 +465,22 @@ public final class SandevistanLogic {
     // ---------- energia (bateria implantada) ----------
     /** Insere a bateria (botao direito no item). Se ja houver uma, ela volta para o inventario. */
     public static boolean insertBattery(ServerPlayer p, ItemStack stack, int type) {
+        ItemStack old = swapBattery(p, stack, type);
+        if (!old.isEmpty()) p.getInventory().placeItemBackInInventory(old);
+        return true;
+    }
+
+    /** Instala a bateria de 'stack' (gasta 1) e DEVOLVE a que estava instalada, sem coloca-la em lugar nenhum (quem chama decide). */
+    public static ItemStack swapBattery(ServerPlayer p, ItemStack stack, int type) {
         SandevistanData d = SandevistanData.get(p);
         ItemStack old = d.batType != 0 ? batteryStack(d) : ItemStack.EMPTY;
         d.batType = type;
         d.batEnergy = Math.max(0, Math.min(SandevistanData.BAT_CAP[type], stack.getMaxDamage() - stack.getDamageValue()));
         d.batFrac = 0f;
         stack.shrink(1);
-        if (!old.isEmpty()) p.getInventory().placeItemBackInInventory(old);
         chat(p, Tx.t(ChatFormatting.AQUA, "battery.inserted"));
         send(p, d);
-        return true;
+        return old;
     }
 
     public static void removeBattery(ServerPlayer p, SandevistanData d) {

@@ -70,24 +70,22 @@ public final class BenchRecipes {
                     i(Items.SUGAR, 1), i(ModRegistries.RESINA, 1)));
             // Imunossupressor: flor de esporos (cavernas exuberantes) e alho-silvestre
             out.add(r(ModRegistries.IMUNOSSUPRESSOR.get(), 1, i(ModRegistries.SERINGA, 1), i(Items.GLOW_BERRIES, 1),
-                    i(Items.AMETHYST_SHARD, 1), i(Items.REDSTONE, 1), i(Items.SPORE_BLOSSOM, 1), i(Items.ALLIUM, 2)));
+                    i(Items.SUGAR, 1), i(Items.ALLIUM, 2)));
             // Estabilizador Neural: flor-tocha (farejador) e centaurea
             out.add(r(ModRegistries.ESTABILIZADOR.get(), 1, i(ModRegistries.SERINGA, 1), i(Items.HONEY_BOTTLE, 1),
-                    i(Items.FERMENTED_SPIDER_EYE, 1), i(Items.SUGAR, 1), i(Items.SWEET_BERRIES, 1), i(Items.TORCHFLOWER, 1),
-                    i(Items.CORNFLOWER, 2)));
+                    i(Items.FERMENTED_SPIDER_EYE, 1), i(Items.SUGAR, 1), i(Items.SWEET_BERRIES, 1)));
             // tiers II e III (liberados pelas licencas do Ripperdoc): partem do remedio do tier anterior
             out.add(r(ModRegistries.PILULA_2.get(), 2, i(ModRegistries.PILULA, 2), i(ModRegistries.RESINA, 1),
-                    i(ModRegistries.COMP_MELHORADO, 1), i(Items.AZURE_BLUET, 1)));
-            out.add(r(ModRegistries.PILULA_3.get(), 2, i(ModRegistries.PILULA_2, 2), i(ModRegistries.FLUIDO, 1),
-                    i(ModRegistries.COMP_ALTA, 1), i(Items.TORCHFLOWER, 1)));
-            out.add(r(ModRegistries.IMUNOSSUPRESSOR_2.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR, 1), i(ModRegistries.COMP_MELHORADO, 2),
-                    i(ModRegistries.FLUIDO, 1), i(Items.GLOW_BERRIES, 2), i(Items.SPORE_BLOSSOM, 1)));
-            out.add(r(ModRegistries.IMUNOSSUPRESSOR_3.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR_2, 1), i(ModRegistries.COMP_ALTA, 2),
-                    i(ModRegistries.FLUIDO, 2), i(Items.AMETHYST_SHARD, 2), i(Items.SPORE_BLOSSOM, 1), i(Items.PITCHER_PLANT, 1)));
-            out.add(r(ModRegistries.ESTABILIZADOR_2.get(), 1, i(ModRegistries.ESTABILIZADOR, 1), i(ModRegistries.COMP_MELHORADO, 2),
-                    i(ModRegistries.FLUIDO, 1), i(Items.HONEY_BOTTLE, 1), i(Items.TORCHFLOWER, 1), i(Items.CORNFLOWER, 2)));
-            out.add(r(ModRegistries.ESTABILIZADOR_3.get(), 1, i(ModRegistries.ESTABILIZADOR_2, 1), i(ModRegistries.COMP_ALTA, 2),
-                    i(ModRegistries.FLUIDO, 2), i(Items.HONEY_BOTTLE, 2), i(Items.TORCHFLOWER, 2), i(ModRegistries.NUCLEO_COMP, 1)));
+                    i(Items.AZURE_BLUET, 1)));
+            out.add(r(ModRegistries.PILULA_3.get(), 2, i(ModRegistries.PILULA_2, 2), i(Items.TORCHFLOWER, 1)));
+            out.add(r(ModRegistries.IMUNOSSUPRESSOR_2.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR, 1), i(Items.GLOW_BERRIES, 2),
+                    i(Items.SUGAR, 2), i(Items.ALLIUM, 1)));
+            out.add(r(ModRegistries.IMUNOSSUPRESSOR_3.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR_2, 1), i(ModRegistries.NUCLEO_COMP, 1),
+                    i(Items.AMETHYST_SHARD, 2), i(Items.SPORE_BLOSSOM, 1), i(Items.SUGAR, 3)));
+            out.add(r(ModRegistries.ESTABILIZADOR_2.get(), 1, i(ModRegistries.ESTABILIZADOR, 1), i(Items.HONEY_BOTTLE, 1),
+                    i(Items.CORNFLOWER, 2)));
+            out.add(r(ModRegistries.ESTABILIZADOR_3.get(), 1, i(ModRegistries.ESTABILIZADOR_2, 1), i(Items.TORCHFLOWER, 1),
+                    i(Items.SUGAR, 2), i(Items.CORNFLOWER, 1)));
         } else if (kind == BenchBlock.RECYCLER) {
             out.add(r(ModRegistries.COMP_COMUM.get(), 3, i(ModRegistries.SUCATA, 2)));
             out.add(r(ModRegistries.COMP_MELHORADO.get(), 2, i(ModRegistries.SUCATA, 3), i(ModRegistries.COMP_COMUM, 2), i(ModRegistries.SOLDA, 1)));

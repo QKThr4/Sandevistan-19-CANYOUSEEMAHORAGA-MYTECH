@@ -44,7 +44,12 @@ public class BatteryItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!level.isClientSide && player instanceof ServerPlayer sp) {
-            SandevistanLogic.insertBattery(sp, stack, type);
+            ItemStack old = SandevistanLogic.swapBattery(sp, stack, type);
+            if (!old.isEmpty()) {
+                // a bateria antiga volta para a MAO (se a trocada acabou) ou para o inventario; nunca se perde
+                if (stack.isEmpty()) return InteractionResultHolder.sidedSuccess(old, false);
+                sp.getInventory().placeItemBackInInventory(old);
+            }
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
