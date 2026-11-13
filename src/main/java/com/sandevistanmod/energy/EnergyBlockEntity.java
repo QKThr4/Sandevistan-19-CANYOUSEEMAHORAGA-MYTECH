@@ -17,7 +17,6 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 public class EnergyBlockEntity extends BlockEntity {
     public static final int BUFFER = 20000;
     public static final int MAX_BURN = 40000;
-    private static final int PUSH = 400;
 
     private final int kind;
     private int energy;
@@ -66,28 +65,23 @@ public class EnergyBlockEntity extends BlockEntity {
         setChanged();
     }
 
-    /** FE por tick que este bloco gera agora. */
-    private int produce() {
+    /** O carregador aceita no maximo 5 FE por tick (somando todos os geradores ligados a ele). */
+    public static final int CHARGER_IN = 5;
+
+    private long inTick = -1L;
+    private int inTaken;
+    private int intake;
+    private int burnAcc;
+
+    public int intake() {
+        return intake;
+    }
+
+    /** FE por tick que este gerador PODERIA gerar agora (nao inclui o combustivel; ver combustao em serverTick). */
+    private int potential() {
         Level lv = level;
         BlockPos pos = getBlockPos();
         switch (kind) {
-            case EnergyBlock.COMBUSTION:
-                if (burn <= 0 && !battery.isEmpty() && energy + 20 <= BUFFER) {
-                    int t = battery.getBurnTime(net.minecraft.world.item.crafting.RecipeType.SMELTING);
-                    if (t > 0) {
-                        ItemStack rest = battery.getCraftingRemainingItem();
-                        battery.shrink(1);
-                        if (battery.isEmpty()) battery = rest;
-                        burn += t;
-                        burnMax = t;
-                        setChanged();
-                    }
-                }
-                if (burn > 0 && energy + 20 <= BUFFER) {
-                    burn--;
-                    return 20;
-                }
-                return 0;
             case EnergyBlock.SOLAR:
                 if (!lv.isDay() || !lv.canSeeSky(pos.above())) return 0;
                 return lv.isRaining() ? 4 : 10;
@@ -108,40 +102,68 @@ public class EnergyBlockEntity extends BlockEntity {
 
     public void serverTick() {
         if (level == null) return;
-        int before = gen;
-        if (kind != EnergyBlock.CHARGER) {
-            gen = produce();
-            energy = Math.min(BUFFER, energy + gen);
-            if (energy > 0) push();
-        } else if (battery.isEmpty() || energy <= 0) {
-            flow = 0;
-        } else {
-            IEnergyStorage st = battery.getCapability(Capabilities.EnergyStorage.ITEM);
-            if (st != null) {
-                int acc = st.receiveEnergy(energy, false);
-                flow = acc;
-                if (acc > 0) {
-                    energy -= acc;
+        int beforeGen = gen;
+        int beforeFlow = flow;
+        if (kind == EnergyBlock.CHARGER) {
+            long t = level.getGameTime();
+            intake = inTick >= t - 1L ? inTaken : 0;
+            if (battery.isEmpty() || energy <= 0) {
+                flow = 0;
+            } else {
+                IEnergyStorage st = battery.getCapability(Capabilities.EnergyStorage.ITEM);
+                if (st != null) {
+                    int acc = st.receiveEnergy(energy, false);
+                    flow = acc;
+                    if (acc > 0) {
+                        energy -= acc;
+                        setChanged();
+                    }
+                }
+            }
+        } else if (kind == EnergyBlock.COMBUSTION) {
+            // a combustao so queima o combustivel enquanto ha um carregador ligado que aceita a energia
+            if (burn <= 0 && !battery.isEmpty() && push(1, true) > 0) {
+                int t = battery.getBurnTime(net.minecraft.world.item.crafting.RecipeType.SMELTING);
+                if (t > 0) {
+                    ItemStack rest = battery.getCraftingRemainingItem();
+                    battery.shrink(1);
+                    if (battery.isEmpty()) battery = rest;
+                    burn += t;
+                    burnMax = t;
                     setChanged();
                 }
             }
+            gen = burn > 0 ? 20 : 0;
+            flow = gen > 0 ? push(gen, false) : 0;
+            // cada tick de combustivel rende 20 FE: queima proporcional ao que foi entregue
+            burnAcc += flow;
+            while (burnAcc >= 20 && burn > 0) {
+                burnAcc -= 20;
+                burn--;
+                setChanged();
+            }
+            if (burn <= 0) burnAcc = 0;
+        } else {
+            gen = potential();
+            flow = gen > 0 ? push(gen, false) : 0;
         }
-        if (before != gen) setChanged();
+        if (beforeGen != gen || beforeFlow != flow) setChanged();
     }
 
-    private void push() {
+    /** Entrega energia aos vizinhos que aceitam (carregadores, ou blocos de outros mods). Devolve quanto foi aceito. */
+    private int push(int amount, boolean simulate) {
+        int left = amount;
         for (Direction d : Direction.values()) {
-            if (energy <= 0) return;
+            if (left <= 0) break;
             BlockPos np = getBlockPos().relative(d);
             IEnergyStorage target = level.getCapability(Capabilities.EnergyStorage.BLOCK, np, d.getOpposite());
             if (target == null || !target.canReceive()) continue;
-            int sent = target.receiveEnergy(Math.min(energy, PUSH), false);
-            energy -= sent;
+            left -= target.receiveEnergy(left, simulate);
         }
-        setChanged();
+        return amount - left;
     }
 
-    /** Capacidade de energia vista pelos blocos vizinhos e por outros mods. */
+    /** Capacidade de energia vista pelos blocos vizinhos e por outros mods. So o carregador guarda energia. */
     public IEnergyStorage storage() {
         return storage;
     }
@@ -149,10 +171,16 @@ public class EnergyBlockEntity extends BlockEntity {
     private final IEnergyStorage storage = new IEnergyStorage() {
         @Override
         public int receiveEnergy(int toReceive, boolean simulate) {
-            if (kind != EnergyBlock.CHARGER) return 0;
-            int n = Math.max(0, Math.min(toReceive, BUFFER - energy));
+            if (kind != EnergyBlock.CHARGER || level == null) return 0;
+            long t = level.getGameTime();
+            if (t != inTick) {
+                inTick = t;
+                inTaken = 0;
+            }
+            int n = Math.max(0, Math.min(Math.min(toReceive, CHARGER_IN - inTaken), BUFFER - energy));
             if (n > 0 && !simulate) {
                 energy += n;
+                inTaken += n;
                 setChanged();
             }
             return n;
@@ -160,28 +188,22 @@ public class EnergyBlockEntity extends BlockEntity {
 
         @Override
         public int extractEnergy(int toExtract, boolean simulate) {
-            if (kind == EnergyBlock.CHARGER) return 0;
-            int n = Math.max(0, Math.min(toExtract, energy));
-            if (n > 0 && !simulate) {
-                energy -= n;
-                setChanged();
-            }
-            return n;
+            return 0;
         }
 
         @Override
         public int getEnergyStored() {
-            return energy;
+            return kind == EnergyBlock.CHARGER ? energy : 0;
         }
 
         @Override
         public int getMaxEnergyStored() {
-            return BUFFER;
+            return kind == EnergyBlock.CHARGER ? BUFFER : 0;
         }
 
         @Override
         public boolean canExtract() {
-            return kind != EnergyBlock.CHARGER;
+            return false;
         }
 
         @Override
@@ -202,7 +224,7 @@ public class EnergyBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        energy = Math.max(0, Math.min(BUFFER, tag.getInt("energy")));
+        energy = kind == EnergyBlock.CHARGER ? Math.max(0, Math.min(BUFFER, tag.getInt("energy"))) : 0;
         burn = Math.max(0, Math.min(MAX_BURN, tag.getInt("burn")));
         burnMax = Math.max(0, tag.getInt("burnMax"));
         battery = tag.contains("bat") ? ItemStack.parseOptional(provider, tag.getCompound("bat")) : ItemStack.EMPTY;

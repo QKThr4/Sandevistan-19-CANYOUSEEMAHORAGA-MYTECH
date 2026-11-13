@@ -52,8 +52,8 @@ public class EnergyMenu extends AbstractContainerMenu {
             @Override
             public int get(int i) {
                 switch (i) {
-                    case 0: return be.energy();
-                    case 1: return kind == EnergyBlock.CHARGER ? be.flow() : be.generating();
+                    case 0: return kind == EnergyBlock.CHARGER ? be.energy() : be.generating();
+                    case 1: return kind == EnergyBlock.CHARGER ? be.intake() : be.flow();
                     case 2: return be.burn();
                     case 3: return be.burnMax();
                     default:

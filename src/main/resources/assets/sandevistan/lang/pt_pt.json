@@ -285,7 +285,7 @@
   "sandevistan.energy.nobattery": "Sem bateria instalada",
   "sandevistan.energy.hint": "Clique na bateria instalada para tirá-la, ou numa bateria do inventário para instalar (a atual volta ao inventário) — você troca quando quiser. Implantes que gastam energia só funcionam com bateria, e cada um aumenta em 10% o consumo dos outros. Carregue no Carregador, alimentado por geradores ligados a ele ou por outros mods (FE).",
   "sandevistan.energy.charger": "Carregador: %s/%s FE | Bateria: %s/%s FE (agache para ver, clique para tirar)",
-  "sandevistan.energy.gen": "Gerando %s FE/t | Guardado: %s/%s FE",
+  "sandevistan.energy.gen": "A gerar %s FE/t | A entregar: %s FE/t",
   "item.sandevistan.celula_basica": "Célula Básica",
   "item.sandevistan.celula_ions": "Célula de Íons",
   "item.sandevistan.bateria_litio": "Bateria de Lítio",
@@ -453,7 +453,7 @@
   "sandevistan.bench.fill": "Preencher",
   "sandevistan.bench.back": "Voltar",
   "sandevistan.bench.needs": "Precisa de:",
-  "sandevistan.charger.rate": "A receber: %s FE/t",
+  "sandevistan.charger.rate": "A receber: %s FE/t (máx. %s)",
   "sandevistan.gen.rate": "A gerar: %s FE/t",
   "sandevistan.energy.buffer": "Armazenado: %s / %s FE",
   "sandevistan.mantis.on": "Lâminas Mantis para fora",
@@ -464,5 +464,7 @@
   "sandevistan.mantis.broken": "Uma Lâmina Mantis partiu! Repara-a no Ripperdoc.",
   "sandevistan.mantis.nomat": "Faltam materiais para a reparação.",
   "sandevistan.mantis.repaired": "Lâmina Mantis reparada.",
-  "sandevistan.btn.musicvol": "Volume da música da psicose: %s%%"
+  "sandevistan.btn.musicvol": "Volume da música da psicose: %s%%",
+  "sandevistan.gen.delivered": "A entregar: %s FE/t",
+  "sandevistan.gen.nocharger": "Coloca-o encostado a um Carregador!"
 }

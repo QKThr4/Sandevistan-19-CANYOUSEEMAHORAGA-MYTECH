@@ -42,12 +42,17 @@ public class EnergyScreen extends AbstractContainerScreen<EnergyMenu> {
             gg.fill(bx, by + 4, bx + 14, by + 12, 0xFF1A1E22);
             gg.fill(bx, by + 4, bx + 14 * menu.batteryPermille() / 1000, by + 12, 0xFF33CCFF);
         }
-        int bar = Math.round(menu.energy() * 128f / EnergyBlockEntity.BUFFER);
-        gg.fill(leftPos + 24, topPos + 54, leftPos + 152, topPos + 62, 0xFF1A1E22);
-        gg.fill(leftPos + 24, topPos + 54, leftPos + 24 + bar, topPos + 62, 0xFF33CCFF);
-        String t = charger ? Tx.t("charger.rate", menu.rate()).getString() : Tx.t("gen.rate", menu.rate()).getString();
-        gg.drawCenteredString(font, Tx.t("energy.buffer", menu.energy(), EnergyBlockEntity.BUFFER).getString(), leftPos + 88, topPos + 65, 0xFF66DDFF);
-        gg.drawCenteredString(font, t, leftPos + 88, topPos + 75, 0xFFBBCCDD);
+        if (charger) {
+            int bar = Math.round(menu.energy() * 128f / EnergyBlockEntity.BUFFER);
+            gg.fill(leftPos + 24, topPos + 54, leftPos + 152, topPos + 62, 0xFF1A1E22);
+            gg.fill(leftPos + 24, topPos + 54, leftPos + 24 + bar, topPos + 62, 0xFF33CCFF);
+            gg.drawCenteredString(font, Tx.t("energy.buffer", menu.energy(), EnergyBlockEntity.BUFFER).getString(), leftPos + 88, topPos + 65, 0xFF66DDFF);
+            gg.drawCenteredString(font, Tx.t("charger.rate", menu.rate(), EnergyBlockEntity.CHARGER_IN).getString(), leftPos + 88, topPos + 75, 0xFFBBCCDD);
+        } else {
+            gg.drawCenteredString(font, Tx.t("gen.rate", menu.energy()).getString(), leftPos + 88, topPos + 58, 0xFF66DDFF);
+            gg.drawCenteredString(font, Tx.t("gen.delivered", menu.rate()).getString(), leftPos + 88, topPos + 70, menu.rate() > 0 ? 0xFF7CFFA0 : 0xFFFF9977);
+            if (menu.rate() <= 0 && menu.energy() > 0) gg.drawCenteredString(font, Tx.t("gen.nocharger").getString(), leftPos + 88, topPos + 82, 0xFFFF9977);
+        }
     }
 
     @Override

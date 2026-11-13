@@ -233,3 +233,13 @@ Braço de Ferro, Pernas Cibernéticas, Estrutura Óssea, Sistema Nervoso, Coraç
 - `tools/gen_models.py <jetpack.glb> <mantis.glb>` converte os modelos para `assets/sandevistan/models/gear/*.bin` + texturas.
 - `client/MeshModel` le as malhas; `GearLayer` desenha jetpack (costas) e Mantis (bracos, 3a pessoa).
 - `client/MantisHand`: em primeira pessoa, com a mao vazia e Mantis no braco, a mao vira a "mao de Mantis".
+
+## Notas desta rodada (5.0.0)
+- Aba de implantes (Ripperdoc e J): encaixes agrupados por parte do corpo, lado a lado; dois encaixes por braço/perna/cabeça/costas.
+- Bancada: lista de receitas à esquerda (botão abre/fecha); clicar mostra os ingredientes e "Preencher".
+- Carregador e gerador a combustível agora têm GUI; roda de habilidades com liga/desliga da Lâmina Mantis e dos olhos.
+- HUD: barra de Energia acima da de Mente.
+
+- Baterias: 2.000 / 6.000 / 10.000 / 15.000 / 30.000 FE; cada uma pede a anterior para ser feita.
+- Geradores não guardam energia: entregam direto ao Carregador encostado (máx. 5 FE/t).
+- JEI: receitas das bancadas aparecem (dependência compileOnly do JEI em build.gradle).

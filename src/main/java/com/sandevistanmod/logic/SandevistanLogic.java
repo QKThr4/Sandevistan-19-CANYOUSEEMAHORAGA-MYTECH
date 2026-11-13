@@ -985,6 +985,11 @@ public final class SandevistanLogic {
     }
 
     /** Segundos para baixar 1 de ciberpsicose esperando com o Sandevistan desligado, por fase. */
+    /** A ciberpsicose baixa no MESMO tempo que a Insanidade leva para baixar 1 (sem Insanidade, pela propria fase). */
+    private static float psyDecayPeriod(SandevistanData d) {
+        return DECAY_SECONDS[phase(d.ins > 0f ? d.ins : d.psy)];
+    }
+
     private static final float[] DECAY_SECONDS = {0f, 5f, 10f, 15f, 20f, 60f};
     /** Segundos para perder 1 de Mente durante os sintomas, por fase. */
     private static final float[] DRAIN_SECONDS = {0f, 30f, 15f, 7f, 5f, 1f};
@@ -1259,11 +1264,11 @@ public final class SandevistanLogic {
         // esperar com o implante desligado baixa a ciberpsicose
         if (!d.active && d.psy > LowMind.creepCap(d) && d.psy < 100f) {
             d.decayT += dt;
-            float period = DECAY_SECONDS[phase(d.psy)];
+            float period = psyDecayPeriod(d);
             while (d.psy > LowMind.creepCap(d) && d.decayT >= period) {
                 d.decayT -= period;
                 d.psy = Math.max(LowMind.creepCap(d), d.psy - 1f);
-                period = DECAY_SECONDS[phase(d.psy)];
+                period = psyDecayPeriod(d);
             }
         } else {
             d.decayT = 0f;

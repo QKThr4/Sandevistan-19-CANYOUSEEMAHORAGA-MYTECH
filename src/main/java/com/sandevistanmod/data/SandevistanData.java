@@ -507,7 +507,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final float[] XRAY_COOLDOWN = {35f, 30f, 25f};
     public static final float[] ZOOM_MAX = {8f, 12f, 16f};
     public static final int[] TACTICAL_RANGE = {24, 32, 48};
-    public static final float[] LASER_DAMAGE = {6f, 8f, 10f};
+    public static final float[] LASER_DAMAGE = {7f, 8f, 9f};
     public static final float[] LASER_CHARGE = {1.5f, 1.2f, 0.9f};
     public static final int[] VISION_RANGE = {16, 24, 32};
     private static final float[][] EXT_LOAD = {{4f, 5f, 6f, 6f}, {4f, 5f, 6f, 6f}, {8f, 10f, 12f, 15f}, {3f, 4f, 5f, 5f}, {5f, 6f, 7f, 7f},
@@ -578,7 +578,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
 
     // ---- Energia (bateria implantada) ----
     /** Capacidade (FE) dos 5 tipos de bateria; o indice 0 e "sem bateria". */
-    public static final int[] BAT_CAP = {0, 2000, 6000, 15000, 40000, 100000};
+    public static final int[] BAT_CAP = {0, 2000, 6000, 10000, 15000, 30000};
     /** Maximo de FE aceito por chamada de carga (quanto maior a bateria, mais devagar carrega). */
     public static final int[] BAT_RATE = {0, 200, 150, 100, 60, 30};
     public static final int BAT_TYPES = 5;

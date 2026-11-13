@@ -77,10 +77,77 @@ public final class ExtClient {
         return new float[] {1f, 0.3f, 1f};
     }
 
+    // ---- Olho Tatico: contorno (silhueta) dos seres vivos, visivel atras de paredes (brilho do proprio jogo) ----
+    private static final java.util.Map<Integer, net.minecraft.world.scores.PlayerTeam> GLOWED = new java.util.HashMap<>();
+    private static final java.util.Map<String, net.minecraft.world.scores.PlayerTeam> TEAMS = new java.util.HashMap<>();
+
+    private static net.minecraft.world.scores.PlayerTeam team(Minecraft mc, String key, net.minecraft.ChatFormatting col) {
+        net.minecraft.world.scores.Scoreboard sb = mc.level.getScoreboard();
+        net.minecraft.world.scores.PlayerTeam t = sb.getPlayerTeam("sdv_tac_" + key);
+        if (t == null) {
+            t = sb.addPlayerTeam("sdv_tac_" + key);
+            t.setColor(col);
+        }
+        return t;
+    }
+
+    private static void clearGlow(Minecraft mc) {
+        if (mc.level == null) {
+            GLOWED.clear();
+            return;
+        }
+        for (Entity en : mc.level.entitiesForRendering()) {
+            net.minecraft.world.scores.PlayerTeam t = GLOWED.get(en.getId());
+            if (t == null) continue;
+            en.setGlowingTag(false);
+            if (en.getTeam() == t) mc.level.getScoreboard().removePlayerFromTeam(en.getScoreboardName(), t);
+        }
+        GLOWED.clear();
+    }
+
+    private static void glowTick(Minecraft mc, SandevistanData d) {
+        if (mc.level == null || mc.player == null || !d.eyeOn || d.eye() != 2) {
+            if (!GLOWED.isEmpty()) clearGlow(mc);
+            return;
+        }
+        int et = Math.max(1, d.extTier(SandevistanData.EXT_EYE)) - 1;
+        double range = SandevistanData.TACTICAL_RANGE[et];
+        for (Entity en : mc.level.entitiesForRendering()) {
+            if (!(en instanceof LivingEntity) || en == mc.player) continue;
+            boolean inRange = en.distanceToSqr(mc.player) <= range * range;
+            net.minecraft.world.scores.PlayerTeam mine = GLOWED.get(en.getId());
+            if (inRange) {
+                en.setGlowingTag(true);
+                if (mine == null) {
+                    net.minecraft.world.scores.PlayerTeam t;
+                    if (BuiltInRegistries.ENTITY_TYPE.getKey(en.getType()).getNamespace().equals(SandevistanMod.MODID)) {
+                        t = team(mc, "robo", net.minecraft.ChatFormatting.AQUA);
+                    } else if (en instanceof Player) {
+                        t = team(mc, "player", net.minecraft.ChatFormatting.WHITE);
+                    } else if (en instanceof Enemy) {
+                        t = team(mc, "enemy", net.minecraft.ChatFormatting.RED);
+                    } else if (en instanceof Animal) {
+                        t = team(mc, "animal", net.minecraft.ChatFormatting.GREEN);
+                    } else {
+                        t = team(mc, "other", net.minecraft.ChatFormatting.YELLOW);
+                    }
+                    // so colore quem nao esta em nenhum time (nao mexe nos times do servidor)
+                    if (en.getTeam() == null) mc.level.getScoreboard().addPlayerToTeam(en.getScoreboardName(), t);
+                    GLOWED.put(en.getId(), t);
+                }
+            } else if (mine != null) {
+                en.setGlowingTag(false);
+                if (en.getTeam() == mine) mc.level.getScoreboard().removePlayerFromTeam(en.getScoreboardName(), mine);
+                GLOWED.remove(en.getId());
+            }
+        }
+    }
+
     @SubscribeEvent
     public static void tick(ClientTickEvent.Post e) {
         Minecraft mc = Minecraft.getInstance();
         SandevistanData d = ClientData.DATA;
+        glowTick(mc, d);
         if (mc.level == null || mc.player == null || d.xrayOn <= 0f || d.extTier(SandevistanData.EXT_XRAY) == 0) {
             ORES.clear();
             ORE_COLORS.clear();
@@ -127,8 +194,7 @@ public final class ExtClient {
         if (mc.level == null || mc.player == null) return;
         boolean ores = d.xrayOn > 0f && !ORES.isEmpty();
         int eye = d.eye();
-        boolean mobs = d.eyeOn && eye == 2;
-        if (!ores && !mobs) return;
+        if (!ores) return;
         Vec3 cam = e.getCamera().getPosition();
         PoseStack ps = e.getPoseStack();
         MultiBufferSource.BufferSource buf = mc.renderBuffers().bufferSource();
@@ -139,35 +205,6 @@ public final class ExtClient {
                 float[] col = ORE_COLORS.get(i);
                 LevelRenderer.renderLineBox(ps, vc, b.getX() - cam.x, b.getY() - cam.y, b.getZ() - cam.z,
                         b.getX() + 1 - cam.x, b.getY() + 1 - cam.y, b.getZ() + 1 - cam.z, col[0], col[1], col[2], 1f);
-            }
-        }
-        if (mobs) {
-            float pt = e.getPartialTick().getGameTimeDeltaPartialTick(false);
-            int et = Math.max(1, d.extTier(SandevistanData.EXT_EYE)) - 1;
-            double range = eye == 2 ? SandevistanData.TACTICAL_RANGE[et] : SandevistanData.VISION_RANGE[et];
-            for (Entity en : mc.level.entitiesForRendering()) {
-                if (!(en instanceof LivingEntity) || en == mc.player || en.distanceToSqr(mc.player) > range * range) continue;
-                float[] col;
-                if (BuiltInRegistries.ENTITY_TYPE.getKey(en.getType()).getNamespace().equals(SandevistanMod.MODID)) {
-                    col = new float[] {0.2f, 0.9f, 1f};
-                } else if (en instanceof Player) {
-                    col = new float[] {1f, 1f, 1f};
-                } else if (en instanceof Enemy) {
-                    col = new float[] {1f, 0.15f, 0.15f};
-                } else if (en instanceof Animal) {
-                    col = new float[] {0.3f, 1f, 0.3f};
-                } else {
-                    col = new float[] {1f, 1f, 0.3f};
-                }
-                AABB bb = en.getBoundingBox().move(Mth.lerp(pt, en.xo, en.getX()) - en.getX(), Mth.lerp(pt, en.yo, en.getY()) - en.getY(),
-                        Mth.lerp(pt, en.zo, en.getZ()) - en.getZ());
-                LevelRenderer.renderLineBox(ps, vc, bb.minX - cam.x, bb.minY - cam.y, bb.minZ - cam.z,
-                        bb.maxX - cam.x, bb.maxY - cam.y, bb.maxZ - cam.z, col[0], col[1], col[2], 1f);
-                // silhueta: o corpo do mob preenchido e translucido, visivel atras de paredes
-                VertexConsumer fill = buf.getBuffer(XrayRender.FILL);
-                fillBox(ps, fill, bb.minX + 0.05 - cam.x, bb.minY - cam.y, bb.minZ + 0.05 - cam.z,
-                        bb.maxX - 0.05 - cam.x, bb.maxY - cam.y, bb.maxZ - 0.05 - cam.z, col[0], col[1], col[2], 0.28f);
-                vc = buf.getBuffer(XrayRender.LINES);
             }
         }
         buf.endBatch(XrayRender.FILL);

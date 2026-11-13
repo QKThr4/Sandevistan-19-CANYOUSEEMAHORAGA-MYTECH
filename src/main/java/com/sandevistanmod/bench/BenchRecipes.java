@@ -130,11 +130,11 @@ public final class BenchRecipes {
         Req cap2 = i(ModRegistries.CAPACITOR, 2);
         Req bat2 = i(ModRegistries.BATERIA, 2);
         out.add(new Recipe(Arrays.asList(comum3, bat, placa, sol), BatteryItem.empty(ModRegistries.battery(1))));
-        out.add(new Recipe(Arrays.asList(i(ModRegistries.COMP_COMUM, 2), i(ModRegistries.COMP_MELHORADO, 2), bat2, placa, sol),
+        out.add(new Recipe(Arrays.asList(i(ModRegistries.COMP_COMUM, 2), i(ModRegistries.COMP_MELHORADO, 2), bat2, placa, sol, i(ModRegistries.battery(1), 1)),
                 BatteryItem.empty(ModRegistries.battery(2))));
-        out.add(new Recipe(Arrays.asList(melh3, cap2, bat2, liga, sol), BatteryItem.empty(ModRegistries.battery(3))));
-        out.add(new Recipe(Arrays.asList(alta3, cap2, bat2, liga, fluido), BatteryItem.empty(ModRegistries.battery(4))));
-        out.add(new Recipe(Arrays.asList(alta3, i(ModRegistries.NUCLEO_COMP, 1), cap2, fluido, liga, bat),
+        out.add(new Recipe(Arrays.asList(melh3, cap2, bat2, liga, sol, i(ModRegistries.battery(2), 1)), BatteryItem.empty(ModRegistries.battery(3))));
+        out.add(new Recipe(Arrays.asList(alta3, cap2, bat2, liga, fluido, i(ModRegistries.battery(3), 1)), BatteryItem.empty(ModRegistries.battery(4))));
+        out.add(new Recipe(Arrays.asList(alta3, i(ModRegistries.NUCLEO_COMP, 1), cap2, fluido, liga, bat, i(ModRegistries.battery(4), 1)),
                 BatteryItem.empty(ModRegistries.battery(5))));
 
         // implantes extras (3 tiers; o Ripperdoc instala). II = o anterior + melhorados; III = o anterior + alta precisao

@@ -9,6 +9,15 @@ group = 'com.sandevistanmod'
 
 repositories {
     mavenLocal()
+    maven {
+        name = 'BlameJared'
+        url = 'https://maven.blamejared.com'
+    }
+}
+
+dependencies {
+    // so a API do JEI para compilar; o JEI de verdade e opcional em jogo
+    compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.+'
 }
 
 base {

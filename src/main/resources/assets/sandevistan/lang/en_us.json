@@ -285,7 +285,7 @@
   "sandevistan.energy.nobattery": "No battery installed",
   "sandevistan.energy.hint": "Click the installed battery to take it out, or a battery from your inventory to install it (the current one goes back to your inventory) — swap whenever you like. Energy implants only work with a battery, and each one raises the others' consumption by 10%. Charge it in the Charger, powered by generators next to it or by other mods (FE).",
   "sandevistan.energy.charger": "Charger: %s/%s FE | Battery: %s/%s FE (sneak to view, click to take out)",
-  "sandevistan.energy.gen": "Generating %s FE/t | Stored: %s/%s FE",
+  "sandevistan.energy.gen": "Generating %s FE/t | Delivered: %s FE/t",
   "item.sandevistan.celula_basica": "Basic Cell",
   "item.sandevistan.celula_ions": "Ion Cell",
   "item.sandevistan.bateria_litio": "Lithium Battery",
@@ -453,7 +453,7 @@
   "sandevistan.bench.fill": "Fill grid",
   "sandevistan.bench.back": "Back",
   "sandevistan.bench.needs": "Needs:",
-  "sandevistan.charger.rate": "Receiving: %s FE/t",
+  "sandevistan.charger.rate": "Receiving: %s FE/t (max %s)",
   "sandevistan.gen.rate": "Generating: %s FE/t",
   "sandevistan.energy.buffer": "Stored: %s / %s FE",
   "sandevistan.mantis.on": "Mantis Blades extended",
@@ -464,5 +464,7 @@
   "sandevistan.mantis.broken": "A Mantis Blade broke! Repair it at the Ripperdoc.",
   "sandevistan.mantis.nomat": "Missing materials for the repair.",
   "sandevistan.mantis.repaired": "Mantis Blade repaired.",
-  "sandevistan.btn.musicvol": "Psychosis music volume: %s%%"
+  "sandevistan.btn.musicvol": "Psychosis music volume: %s%%",
+  "sandevistan.gen.delivered": "Delivering: %s FE/t",
+  "sandevistan.gen.nocharger": "Place it next to a Charger!"
 }

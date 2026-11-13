@@ -66,7 +66,7 @@ public class EnergyBlock extends Block implements EntityBlock {
             player.openMenu(new net.minecraft.world.SimpleMenuProvider((id, inv, p) -> new EnergyMenu(id, inv, be, kind),
                     net.minecraft.network.chat.Component.translatable(getDescriptionId())), buf -> buf.writeVarInt(kind));
         } else {
-            player.displayClientMessage(Tx.t(ChatFormatting.AQUA, "energy.gen", be.generating(), be.energy(), EnergyBlockEntity.BUFFER), true);
+            player.displayClientMessage(Tx.t(ChatFormatting.AQUA, "energy.gen", be.generating(), be.flow()), true);
         }
         return InteractionResult.CONSUME;
     }
