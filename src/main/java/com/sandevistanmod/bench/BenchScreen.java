@@ -25,6 +25,9 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
     private Button toggle;
     private Button fill;
     private Button back;
+    private Button next;
+    private int page;
+    private static final int PER_PAGE = 5;
 
     public BenchScreen(BenchMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
@@ -46,12 +49,24 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
         }).bounds(panelX() + 4, topPos + imageHeight - 22, 74, 18).build());
         back = addRenderableWidget(Button.builder(Tx.t("bench.back"), b -> {
             selected = -1;
+            page = 0;
             sync();
         }).bounds(panelX() + 80, topPos + imageHeight - 22, 52, 18).build());
+        next = addRenderableWidget(Button.builder(Component.literal(">"), b -> {
+            if (selected >= 0) {
+                int pages = (recipes().get(selected).in().size() + PER_PAGE - 1) / PER_PAGE;
+                page = (page + 1) % Math.max(1, pages);
+            }
+        }).bounds(panelX() + PANEL_W - 24, topPos + 36, 20, 14).build());
         sync();
     }
 
     private void sync() {
+        if (next != null) {
+            boolean more = false;
+            if (open && selected >= 0 && selected < recipes().size()) more = recipes().get(selected).in().size() > PER_PAGE;
+            next.visible = more;
+        }
         if (fill != null) fill.visible = open && selected >= 0;
         if (back != null) back.visible = open && selected >= 0;
     }
@@ -107,9 +122,13 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
             if (r.out().getCount() > 1) gg.renderItemDecorations(font, r.out(), px + 4, topPos + 18);
             gg.drawString(font, font.plainSubstrByWidth(r.out().getHoverName().getString(), PANEL_W - 28), px + 24, topPos + 22, 0xFFFFFFFF, false);
             gg.drawString(font, Tx.t(ChatFormatting.GRAY, "bench.needs"), px + 4, topPos + 40, 0xFFFFFF, false);
+            int total = r.in().size();
+            int pages = Math.max(1, (total + PER_PAGE - 1) / PER_PAGE);
+            if (page >= pages) page = 0;
+            if (pages > 1) gg.drawString(font, (page + 1) + "/" + pages, px + PANEL_W - 46, topPos + 40, 0xFF8899AA, false);
             int y = topPos + 52;
-            for (BenchRecipes.Req q : r.in()) {
-                if (y > topPos + imageHeight - 28) break;
+            for (int k = page * PER_PAGE; k < Math.min(total, (page + 1) * PER_PAGE); k++) {
+                BenchRecipes.Req q = r.in().get(k);
                 boolean ok = have(q) >= q.count();
                 gg.renderItem(q.icon(), px + 4, y);
                 Component nm = q.key() != null ? Component.translatable("sandevistan." + q.key()) : q.icon().getHoverName();
@@ -118,7 +137,7 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
                 y += 17;
             }
             if (locked(r)) gg.drawString(font, Tx.t(ChatFormatting.RED, "bench.locked.tip", com.sandevistanmod.logic.Quests.needed(r.out())),
-                    px + 4, topPos + imageHeight - 36, 0xFFFFFF, false);
+                    px + 4, topPos + imageHeight - 34, 0xFFFFFF, false);
             return;
         }
         scroll = Math.max(0, Math.min(Math.max(0, list.size() - ROWS), scroll));
@@ -181,6 +200,7 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
                 int ry = topPos + 16 + row * ROW_H;
                 if (my >= ry && my < ry + ROW_H) {
                     selected = idx;
+                    page = 0;
                     sync();
                     return true;
                 }

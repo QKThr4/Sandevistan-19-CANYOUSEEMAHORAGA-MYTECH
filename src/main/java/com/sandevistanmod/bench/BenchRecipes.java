@@ -78,10 +78,10 @@ public final class BenchRecipes {
             out.add(r(ModRegistries.PILULA_2.get(), 2, i(ModRegistries.PILULA, 2), i(ModRegistries.RESINA, 1),
                     i(Items.AZURE_BLUET, 1)));
             out.add(r(ModRegistries.PILULA_3.get(), 2, i(ModRegistries.PILULA_2, 2), i(Items.TORCHFLOWER, 1)));
-            out.add(r(ModRegistries.IMUNOSSUPRESSOR_2.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR, 1), i(Items.GLOW_BERRIES, 2),
-                    i(Items.SUGAR, 2), i(Items.ALLIUM, 1)));
-            out.add(r(ModRegistries.IMUNOSSUPRESSOR_3.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR_2, 1), i(ModRegistries.NUCLEO_COMP, 1),
-                    i(Items.AMETHYST_SHARD, 2), i(Items.SPORE_BLOSSOM, 1), i(Items.SUGAR, 3)));
+            out.add(r(ModRegistries.IMUNOSSUPRESSOR_2.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR, 1), i(Items.HONEY_BOTTLE, 2),
+                    i(Items.SUGAR, 2), i(Items.FERMENTED_SPIDER_EYE, 1)));
+            out.add(r(ModRegistries.IMUNOSSUPRESSOR_3.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR_2, 1),
+                    i(Items.SPORE_BLOSSOM, 1), i(Items.SUGAR, 3), i(Items.ALLIUM, 1)));
             out.add(r(ModRegistries.ESTABILIZADOR_2.get(), 1, i(ModRegistries.ESTABILIZADOR, 1), i(Items.HONEY_BOTTLE, 1),
                     i(Items.CORNFLOWER, 2)));
             out.add(r(ModRegistries.ESTABILIZADOR_3.get(), 1, i(ModRegistries.ESTABILIZADOR_2, 1), i(Items.TORCHFLOWER, 1),
@@ -138,26 +138,31 @@ public final class BenchRecipes {
         // implantes extras (3 tiers; o Ripperdoc instala). II = o anterior + melhorados; III = o anterior + alta precisao
         Req cristal2 = i(ModRegistries.CRISTAL, 2);
         Req nucleo = i(ModRegistries.NUCLEO_COMP, 1);
+        Req matriz1 = i(ModRegistries.MATRIZ_CONTENCAO, 1);
+        Req olho = i(Items.SPIDER_EYE, 1);
         Req melh2 = i(ModRegistries.COMP_MELHORADO, 2);
         Req alta2 = i(ModRegistries.COMP_ALTA, 2);
         Req placa2 = i(ModRegistries.PLACA, 2);
-        out.add(r(ModRegistries.BOTAS.get(0).get(), 1, musc2, servo, i(ModRegistries.LIGA, 2), cap, melh2));
-        out.add(r(ModRegistries.BOTAS.get(1).get(), 1, i(ModRegistries.BOTAS.get(0).get(), 1), musc2, melh3, cap));
-        out.add(r(ModRegistries.BOTAS.get(2).get(), 1, i(ModRegistries.BOTAS.get(1).get(), 1), musc2, alta3, cap));
-        out.add(r(ModRegistries.JETPACKS.get(0).get(), 1, i(ModRegistries.LIGA, 3), i(ModRegistries.SERVO, 2), fluido, cap2, melh3));
-        out.add(r(ModRegistries.JETPACKS.get(1).get(), 1, i(ModRegistries.JETPACKS.get(0).get(), 1), i(ModRegistries.LIGA, 2), alta2, fluido));
-        out.add(r(ModRegistries.JETPACKS.get(2).get(), 1, i(ModRegistries.JETPACKS.get(1).get(), 1), alta3, nucleo, cap2));
-        out.add(r(ModRegistries.IMPLANTE_XP.get(0).get(), 1, cristal, placa, resina, comum3));
-        out.add(r(ModRegistries.IMPLANTE_XP.get(1).get(), 1, i(ModRegistries.IMPLANTE_XP.get(0).get(), 1), melh3, cap));
-        out.add(r(ModRegistries.IMPLANTE_XP.get(2).get(), 1, i(ModRegistries.IMPLANTE_XP.get(1).get(), 1), alta3, cap));
-        out.add(r(ModRegistries.SCANNER.get(0).get(), 1, cristal2, placa2, melh2, cap));
-        out.add(r(ModRegistries.SCANNER.get(1).get(), 1, i(ModRegistries.SCANNER.get(0).get(), 1), alta2, cap));
-        out.add(r(ModRegistries.SCANNER.get(2).get(), 1, i(ModRegistries.SCANNER.get(1).get(), 1), alta3, nucleo));
+        out.add(r(ModRegistries.BOTAS.get(0).get(), 1, musc2, servo, i(ModRegistries.LIGA, 2), cap, melh2, i(Items.BLAZE_ROD, 2)));
+        out.add(r(ModRegistries.BOTAS.get(1).get(), 1, i(ModRegistries.BOTAS.get(0).get(), 1), musc2, melh3, cap, i(Items.BLAZE_ROD, 2), chip));
+        out.add(r(ModRegistries.BOTAS.get(2).get(), 1, i(ModRegistries.BOTAS.get(1).get(), 1), musc2, alta3, cap, i(Items.BLAZE_ROD, 2), chip));
+        out.add(r(ModRegistries.JETPACKS.get(0).get(), 1, i(ModRegistries.LIGA, 3), i(ModRegistries.SERVO, 2), fluido, cap2, melh3,
+                i(Items.BLAZE_ROD, 4), i(ModRegistries.FIOS, 1), i(ModRegistries.PLACA, 3), i(Items.IRON_BLOCK, 2)));
+        out.add(r(ModRegistries.JETPACKS.get(1).get(), 1, i(ModRegistries.JETPACKS.get(0).get(), 1), i(ModRegistries.LIGA, 2), alta2, fluido,
+                i(Items.BLAZE_ROD, 4), i(ModRegistries.FIOS, 1), i(ModRegistries.PLACA, 3), i(Items.IRON_BLOCK, 2), nucleo));
+        out.add(r(ModRegistries.JETPACKS.get(2).get(), 1, i(ModRegistries.JETPACKS.get(1).get(), 1), alta3, nucleo, cap2,
+                i(Items.BLAZE_ROD, 4), i(ModRegistries.FIOS, 1), i(ModRegistries.PLACA, 3), i(Items.IRON_BLOCK, 2)));
+        out.add(r(ModRegistries.IMPLANTE_XP.get(0).get(), 1, cristal, placa, resina, comum3, i(Items.EXPERIENCE_BOTTLE, 1)));
+        out.add(r(ModRegistries.IMPLANTE_XP.get(1).get(), 1, i(ModRegistries.IMPLANTE_XP.get(0).get(), 1), melh3, cap, i(Items.EXPERIENCE_BOTTLE, 1), chip));
+        out.add(r(ModRegistries.IMPLANTE_XP.get(2).get(), 1, i(ModRegistries.IMPLANTE_XP.get(1).get(), 1), alta3, cap, i(Items.EXPERIENCE_BOTTLE, 1), chip));
+        out.add(r(ModRegistries.SCANNER.get(0).get(), 1, cristal2, placa2, melh2, cap, matriz1));
+        out.add(r(ModRegistries.SCANNER.get(1).get(), 1, i(ModRegistries.SCANNER.get(0).get(), 1), alta2, cap, matriz1));
+        out.add(r(ModRegistries.SCANNER.get(2).get(), 1, i(ModRegistries.SCANNER.get(1).get(), 1), alta3, nucleo, matriz1));
         // pares de olhos: tier I
-        out.add(r(ModRegistries.OLHOS.get(0).get(0).get(), 1, cristal2, servo, placa, comum3));
-        out.add(r(ModRegistries.OLHOS.get(1).get(0).get(), 1, cristal, placa2, melh2, cap, fios2));
-        out.add(r(ModRegistries.OLHOS.get(2).get(0).get(), 1, cristal2, cap2, melh3, placa));
-        out.add(r(ModRegistries.OLHOS.get(3).get(0).get(), 1, cristal2, fluido, placa, melh2, fios2));
+        out.add(r(ModRegistries.OLHOS.get(0).get(0).get(), 1, cristal2, servo, placa, comum3, olho));
+        out.add(r(ModRegistries.OLHOS.get(1).get(0).get(), 1, cristal, placa2, melh2, cap, fios2, olho));
+        out.add(r(ModRegistries.OLHOS.get(2).get(0).get(), 1, cristal2, cap2, melh3, placa, olho));
+        out.add(r(ModRegistries.OLHOS.get(3).get(0).get(), 1, cristal2, fluido, placa, melh2, fios2, olho));
         // olhos: tiers II e III
         Req[][] eyeT2 = {{cristal, melh2, servo}, {placa2, melh2, fios2}, {cap2, melh2, fluido}, {cristal, melh2, fluido}};
         Req[][] eyeT3 = {{cristal2, alta2, placa}, {alta2, cap2, nucleo}, {alta3, cap2, nucleo}, {alta2, placa2, nucleo}};
@@ -165,10 +170,13 @@ public final class BenchRecipes {
             List<Req> two = new java.util.ArrayList<>();
             two.add(i(ModRegistries.OLHOS.get(e).get(0).get(), 1));
             two.addAll(Arrays.asList(eyeT2[e]));
+            two.add(olho);
             out.add(r(ModRegistries.OLHOS.get(e).get(1).get(), 1, two.toArray(new Req[0])));
             List<Req> three = new java.util.ArrayList<>();
             three.add(i(ModRegistries.OLHOS.get(e).get(1).get(), 1));
             three.addAll(Arrays.asList(eyeT3[e]));
+            three.add(olho);
+            three.add(chip);
             out.add(r(ModRegistries.OLHOS.get(e).get(2).get(), 1, three.toArray(new Req[0])));
         }
 
@@ -193,18 +201,20 @@ public final class BenchRecipes {
         out.add(r(ModRegistries.JETPACKS.get(3).get(), 1, i(ModRegistries.JETPACKS.get(2).get(), 1), estrela, bobina, matriz, alta3, nucleo));
         // Implante Solar (cabeca)
         out.add(r(ModRegistries.SOLARES.get(0).get(), 1, i(ModRegistries.PAINEL_SOLAR, 1), placa2, cristal, melh2, cap));
-        out.add(r(ModRegistries.SOLARES.get(1).get(), 1, i(ModRegistries.SOLARES.get(0).get(), 1), i(ModRegistries.PAINEL_SOLAR, 1), melh3));
-        out.add(r(ModRegistries.SOLARES.get(2).get(), 1, i(ModRegistries.SOLARES.get(1).get(), 1), i(ModRegistries.PAINEL_SOLAR, 1), alta3, cap));
+        out.add(r(ModRegistries.SOLARES.get(1).get(), 1, i(ModRegistries.SOLARES.get(0).get(), 1), i(ModRegistries.PAINEL_SOLAR, 1), melh3, chip));
+        out.add(r(ModRegistries.SOLARES.get(2).get(), 1, i(ModRegistries.SOLARES.get(1).get(), 1), i(ModRegistries.PAINEL_SOLAR, 1), alta3, cap, chip));
         // Laminas Mantis (a mesma receita serve para um braco; faca duas para os dois)
-        out.add(r(ModRegistries.MANTIS.get(0).get(), 1, i(Items.IRON_SWORD, 1), i(ModRegistries.LIGA, 2), musc2, servo, melh2));
-        out.add(r(ModRegistries.MANTIS.get(1).get(), 1, i(ModRegistries.MANTIS.get(0).get(), 1), alta3, i(ModRegistries.LIGA, 2), servo));
+        out.add(r(ModRegistries.MANTIS.get(0).get(), 1, i(Items.IRON_SWORD, 1), i(ModRegistries.LIGA, 2), musc2, servo,
+                i(ModRegistries.COMP_ALTA, 3), i(ModRegistries.CHIP, 3)));
+        out.add(r(ModRegistries.MANTIS.get(1).get(), 1, i(ModRegistries.MANTIS.get(0).get(), 1), alta3, i(ModRegistries.LIGA, 2), servo,
+                i(Items.DIAMOND_SWORD, 1), nucleo));
         out.add(r(ModRegistries.MANTIS.get(2).get(), 1, i(ModRegistries.MANTIS.get(1).get(), 1), alta3, i(ModRegistries.LIGA, 3), fluido));
         out.add(r(ModRegistries.MANTIS.get(3).get(), 1, i(ModRegistries.MANTIS.get(2).get(), 1), i(Items.ECHO_SHARD, 3), alta3, matriz, nucleo,
                 i(ModRegistries.LIGA, 3)));
         // Injetor automatico (ombro)
         out.add(r(ModRegistries.INJETORES.get(0).get(), 1, i(ModRegistries.SERINGA, 2), servo, placa, resina, cap, melh2));
-        out.add(r(ModRegistries.INJETORES.get(1).get(), 1, i(ModRegistries.INJETORES.get(0).get(), 1), melh3, cristal));
-        out.add(r(ModRegistries.INJETORES.get(2).get(), 1, i(ModRegistries.INJETORES.get(1).get(), 1), alta3, nucleo));
+        out.add(r(ModRegistries.INJETORES.get(1).get(), 1, i(ModRegistries.INJETORES.get(0).get(), 1), melh3, cristal, chip));
+        out.add(r(ModRegistries.INJETORES.get(2).get(), 1, i(ModRegistries.INJETORES.get(1).get(), 1), alta3, nucleo, chip));
 
         // implantes (tier I: componentes comuns; II: o implante anterior + melhorados; III: o anterior + alta precisao)
         int[] slots = {SandevistanData.SLOT_ARM_R, SandevistanData.SLOT_LEG_R, SandevistanData.SLOT_BONE,
@@ -231,7 +241,7 @@ public final class BenchRecipes {
             out.add(new Recipe(Arrays.asList(cat(new Req[] {comum3}, t1[k])), new ItemStack(ModRegistries.tierImplant(slots[k], 1))));
             out.add(new Recipe(Arrays.asList(cat(join(i(ModRegistries.tierImplant(slots[k], 1), 1), melh3), t2[k])),
                     new ItemStack(ModRegistries.tierImplant(slots[k], 2))));
-            out.add(new Recipe(Arrays.asList(cat(join(i(ModRegistries.tierImplant(slots[k], 2), 1), alta3), t3[k])),
+            out.add(new Recipe(Arrays.asList(cat(join(i(ModRegistries.tierImplant(slots[k], 2), 1), alta3, chip), t3[k])),
                     new ItemStack(ModRegistries.tierImplant(slots[k], 3))));
         }
         // Link Neural (sem tiers)

@@ -188,7 +188,7 @@ public final class ExtClient {
 
     @SubscribeEvent
     public static void render(RenderLevelStageEvent e) {
-        if (e.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
+        if (e.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL) return; // depois de tudo, no alvo principal: aparece atras de paredes tambem em Fancy/Fabulous
         Minecraft mc = Minecraft.getInstance();
         SandevistanData d = ClientData.DATA;
         if (mc.level == null || mc.player == null) return;
