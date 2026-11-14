@@ -8,6 +8,7 @@
     "sandevistan:carregador_baterias",
     "sandevistan:gerador_combustivel",
     "sandevistan:painel_solar",
+    "sandevistan:cabo_energia",
     "sandevistan:turbina_eolica",
     "sandevistan:gerador_termico"
   ]

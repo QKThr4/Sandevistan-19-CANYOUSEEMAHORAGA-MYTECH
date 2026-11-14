@@ -241,6 +241,12 @@ public final class ModRegistries {
             blockItem("painel_solar", PAINEL_SOLAR), blockItem("turbina_eolica", TURBINA_EOLICA),
             blockItem("gerador_termico", GERADOR_TERMICO));
 
+    public static final DeferredBlock<com.sandevistanmod.energy.CableBlock> CABO = BLOCKS.register("cabo_energia",
+            () -> new com.sandevistanmod.energy.CableBlock(BlockBehaviour.Properties.of().strength(1.0f, 3.0f)
+                    .sound(SoundType.METAL).noOcclusion()));
+    public static final DeferredItem<BlockItem> CABO_ITEM = ITEMS.register("cabo_energia",
+            () -> new BlockItem(CABO.get(), new Item.Properties()));
+
     private static DeferredItem<BlockItem> blockItem(String name, DeferredBlock<EnergyBlock> b) {
         return ITEMS.register(name, () -> new BlockItem(b.get(), new Item.Properties()));
     }
@@ -489,6 +495,7 @@ public final class ModRegistries {
                         out.accept(MULTITOOL.get());
                         for (List<DeferredItem<Item>> mods : MODULOS) for (DeferredItem<Item> it : mods) out.accept(it.get());
                         for (DeferredItem<BlockItem> it : ENERGY_ITEMS) out.accept(it.get());
+                        out.accept(CABO_ITEM.get());
                         for (DeferredItem<ExtItem> it : BOTAS) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : JETPACKS) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : IMPLANTE_XP) out.accept(it.get());

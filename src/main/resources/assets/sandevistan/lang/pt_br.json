@@ -509,7 +509,7 @@
   "sandevistan.guide.3.t": "Carga Cibernética",
   "sandevistan.guide.3.b": "Cada implante soma na barra de Carga Cibernética: o Sandevistan +30%, cada braço +10%, cada chip +5%, entre outros. A partir de 70% a carga alta sobe a Insanidade. O Chip de RAM aumenta esse limite (75%, 77% ou 80% conforme o tier). Chips de chipware precisam do Link Neural e reduzem a Mente máxima enquanto instalados.",
   "sandevistan.guide.4.t": "Energia",
-  "sandevistan.guide.4.b": "Implantes elétricos gastam energia (FE) da bateria instalada na aba Energia. As baterias têm 2.000, 6.000, 10.000, 15.000 e 30.000 FE, e cada uma é craftada a partir da anterior. O Carregador de Bateria recebe 5 FE por tick, e o Gerador a Carvão alimenta o carregador encostado nele. Cada implante que gasta energia soma +10% de consumo.",
+  "sandevistan.guide.4.b": "Implantes elétricos gastam energia (FE) da bateria instalada na aba Energia. As baterias têm 2.000, 6.000, 10.000, 15.000 e 30.000 FE, e cada uma é craftada a partir da anterior. O Carregador de Bateria recebe 5 FE por tick, e o Gerador a Carvão alimenta o carregador encostado nele. Cada implante que gasta energia soma +10% de consumo. Cabos de Energia levam a energia dos geradores até os carregadores a qualquer distância, sem perda.",
   "sandevistan.guide.5.t": "Bancadas",
   "sandevistan.guide.5.b": "A Bancada de Montagem (3x3) faz componentes, implantes, Sandevistans, a Ferramenta Multiuso e os módulos. A Bancada Medicinal faz Pílula, Imunossupressor e Estabilizador, cada um com plantas raras diferentes. O Reciclador faz aço e carbono. Nas bancadas, clique na receita para ver os ingredientes, use o botão > para a próxima página e depois o botão para preencher a grade.",
   "sandevistan.guide.6.t": "Sucata e aço",
@@ -519,5 +519,6 @@
   "sandevistan.guide.8.t": "Implantes de utilidade",
   "sandevistan.guide.8.b": "Botas Voadoras (uma por pé), Jetpack, Implante de XP, Scanner de Minérios, Olhos (Zoom, Visão Noturna, Laser e Tático), Implante Solar, Reator Arc, Lâminas Mantis e Injetor Automático. Todos passam pelo Ripperdoc, têm tiers e somam Carga Cibernética. O Scanner de Minérios e os Olhos Táticos ainda estão em desenvolvimento [WIP].",
   "sandevistan.guide.9.t": "Ferramenta Multiuso",
-  "sandevistan.guide.9.b": "Picareta, machado e pá em uma só, com nível netherite e também serve de arma. Na Mesa de Upgrades, coloque a ferramenta no meio e encaixe até 4 módulos livres: Velocidade (ataque mais rápido), Dano (Afiação), Eficiência e Fortuna. Cada módulo tem os tiers I a III, e o tier soma como pontos. Os módulos são feitos na Bancada de Montagem."
+  "sandevistan.guide.9.b": "Picareta, machado e pá em uma só, com nível netherite e também serve de arma. Na Mesa de Upgrades, coloque a ferramenta no meio e encaixe até 4 módulos livres: Velocidade (ataque mais rápido), Dano (Afiação), Eficiência e Fortuna. Cada módulo tem os tiers I a III, e o tier soma como pontos. Os módulos são feitos na Bancada de Montagem.",
+  "block.sandevistan.cabo_energia": "Cabo de Energia"
 }
