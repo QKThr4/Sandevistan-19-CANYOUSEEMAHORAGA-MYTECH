@@ -18,6 +18,7 @@ public final class EnergyEvents {
         Item[] items = ModRegistries.BATERIAS.stream().map(b -> (Item) b.get()).toArray(Item[]::new);
         event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> new BatteryItem.Storage(stack), items);
         event.registerBlock(Capabilities.EnergyStorage.BLOCK, (level, pos, state, be, ctx) -> CableBlock.storage(level, pos), ModRegistries.CABO.get());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModRegistries.STORAGE_BE.get(), (be, side) -> be.storage);
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModRegistries.ENERGY_BE.get(), (be, side) -> be.storage());
     }
 }

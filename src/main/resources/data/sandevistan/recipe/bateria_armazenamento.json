@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ICI",
+    "GBG",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "sandevistan:capacitor"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "item": "sandevistan:bateria_energia"
+    }
+  },
+  "result": {
+    "id": "sandevistan:bateria_armazenamento",
+    "count": 1
+  }
+}

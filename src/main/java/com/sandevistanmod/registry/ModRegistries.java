@@ -256,6 +256,15 @@ public final class ModRegistries {
                     EnergyBlockEntity::new, CARREGADOR.get(), GERADOR_COMBUSTIVEL.get(), PAINEL_SOLAR.get(), TURBINA_EOLICA.get(),
                     GERADOR_TERMICO.get()).build(null));
 
+    public static final DeferredBlock<com.sandevistanmod.energy.StorageBatteryBlock> BATERIA_ARMAZ = BLOCKS.register("bateria_armazenamento",
+            () -> new com.sandevistanmod.energy.StorageBatteryBlock(BlockBehaviour.Properties.of().strength(3.0f, 6.0f)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion().lightLevel(s -> 6)));
+    public static final DeferredItem<BlockItem> BATERIA_ARMAZ_ITEM = ITEMS.register("bateria_armazenamento",
+            () -> new BlockItem(BATERIA_ARMAZ.get(), new Item.Properties()));
+    public static final Supplier<net.minecraft.world.level.block.entity.BlockEntityType<com.sandevistanmod.energy.StorageBatteryEntity>> STORAGE_BE =
+            BLOCK_ENTITIES.register("bateria_armazenamento", () -> net.minecraft.world.level.block.entity.BlockEntityType.Builder.of(
+                    com.sandevistanmod.energy.StorageBatteryEntity::new, BATERIA_ARMAZ.get()).build(null));
+
     // ---- Implantes extras (3 tiers cada; instalados no Ripperdoc) ----
     private static String tierId(String base, int tier) {
         return tier == 1 ? base : base + "_" + tier;
@@ -496,6 +505,7 @@ public final class ModRegistries {
                         for (List<DeferredItem<Item>> mods : MODULOS) for (DeferredItem<Item> it : mods) out.accept(it.get());
                         for (DeferredItem<BlockItem> it : ENERGY_ITEMS) out.accept(it.get());
                         out.accept(CABO_ITEM.get());
+                        out.accept(BATERIA_ARMAZ_ITEM.get());
                         for (DeferredItem<ExtItem> it : BOTAS) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : JETPACKS) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : IMPLANTE_XP) out.accept(it.get());

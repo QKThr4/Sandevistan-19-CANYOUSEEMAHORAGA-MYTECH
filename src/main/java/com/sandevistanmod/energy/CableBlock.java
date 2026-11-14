@@ -29,6 +29,8 @@ public class CableBlock extends Block {
     public static final BooleanProperty DOWN = BooleanProperty.create("down");
     private static final int MAX_CABLES = 1024;
     private static boolean routing;
+    /** Verdadeiro enquanto uma bateria de armazenamento empurra energia: o cabo nao a devolve para outras baterias. */
+    public static boolean fromBattery;
 
     private static final VoxelShape CORE = Block.box(5, 5, 5, 11, 11, 11);
     private static final VoxelShape[] ARMS = {
@@ -58,7 +60,7 @@ public class CableBlock extends Block {
     }
 
     private static boolean connects(BlockState n) {
-        return n.getBlock() instanceof CableBlock || n.getBlock() instanceof EnergyBlock;
+        return n.getBlock() instanceof CableBlock || n.getBlock() instanceof EnergyBlock || n.getBlock() instanceof StorageBatteryBlock;
     }
 
     @Override
@@ -141,6 +143,7 @@ public class CableBlock extends Block {
                     if (seen.add(n)) queue.add(n);
                     continue;
                 }
+                if (fromBattery && level.getBlockState(n).getBlock() instanceof StorageBatteryBlock) continue;
                 IEnergyStorage t = level.getCapability(Capabilities.EnergyStorage.BLOCK, n, d.getOpposite());
                 if (t == null || !t.canReceive()) continue;
                 left -= t.receiveEnergy(left, simulate);
