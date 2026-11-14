@@ -65,7 +65,7 @@ public final class Quests {
 
     private static Quest[] build() {
         return new Quest[] {
-                new Quest(2, List.of(robots(12), item(ModRegistries.SUCATA, 20), item(ModRegistries.COMP_MELHORADO, 6),
+                new Quest(2, List.of(robots(12), item(ModRegistries.LINGOTE_ACO, 16), item(ModRegistries.COMP_MELHORADO, 6),
                         item(ModRegistries.CAPACITOR, 4)), 24, 5),
                 new Quest(3, List.of(robots(30), kill(EntityType.ELDER_GUARDIAN, 1), item(ModRegistries.COMP_ALTA, 6),
                         item(ModRegistries.NUCLEO_COMP, 2), item(ModRegistries.FLUIDO, 4)), 48, 10),

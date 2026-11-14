@@ -219,6 +219,8 @@ public final class SandevistanLogic {
     /** Acoes vindas da tela do Ripperdoc: 1 implantar, 2 remover, 3 comprar Estabilizador, 4 comprar Imunossupressor. */
     public static final int STABILIZER_PRICE = 10;
     public static final int IMMUNO_PRICE = 8;
+    public static final int PILL_PRICE = 8;
+    public static final int PILL_COUNT = 4;
 
     /** Acoes: 1/2 implantar/remover o Sandevistan, 3/4 loja, 10+encaixe implantar, 20+encaixe remover. */
     public static void doctorAction(ServerPlayer p, int action) {
@@ -235,6 +237,7 @@ public final class SandevistanLogic {
             case 2 -> removeAt(p, SandevistanData.SLOT_BACK);
             case 3 -> buy(p, ModRegistries.ESTABILIZADOR.get(), STABILIZER_PRICE);
             case 4 -> buy(p, ModRegistries.IMUNOSSUPRESSOR.get(), IMMUNO_PRICE);
+            case 5 -> buy(p, ModRegistries.PILULA.get(), PILL_PRICE, PILL_COUNT);
             default -> {
                 if (action >= 100) {
                     // varios implantes de uma vez: (acao - 100) = tiers (2 bits por encaixe) << 12 | mascara de encaixes << 3 | modelo
@@ -249,13 +252,17 @@ public final class SandevistanLogic {
     }
 
     private static void buy(ServerPlayer p, net.minecraft.world.item.Item item, int price) {
+        buy(p, item, price, 1);
+    }
+
+    private static void buy(ServerPlayer p, net.minecraft.world.item.Item item, int price, int qty) {
         boolean creative = p.getAbilities().instabuild;
         if (!creative && countEmeralds(p) < price) {
             bar(p, Tx.t(ChatFormatting.RED, "shop.noemerald", price));
             return;
         }
         if (!creative) takeEmeralds(p, price);
-        give(p, new ItemStack(item));
+        give(p, new ItemStack(item, qty));
         bar(p, Tx.t(ChatFormatting.GREEN, "shop.bought"));
     }
 

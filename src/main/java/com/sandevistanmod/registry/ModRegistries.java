@@ -147,6 +147,8 @@ public final class ModRegistries {
     }
 
     public static final DeferredItem<Item> SUCATA = plain("sucata");
+    public static final DeferredItem<Item> LINGOTE_ACO = plain("lingote_aco");
+    public static final DeferredItem<Item> CARBONO = plain("carbono");
     public static final DeferredItem<Item> COMP_COMUM = plain("componente_comum");
     public static final DeferredItem<Item> COMP_MELHORADO = plain("componente_melhorado");
     public static final DeferredItem<Item> COMP_ALTA = plain("componente_alta_precisao");
@@ -179,6 +181,21 @@ public final class ModRegistries {
                 .sound(kind == BenchBlock.MEDICINAL ? SoundType.WOOD : SoundType.METAL).requiresCorrectToolForDrops(), kind));
     }
 
+    public static final Supplier<net.minecraft.world.inventory.MenuType<com.sandevistanmod.tool.UpgradeMenu>> UPGRADE_MENU = MENUS.register("mesa_upgrades",
+            () -> new net.minecraft.world.inventory.MenuType<>(com.sandevistanmod.tool.UpgradeMenu::new, net.minecraft.world.flag.FeatureFlags.DEFAULT_FLAGS));
+    public static final DeferredBlock<com.sandevistanmod.tool.UpgradeTableBlock> MESA_UPGRADES = BLOCKS.register("mesa_upgrades",
+            () -> new com.sandevistanmod.tool.UpgradeTableBlock(BlockBehaviour.Properties.of().strength(3.0f, 6.0f)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()));
+    public static final DeferredItem<BlockItem> MESA_UPGRADES_ITEM = ITEMS.register("mesa_upgrades",
+            () -> new BlockItem(MESA_UPGRADES.get(), new Item.Properties()));
+    public static final DeferredItem<com.sandevistanmod.tool.MultiToolItem> MULTITOOL = ITEMS.register("ferramenta_multiuso",
+            () -> new com.sandevistanmod.tool.MultiToolItem(com.sandevistanmod.tool.MultiToolItem.props()));
+    /** Modulos da ferramenta: 3 tiers cada (indice 0 = tier I). */
+    public static final List<DeferredItem<Item>> MOD_VELOCIDADE = List.of(plain("modulo_velocidade"), plain("modulo_velocidade_2"), plain("modulo_velocidade_3"));
+    public static final List<DeferredItem<Item>> MOD_DANO = List.of(plain("modulo_dano"), plain("modulo_dano_2"), plain("modulo_dano_3"));
+    public static final List<DeferredItem<Item>> MOD_EFICIENCIA = List.of(plain("modulo_eficiencia"), plain("modulo_eficiencia_2"), plain("modulo_eficiencia_3"));
+    public static final List<DeferredItem<Item>> MOD_FORTUNA = List.of(plain("modulo_fortuna"), plain("modulo_fortuna_2"), plain("modulo_fortuna_3"));
+    public static final List<List<DeferredItem<Item>>> MODULOS = List.of(MOD_VELOCIDADE, MOD_DANO, MOD_EFICIENCIA, MOD_FORTUNA);
     public static final DeferredBlock<BenchBlock> BANCADA_MONTAGEM = bench("bancada_montagem", BenchBlock.ASSEMBLY);
     public static final DeferredBlock<BenchBlock> BANCADA_MEDICINAL = bench("bancada_medicinal", BenchBlock.MEDICINAL);
     public static final DeferredBlock<BenchBlock> RECICLADOR = bench("reciclador_sucata", BenchBlock.RECYCLER);
@@ -188,12 +205,6 @@ public final class ModRegistries {
             () -> new BlockItem(BANCADA_MEDICINAL.get(), new Item.Properties()));
     public static final DeferredItem<BlockItem> RECICLADOR_ITEM = ITEMS.register("reciclador_sucata",
             () -> new BlockItem(RECICLADOR.get(), new Item.Properties()));
-    public static final DeferredBlock<net.minecraft.world.level.block.Block> MINERIO_SUCATA = BLOCKS.register("minerio_sucata",
-            () -> new net.minecraft.world.level.block.DropExperienceBlock(
-                    net.minecraft.util.valueproviders.UniformInt.of(0, 2),
-                    BlockBehaviour.Properties.of().strength(3.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-    public static final DeferredItem<BlockItem> MINERIO_SUCATA_ITEM = ITEMS.register("minerio_sucata",
-            () -> new BlockItem(MINERIO_SUCATA.get(), new Item.Properties()));
 
     // ---- Energia ----
     public static final DeferredRegister<net.minecraft.world.level.block.entity.BlockEntityType<?>> BLOCK_ENTITIES =
@@ -474,6 +485,9 @@ public final class ModRegistries {
                         out.accept(BANCADA_MONTAGEM_ITEM.get());
                         out.accept(BANCADA_MEDICINAL_ITEM.get());
                         out.accept(RECICLADOR_ITEM.get());
+                        out.accept(MESA_UPGRADES_ITEM.get());
+                        out.accept(MULTITOOL.get());
+                        for (List<DeferredItem<Item>> mods : MODULOS) for (DeferredItem<Item> it : mods) out.accept(it.get());
                         for (DeferredItem<BlockItem> it : ENERGY_ITEMS) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : BOTAS) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : JETPACKS) out.accept(it.get());
@@ -489,8 +503,7 @@ public final class ModRegistries {
                         for (List<DeferredItem<ExtItem>> eyes : OLHOS) for (DeferredItem<ExtItem> it : eyes) out.accept(it.get());
                         for (DeferredItem<Item> it : ROBOT_EGGS) out.accept(it.get());
                         for (DeferredItem<BatteryItem> it : BATERIAS) out.accept(BatteryItem.empty(it.get()));
-                        out.accept(MINERIO_SUCATA_ITEM.get());
-                        for (DeferredItem<Item> it : List.of(SUCATA, COMP_COMUM, COMP_MELHORADO, COMP_ALTA, ENGRENAGENS, FIOS,
+                        for (DeferredItem<Item> it : List.of(SUCATA, LINGOTE_ACO, CARBONO, COMP_COMUM, COMP_MELHORADO, COMP_ALTA, ENGRENAGENS, FIOS,
                                 NUCLEO_COMP, MODULO_RAM, SOLDA, PLACA, CAPACITOR, MUSCULO, RESINA, LIGA, FLUIDO)) out.accept(it.get());
                         for (DeferredItem<Item> it : PIGMENTOS) out.accept(it.get());
                         out.accept(NEURALINK.get());

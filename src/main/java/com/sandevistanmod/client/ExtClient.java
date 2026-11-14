@@ -73,7 +73,6 @@ public final class ExtClient {
         if (path.contains("copper")) return new float[] {1f, 0.55f, 0.25f};
         if (path.contains("quartz")) return new float[] {1f, 1f, 1f};
         if (path.contains("netherite") || path.contains("debris")) return new float[] {0.6f, 0.35f, 0.2f};
-        if (path.contains("sucata")) return new float[] {0.7f, 1f, 0.4f};
         return new float[] {1f, 0.3f, 1f};
     }
 
@@ -99,7 +98,7 @@ public final class ExtClient {
         for (Entity en : mc.level.entitiesForRendering()) {
             net.minecraft.world.scores.PlayerTeam t = GLOWED.get(en.getId());
             if (t == null) continue;
-            en.setGlowingTag(false);
+            en.setSharedFlag(6, false);
             if (en.getTeam() == t) mc.level.getScoreboard().removePlayerFromTeam(en.getScoreboardName(), t);
         }
         GLOWED.clear();
@@ -117,7 +116,7 @@ public final class ExtClient {
             boolean inRange = en.distanceToSqr(mc.player) <= range * range;
             net.minecraft.world.scores.PlayerTeam mine = GLOWED.get(en.getId());
             if (inRange) {
-                en.setGlowingTag(true);
+                en.setSharedFlag(6, true);
                 if (mine == null) {
                     net.minecraft.world.scores.PlayerTeam t;
                     if (BuiltInRegistries.ENTITY_TYPE.getKey(en.getType()).getNamespace().equals(SandevistanMod.MODID)) {
@@ -136,7 +135,7 @@ public final class ExtClient {
                     GLOWED.put(en.getId(), t);
                 }
             } else if (mine != null) {
-                en.setGlowingTag(false);
+                en.setSharedFlag(6, false);
                 if (en.getTeam() == mine) mc.level.getScoreboard().removePlayerFromTeam(en.getScoreboardName(), mine);
                 GLOWED.remove(en.getId());
             }
@@ -196,7 +195,11 @@ public final class ExtClient {
         int eye = d.eye();
         if (!ores) return;
         Vec3 cam = e.getCamera().getPosition();
-        PoseStack ps = e.getPoseStack();
+        PoseStack ps = new PoseStack();
+        // em AFTER_LEVEL a matriz da camera ja foi desfeita: reaplica a rotacao da camera
+        com.mojang.blaze3d.systems.RenderSystem.getModelViewStack().pushMatrix();
+        com.mojang.blaze3d.systems.RenderSystem.getModelViewStack().mul(e.getModelViewMatrix());
+        com.mojang.blaze3d.systems.RenderSystem.applyModelViewMatrix();
         MultiBufferSource.BufferSource buf = mc.renderBuffers().bufferSource();
         VertexConsumer vc = buf.getBuffer(XrayRender.LINES);
         if (ores) {
@@ -209,5 +212,7 @@ public final class ExtClient {
         }
         buf.endBatch(XrayRender.FILL);
         buf.endBatch(XrayRender.LINES);
+        com.mojang.blaze3d.systems.RenderSystem.getModelViewStack().popMatrix();
+        com.mojang.blaze3d.systems.RenderSystem.applyModelViewMatrix();
     }
 }

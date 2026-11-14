@@ -43,6 +43,7 @@ public final class ClientModEvents {
     public static void menus(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent e) {
         e.register(com.sandevistanmod.registry.ModRegistries.BENCH_MENU.get(), com.sandevistanmod.bench.BenchScreen::new);
         e.register(com.sandevistanmod.registry.ModRegistries.ENERGY_MENU.get(), com.sandevistanmod.energy.EnergyScreen::new);
+        e.register(com.sandevistanmod.registry.ModRegistries.UPGRADE_MENU.get(), UpgradeScreen::new);
     }
 
     /** Coloca o implante nas costas dos dois modelos de jogador (wide e slim). */

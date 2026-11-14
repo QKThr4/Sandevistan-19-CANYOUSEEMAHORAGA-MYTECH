@@ -44,6 +44,7 @@ public class DoctorScreen extends Screen {
     private Button repairBtn;
     private Button buy1;
     private Button buy2;
+    private Button buy3;
 
     public DoctorScreen() {
         super(Tx.t("doc.name"));
@@ -197,6 +198,7 @@ public class DoctorScreen extends Screen {
         repairBtn = null;
         buy1 = null;
         buy2 = null;
+        buy3 = null;
         if (mode == MENU) {
             addRenderableWidget(Button.builder(Tx.t("doc.menu.shop"), b -> setMode(SHOP))
                     .bounds(cx - 80, top + 70, 160, 22).build());
@@ -243,6 +245,9 @@ public class DoctorScreen extends Screen {
             buy2 = addRenderableWidget(Button.builder(Tx.t("doc.btn.buy"), b ->
                             PacketDistributor.sendToServer(new DoctorActionPayload(4)))
                     .bounds(cx + 50, top + 98, 60, 20).build());
+            buy3 = addRenderableWidget(Button.builder(Tx.t("doc.btn.buy"), b ->
+                            PacketDistributor.sendToServer(new DoctorActionPayload(5)))
+                    .bounds(cx + 50, top + 134, 60, 20).build());
             addRenderableWidget(Button.builder(Tx.t("doc.btn.back"), b -> setMode(MENU))
                     .bounds(px() + 6, top + 6, 50, 16).build());
         }
@@ -291,6 +296,7 @@ public class DoctorScreen extends Screen {
         }
         if (buy1 != null) buy1.active = creative() || count(Items.EMERALD) >= SandevistanLogic.STABILIZER_PRICE;
         if (buy2 != null) buy2.active = creative() || count(Items.EMERALD) >= SandevistanLogic.IMMUNO_PRICE;
+        if (buy3 != null) buy3.active = creative() || count(Items.EMERALD) >= SandevistanLogic.PILL_PRICE;
     }
 
     @Override
@@ -557,11 +563,13 @@ public class DoctorScreen extends Screen {
         gg.drawString(this.font, Tx.t("doc.shop.have", have), cx - 98, top + 33, 0x55FF55);
         shopRow(gg, cx, top + 60, new ItemStack(ModRegistries.ESTABILIZADOR.get()), SandevistanLogic.STABILIZER_PRICE);
         shopRow(gg, cx, top + 96, new ItemStack(ModRegistries.IMUNOSSUPRESSOR.get()), SandevistanLogic.IMMUNO_PRICE);
+        shopRow(gg, cx, top + 132, new ItemStack(ModRegistries.PILULA.get(), SandevistanLogic.PILL_COUNT), SandevistanLogic.PILL_PRICE);
     }
 
     private void shopRow(GuiGraphics gg, int cx, int y, ItemStack stack, int price) {
         gg.fill(cx - 124, y - 4, cx + 124, y + 28, 0x60000000);
         gg.renderItem(stack, cx - 118, y + 2);
+        gg.renderItemDecorations(this.font, stack, cx - 118, y + 2);
         gg.drawString(this.font, stack.getHoverName(), cx - 96, y + 2, 0xFFFFFF);
         gg.renderItem(new ItemStack(Items.EMERALD), cx - 96, y + 12);
         gg.drawString(this.font, "x" + price, cx - 77, y + 17, count(Items.EMERALD) >= price || creative() ? 0x55FF55 : 0xFF5555);

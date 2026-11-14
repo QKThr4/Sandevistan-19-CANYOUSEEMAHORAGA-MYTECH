@@ -67,7 +67,7 @@ public final class BenchRecipes {
             // cada remedio usa plantas diferentes (e mais dificeis de achar), alem de ingredientes do mod
             // Pilula de Sanidade: flores calmantes (lirio-do-vale e orquidea azul do pantano)
             out.add(r(ModRegistries.PILULA.get(), 4, i(Items.LILY_OF_THE_VALLEY, 2), i(Items.BLUE_ORCHID, 2),
-                    i(Items.SUGAR, 1), i(ModRegistries.RESINA, 1)));
+                    i(Items.SUGAR, 1)));
             // Imunossupressor: flor de esporos (cavernas exuberantes) e alho-silvestre
             out.add(r(ModRegistries.IMUNOSSUPRESSOR.get(), 1, i(ModRegistries.SERINGA, 1), i(Items.GLOW_BERRIES, 1),
                     i(Items.SUGAR, 1), i(Items.ALLIUM, 2)));
@@ -75,7 +75,7 @@ public final class BenchRecipes {
             out.add(r(ModRegistries.ESTABILIZADOR.get(), 1, i(ModRegistries.SERINGA, 1), i(Items.HONEY_BOTTLE, 1),
                     i(Items.FERMENTED_SPIDER_EYE, 1), i(Items.SUGAR, 1), i(Items.SWEET_BERRIES, 1)));
             // tiers II e III (liberados pelas licencas do Ripperdoc): partem do remedio do tier anterior
-            out.add(r(ModRegistries.PILULA_2.get(), 2, i(ModRegistries.PILULA, 2), i(ModRegistries.RESINA, 1),
+            out.add(r(ModRegistries.PILULA_2.get(), 2, i(ModRegistries.PILULA, 2),
                     i(Items.AZURE_BLUET, 1)));
             out.add(r(ModRegistries.PILULA_3.get(), 2, i(ModRegistries.PILULA_2, 2), i(Items.TORCHFLOWER, 1)));
             out.add(r(ModRegistries.IMUNOSSUPRESSOR_2.get(), 1, i(ModRegistries.IMUNOSSUPRESSOR, 1), i(Items.HONEY_BOTTLE, 2),
@@ -87,13 +87,16 @@ public final class BenchRecipes {
             out.add(r(ModRegistries.ESTABILIZADOR_3.get(), 1, i(ModRegistries.ESTABILIZADOR_2, 1), i(Items.TORCHFLOWER, 1),
                     i(Items.SUGAR, 2), i(Items.CORNFLOWER, 1)));
         } else if (kind == BenchBlock.RECYCLER) {
-            out.add(r(ModRegistries.COMP_COMUM.get(), 3, i(ModRegistries.SUCATA, 2)));
-            out.add(r(ModRegistries.COMP_MELHORADO.get(), 2, i(ModRegistries.SUCATA, 3), i(ModRegistries.COMP_COMUM, 2), i(ModRegistries.SOLDA, 1)));
-            out.add(r(ModRegistries.COMP_ALTA.get(), 2, i(ModRegistries.SUCATA, 4), i(ModRegistries.COMP_MELHORADO, 3),
+            // metalurgia: carbono do carvao + ferro = aco (sucata: clique direito no Reciclador com ela na mao)
+            out.add(r(ModRegistries.CARBONO.get(), 2, i(Items.COAL, 1)));
+            out.add(r(ModRegistries.LINGOTE_ACO.get(), 1, i(Items.IRON_INGOT, 1), i(ModRegistries.CARBONO, 2)));
+            out.add(r(ModRegistries.COMP_COMUM.get(), 3, i(ModRegistries.LINGOTE_ACO, 2)));
+            out.add(r(ModRegistries.COMP_MELHORADO.get(), 2, i(ModRegistries.LINGOTE_ACO, 3), i(ModRegistries.COMP_COMUM, 2), i(ModRegistries.SOLDA, 1)));
+            out.add(r(ModRegistries.COMP_ALTA.get(), 2, i(ModRegistries.LINGOTE_ACO, 4), i(ModRegistries.COMP_MELHORADO, 3),
                     i(ModRegistries.CAPACITOR, 1), i(ModRegistries.FLUIDO, 1)));
-            out.add(r(ModRegistries.ENGRENAGENS.get(), 2, i(ModRegistries.SUCATA, 1), i(ModRegistries.COMP_COMUM, 2)));
-            out.add(r(ModRegistries.FIOS.get(), 3, i(ModRegistries.SUCATA, 1), i(Items.COPPER_INGOT, 2)));
-            out.add(r(ModRegistries.LIGA.get(), 2, i(ModRegistries.SUCATA, 2), i(Items.IRON_INGOT, 2)));
+            out.add(r(ModRegistries.ENGRENAGENS.get(), 2, i(ModRegistries.LINGOTE_ACO, 1), i(ModRegistries.COMP_COMUM, 2)));
+            out.add(r(ModRegistries.FIOS.get(), 3, i(ModRegistries.LINGOTE_ACO, 1), i(Items.COPPER_INGOT, 2)));
+            out.add(r(ModRegistries.LIGA.get(), 2, i(ModRegistries.LINGOTE_ACO, 2), i(Items.IRON_INGOT, 2)));
         } else {
             assembly(out);
         }
@@ -274,6 +277,22 @@ public final class BenchRecipes {
             Req[] e3 = ram ? new Req[] {i(ModRegistries.MODULO_RAM, 2), cap, cristal, sol} : new Req[] {i(ModRegistries.PLACA, 2), cap, cristal, sol};
             out.add(new Recipe(Arrays.asList(cat(join(i(ModRegistries.chipItem(type, 1), 1), melh3), e2)), new ItemStack(ModRegistries.chipItem(type, 2))));
             out.add(new Recipe(Arrays.asList(cat(join(i(ModRegistries.chipItem(type, 2), 1), alta3), e3)), new ItemStack(ModRegistries.chipItem(type, 3))));
+        }
+
+        // Ferramenta Multiuso e modulos da Mesa de Upgrades (3 tiers por modulo)
+        Req nucleo2 = i(ModRegistries.NUCLEO_COMP, 1);
+        out.add(r(ModRegistries.MULTITOOL.get(), 1, i(Items.DIAMOND_PICKAXE, 1), i(Items.DIAMOND_AXE, 1), i(Items.DIAMOND_SHOVEL, 1),
+                i(Items.NETHERITE_INGOT, 1), i(ModRegistries.LIGA, 3), i(ModRegistries.LINGOTE_ACO, 4), i(ModRegistries.NUCLEO_COMP, 1)));
+        out.add(r(ModRegistries.MOD_VELOCIDADE.get(0).get(), 1, servo, cap, i(ModRegistries.LINGOTE_ACO, 2), chip, i(Items.REDSTONE, 4)));
+        out.add(r(ModRegistries.MOD_DANO.get(0).get(), 1, i(ModRegistries.LIGA, 2), fios2, i(ModRegistries.LINGOTE_ACO, 2), chip, i(Items.DIAMOND, 1)));
+        out.add(r(ModRegistries.MOD_EFICIENCIA.get(0).get(), 1, servo, fios2, placa, i(ModRegistries.LINGOTE_ACO, 2), chip));
+        out.add(r(ModRegistries.MOD_FORTUNA.get(0).get(), 1, i(ModRegistries.NUCLEO_COMP, 1), i(Items.EMERALD, 4), i(Items.DIAMOND, 2), i(ModRegistries.CHIP, 2), i(ModRegistries.LINGOTE_ACO, 3)));
+        Req[] up2 = {i(Items.REDSTONE_BLOCK, 1), i(Items.DIAMOND, 2), i(Items.AMETHYST_SHARD, 4), i(Items.EMERALD, 4)};
+        Req[] up3 = {i(Items.GLOWSTONE, 2), i(Items.NETHERITE_INGOT, 1), i(Items.DIAMOND, 2), i(Items.EMERALD_BLOCK, 1)};
+        for (int t = 0; t < 4; t++) {
+            List<net.neoforged.neoforge.registries.DeferredItem<net.minecraft.world.item.Item>> mods = ModRegistries.MODULOS.get(t);
+            out.add(r(mods.get(1).get(), 1, i(mods.get(0), 1), melh3, servo, cap, up2[t]));
+            out.add(r(mods.get(2).get(), 1, i(mods.get(1), 1), alta3, nucleo2, chip, up3[t]));
         }
 
         // Sandevistan Apogee: tres pecas (9 itens cada) e a montagem final

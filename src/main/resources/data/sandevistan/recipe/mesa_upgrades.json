@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "TAT",
+    "III"
+  ],
+  "key": {
+    "S": {
+      "item": "sandevistan:lingote_aco"
+    },
+    "T": {
+      "item": "sandevistan:servo_motor"
+    },
+    "A": {
+      "item": "minecraft:anvil"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "id": "sandevistan:mesa_upgrades",
+    "count": 1
+  }
+}
