@@ -455,6 +455,10 @@ public final class SandevistanLogic {
                 send(p, d);
             }
             case 6 -> removeBattery(p, d);
+            case 90 -> {
+                d.guideSeen = true;
+                Net.sync(p);
+            }
             case 20 -> ExtLogic.xray(p, d);
             case 21 -> ExtLogic.eye(p, d);
             case 22 -> ExtLogic.toggleInjector(p, d);

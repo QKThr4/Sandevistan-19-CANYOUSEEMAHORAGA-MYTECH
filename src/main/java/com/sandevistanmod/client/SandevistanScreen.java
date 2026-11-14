@@ -20,8 +20,14 @@ public class SandevistanScreen extends Screen {
     private Button tab0;
     private Button tab1;
     private Button tab2;
+    private Button tab3;
+    private Button prevPage;
+    private Button nextPage;
+    private static int guidePage;
+    private static boolean asked;
+    private static final int GUIDE_PAGES = 10;
     private final java.util.List<Button> page0 = new java.util.ArrayList<>();
-    /** 0 implantes, 1 efeitos, 2 energia. */
+    /** 0 implantes, 1 efeitos, 2 energia, 3 livro guia. */
     private static int tab;
 
     public SandevistanScreen() {
@@ -42,15 +48,26 @@ public class SandevistanScreen extends Screen {
 
     @Override
     protected void init() {
+        if (!ClientData.DATA.guideSeen && !asked) {
+            asked = true;
+            Minecraft.getInstance().setScreen(new GuidePromptScreen(this));
+            return;
+        }
         page0.clear();
         int bx = cx() + 16;
         int y = y0();
         tab0 = addRenderableWidget(Button.builder(Tx.t("tab.implants"), b -> setTab(0))
-                .bounds(cx() - 137, y - 22, 90, 18).build());
+                .bounds(cx() - 184, y - 22, 90, 18).build());
         tab1 = addRenderableWidget(Button.builder(Tx.t("tab.effects"), b -> setTab(1))
-                .bounds(cx() - 45, y - 22, 90, 18).build());
+                .bounds(cx() - 92, y - 22, 90, 18).build());
         tab2 = addRenderableWidget(Button.builder(Tx.t("tab.energy"), b -> setTab(2))
-                .bounds(cx() + 47, y - 22, 90, 18).build());
+                .bounds(cx(), y - 22, 90, 18).build());
+        tab3 = addRenderableWidget(Button.builder(Tx.t("tab.guide"), b -> setTab(3))
+                .bounds(cx() + 92, y - 22, 92, 18).build());
+        prevPage = addRenderableWidget(Button.builder(Component.literal("<"), b -> guidePage = (guidePage + GUIDE_PAGES - 1) % GUIDE_PAGES)
+                .bounds(cx() - 196, y + 178, 22, 18).build());
+        nextPage = addRenderableWidget(Button.builder(Component.literal(">"), b -> guidePage = (guidePage + 1) % GUIDE_PAGES)
+                .bounds(cx() + 174, y + 178, 22, 18).build());
         bx = cx() - 176;
         armBtn = addRenderableWidget(Button.builder(Tx.t("btn.visibility"), b -> Minecraft.getInstance().setScreen(new VisibilityScreen(this)))
                 .bounds(bx, y + 222, 86, 20).build());
@@ -99,6 +116,26 @@ public class SandevistanScreen extends Screen {
         if (tab0 != null) tab0.active = tab != 0;
         if (tab1 != null) tab1.active = tab != 1;
         if (tab2 != null) tab2.active = tab != 2;
+        if (tab3 != null) tab3.active = tab != 3;
+        if (prevPage != null) prevPage.visible = tab == 3;
+        if (nextPage != null) nextPage.visible = tab == 3;
+    }
+
+    /** Abre direto na aba do livro guia (usado pela pergunta da primeira vez). */
+    public static void openGuide() {
+        tab = 3;
+        guidePage = 0;
+    }
+
+    private void drawGuide(GuiGraphics gg, int cx, int y0) {
+        gg.drawCenteredString(this.font, Tx.t("guide.title"), cx, y0 + 8, 0x39FF14);
+        gg.drawCenteredString(this.font, Tx.t("guide." + guidePage + ".t"), cx, y0 + 26, 0xFFFFD060);
+        int ly = y0 + 44;
+        for (var line : this.font.split(Tx.t("guide." + guidePage + ".b"), 380)) {
+            gg.drawString(this.font, line, cx - 190, ly, 0xFFE8E8E8, false);
+            ly += 10;
+        }
+        gg.drawCenteredString(this.font, (guidePage + 1) + " / " + GUIDE_PAGES, cx, y0 + 183, 0xFF8899AA);
     }
 
     private static Component musicLabel() {
@@ -222,6 +259,10 @@ public class SandevistanScreen extends Screen {
         }
         if (tab == 2) {
             drawEnergy(gg, cx, y0);
+            return;
+        }
+        if (tab == 3) {
+            drawGuide(gg, cx, y0);
             return;
         }
         SandevistanData d = ClientData.DATA;

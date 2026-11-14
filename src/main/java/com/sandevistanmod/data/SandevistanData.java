@@ -530,6 +530,8 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public boolean mantisOn = true;
     /** Codigos secretos (hash) que o jogador ja resgatou neste mundo. */
     public final java.util.Set<String> usedCodes = new java.util.HashSet<>();
+    /** O jogador ja respondeu a pergunta do livro guia (primeira vez que abre a aba J). */
+    public boolean guideSeen;
     /** Durabilidade de cada Lamina Mantis (0 direita, 1 esquerda); perde 1 por golpe e o Ripperdoc repara. */
     public static final int MANTIS_MAX = 1000;
     public final int[] mantisDur = {MANTIS_MAX, MANTIS_MAX};
@@ -640,6 +642,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
         ListTag codes = new ListTag();
         for (String cs : usedCodes) codes.add(net.minecraft.nbt.StringTag.valueOf(cs));
         t.put("codes", codes);
+        t.putBoolean("guide", guideSeen);
         t.putInt("lic", licence);
         t.putBoolean("qon", qOn);
         t.putIntArray("qp", qp.clone());
@@ -705,6 +708,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
         injOn = !t.contains("injon") || t.getBoolean("injon");
         mantisOn = !t.contains("mantison") || t.getBoolean("mantison");
         useShown = t.getInt("useshown");
+        guideSeen = t.getBoolean("guide");
         usedCodes.clear();
         ListTag codes = t.getList("codes", Tag.TAG_STRING);
         for (int i = 0; i < codes.size(); i++) usedCodes.add(codes.getString(i));
