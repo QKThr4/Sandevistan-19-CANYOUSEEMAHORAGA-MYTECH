@@ -4,7 +4,7 @@ license="MIT"
 
 [[mods]]
 modId="sandevistan"
-version="5.0.0"
+version="5.0.2"
 displayName="Sandevistan"
 description='''Adds only the Sandevistan from Cyberpunk: Edgerunners: craft it, implant it, and slow the whole world down to 2 ticks per second while you move at absurd speed.'''
 

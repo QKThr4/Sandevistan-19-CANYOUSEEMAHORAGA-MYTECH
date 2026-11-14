@@ -11,7 +11,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 /** Primeira vez que o jogador abre a aba J: pergunta se quer ver o livro guia. */
 public class GuidePromptScreen extends Screen {
     private final Screen parent;
-    private final boolean[] choice = {false};
 
     public GuidePromptScreen(Screen parent) {
         super(Tx.t("guide.ask.title"));
@@ -21,7 +20,7 @@ public class GuidePromptScreen extends Screen {
     @Override
     protected void init() {
         int cx = this.width / 2;
-        int y = this.height / 2 + 30;
+        int y = this.height / 2 + 20;
         addRenderableWidget(Button.builder(Tx.t("guide.ask.yes"), b -> answer(true)).bounds(cx - 105, y, 100, 20).build());
         addRenderableWidget(Button.builder(Tx.t("guide.ask.no"), b -> answer(false)).bounds(cx + 5, y, 100, 20).build());
     }
@@ -39,8 +38,8 @@ public class GuidePromptScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics gg, int mx, int my, float pt) {
-        super.render(gg, mx, my, pt);
+    public void renderBackground(GuiGraphics gg, int mx, int my, float pt) {
+        super.renderBackground(gg, mx, my, pt);
         int cx = this.width / 2;
         int y = this.height / 2 - 50;
         gg.fill(cx - 160, y - 14, cx + 160, y + 96, 0xE0101410);
