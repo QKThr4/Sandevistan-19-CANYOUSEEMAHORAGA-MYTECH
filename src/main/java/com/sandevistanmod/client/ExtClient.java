@@ -90,6 +90,21 @@ public final class ExtClient {
         return t;
     }
 
+    private static java.lang.reflect.Method sharedFlag;
+
+    /** Liga/desliga o brilho (flag 6) so no cliente; setSharedFlag e protegido, entao usa reflexao. */
+    private static void setGlow(Entity en, boolean on) {
+        try {
+            if (sharedFlag == null) {
+                sharedFlag = Entity.class.getDeclaredMethod("setSharedFlag", int.class, boolean.class);
+                sharedFlag.setAccessible(true);
+            }
+            sharedFlag.invoke(en, 6, on);
+        } catch (ReflectiveOperationException | RuntimeException ex) {
+            en.setGlowingTag(on);
+        }
+    }
+
     private static void clearGlow(Minecraft mc) {
         if (mc.level == null) {
             GLOWED.clear();
@@ -98,7 +113,7 @@ public final class ExtClient {
         for (Entity en : mc.level.entitiesForRendering()) {
             net.minecraft.world.scores.PlayerTeam t = GLOWED.get(en.getId());
             if (t == null) continue;
-            en.setSharedFlag(6, false);
+            setGlow(en, false);
             if (en.getTeam() == t) mc.level.getScoreboard().removePlayerFromTeam(en.getScoreboardName(), t);
         }
         GLOWED.clear();
@@ -116,7 +131,7 @@ public final class ExtClient {
             boolean inRange = en.distanceToSqr(mc.player) <= range * range;
             net.minecraft.world.scores.PlayerTeam mine = GLOWED.get(en.getId());
             if (inRange) {
-                en.setSharedFlag(6, true);
+                setGlow(en, true);
                 if (mine == null) {
                     net.minecraft.world.scores.PlayerTeam t;
                     if (BuiltInRegistries.ENTITY_TYPE.getKey(en.getType()).getNamespace().equals(SandevistanMod.MODID)) {
@@ -135,7 +150,7 @@ public final class ExtClient {
                     GLOWED.put(en.getId(), t);
                 }
             } else if (mine != null) {
-                en.setSharedFlag(6, false);
+                setGlow(en, false);
                 if (en.getTeam() == mine) mc.level.getScoreboard().removePlayerFromTeam(en.getScoreboardName(), mine);
                 GLOWED.remove(en.getId());
             }

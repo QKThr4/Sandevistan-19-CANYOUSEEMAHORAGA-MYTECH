@@ -6,11 +6,10 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.EquipmentSlotGroup;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,12 +42,11 @@ public class MultiToolItem extends Item {
     }
 
     public static Properties props() {
-        var blocks = BuiltInRegistries.BLOCK.asLookup();
         Tool tool = new Tool(List.of(
-                Tool.Rule.deniesDrops(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)),
-                Tool.Rule.minesAndDrops(blocks.getOrThrow(BlockTags.MINEABLE_WITH_PICKAXE), 9.0f),
-                Tool.Rule.minesAndDrops(blocks.getOrThrow(BlockTags.MINEABLE_WITH_AXE), 9.0f),
-                Tool.Rule.minesAndDrops(blocks.getOrThrow(BlockTags.MINEABLE_WITH_SHOVEL), 9.0f)), 1.0f, 1);
+                Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_NETHERITE_TOOL),
+                Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_PICKAXE, 9.0f),
+                Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_AXE, 9.0f),
+                Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_SHOVEL, 9.0f)), 1.0f, 1);
         ItemAttributeModifiers attrs = ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 8.0, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
