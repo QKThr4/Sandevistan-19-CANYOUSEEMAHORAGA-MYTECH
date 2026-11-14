@@ -482,7 +482,7 @@
   "sandevistan.upgrade.mods": "Módulos",
   "sandevistan.multi.tip": "Picareta, machado e pá em uma só. Encaixa módulos na Mesa de Upgrades.",
   "sandevistan.multi.slots": "Encaixes de módulo: %s/%s",
-  "sandevistan.multi.speed": "Poder de Velocidade %s (+40%% de velocidade de mineração por ponto)",
+  "sandevistan.multi.speed": "Poder de Velocidade %s (+0,4 de velocidade de ataque por ponto)",
   "sandevistan.multi.damage": "Poder de Dano %s (Afiação)",
   "sandevistan.multi.eff": "Poder de Eficiência %s (Eficiência)",
   "sandevistan.multi.fortune": "Poder de Fortuna %s (Fortuna)",

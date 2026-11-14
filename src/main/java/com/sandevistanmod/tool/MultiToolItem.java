@@ -47,14 +47,18 @@ public class MultiToolItem extends Item {
                 Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_PICKAXE, 9.0f),
                 Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_AXE, 9.0f),
                 Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_SHOVEL, 9.0f)), 1.0f, 1);
-        ItemAttributeModifiers attrs = ItemAttributeModifiers.builder()
+        return new Properties().durability(2031).fireResistant()
+                .component(DataComponents.TOOL, tool).attributes(attributes(0));
+    }
+
+    /** Dano 8 e velocidade de ataque 1.0, mais 0.4 de velocidade de ataque por ponto de Modulo de Velocidade. */
+    private static ItemAttributeModifiers attributes(int speedPower) {
+        return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 8.0, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
-                .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -3.0, AttributeModifier.Operation.ADD_VALUE),
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -3.0 + 0.4 * speedPower, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
                 .build();
-        return new Properties().durability(2031).fireResistant()
-                .component(DataComponents.TOOL, tool).attributes(attrs);
     }
 
     // ---- modulos ----
@@ -98,11 +102,14 @@ public class MultiToolItem extends Item {
         int eff = 0;
         int dmg = 0;
         int fort = 0;
+        int spd = 0;
         for (int m : ids) {
             if (m / 10 == EFFICIENCY) eff += m % 10;
             else if (m / 10 == DAMAGE) dmg += m % 10;
             else if (m / 10 == FORTUNE) fort += m % 10;
+            else if (m / 10 == SPEED) spd += m % 10;
         }
+        tool.set(DataComponents.ATTRIBUTE_MODIFIERS, attributes(spd));
         var lookup = ra.lookupOrThrow(Registries.ENCHANTMENT);
         int e = Math.min(eff, MAX_EFF);
         int d = Math.min(dmg, MAX_DMG);

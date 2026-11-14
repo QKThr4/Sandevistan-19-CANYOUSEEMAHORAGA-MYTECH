@@ -482,7 +482,7 @@
   "sandevistan.upgrade.mods": "Modules",
   "sandevistan.multi.tip": "Pickaxe, axe and shovel in one. Fits modules at the Upgrade Table.",
   "sandevistan.multi.slots": "Module slots: %s/%s",
-  "sandevistan.multi.speed": "Speed power %s (+40%% mining speed per point)",
+  "sandevistan.multi.speed": "Speed power %s (+0.4 attack speed per point)",
   "sandevistan.multi.damage": "Damage power %s (Sharpness)",
   "sandevistan.multi.eff": "Efficiency power %s (Efficiency)",
   "sandevistan.multi.fortune": "Fortune power %s (Fortune)",
