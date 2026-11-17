@@ -146,7 +146,13 @@ public final class ModTools {
         public AbstractArrow createArrow(Level level, ItemStack ammo, LivingEntity shooter, ItemStack weapon) {
             AbstractArrow a = super.createArrow(level, ammo, shooter, weapon);
             a.setBaseDamage(a.getBaseDamage() * 1.25);
-            a.setPierceLevel((byte) 1);
+            try {
+                java.lang.reflect.Method m = AbstractArrow.class.getDeclaredMethod("setPierceLevel", byte.class);
+                m.setAccessible(true);
+                m.invoke(a, (byte) 1);
+            } catch (ReflectiveOperationException | RuntimeException ex) {
+                // sem perfuracao se o metodo nao existir
+            }
             return a;
         }
     }
