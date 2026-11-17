@@ -122,6 +122,18 @@ public class BenchMenu extends AbstractContainerMenu {
         if (player.level().isClientSide) return;
         BenchRecipes.Recipe r = match();
         ItemStack out = r == null ? ItemStack.EMPTY : r.out().copy();
+        if (!out.isEmpty() && out.is(ModRegistries.TRIDENTE_ACO.get())) {
+            // melhorar o tridente vanilla mantem os encantamentos e o nome
+            for (int s = 0; s < 9; s++) {
+                ItemStack in = grid.getItem(s);
+                if (in.is(net.minecraft.world.item.Items.TRIDENT)) {
+                    out.set(net.minecraft.core.component.DataComponents.ENCHANTMENTS, in.getOrDefault(net.minecraft.core.component.DataComponents.ENCHANTMENTS,
+                            net.minecraft.world.item.enchantment.ItemEnchantments.EMPTY));
+                    if (in.has(net.minecraft.core.component.DataComponents.CUSTOM_NAME)) out.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, in.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME));
+                    break;
+                }
+            }
+        }
         if (r == null && player instanceof ServerPlayer sp0) {
             BenchRecipes.Recipe lk = lockedMatch();
             if (lk != null) {

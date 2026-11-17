@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "S",
+    "T",
+    "F"
+  ],
+  "key": {
+    "S": {
+      "item": "sandevistan:lingote_aco"
+    },
+    "T": {
+      "item": "minecraft:stick"
+    },
+    "F": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "id": "sandevistan:flecha_aco",
+    "count": 4
+  }
+}

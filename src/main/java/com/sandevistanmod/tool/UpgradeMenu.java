@@ -18,7 +18,7 @@ public class UpgradeMenu extends AbstractContainerMenu {
     private final Player player;
     private boolean busy;
     private ItemStack lastTool = ItemStack.EMPTY;
-    private final SimpleContainer box = new SimpleContainer(1 + MultiToolItem.SLOTS) {
+    private final SimpleContainer box = new SimpleContainer(1 + ToolMods.SLOTS) {
         @Override
         public void setChanged() {
             super.setChanged();
@@ -37,7 +37,7 @@ public class UpgradeMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(box, 0, 80, 20) {
             @Override
             public boolean mayPlace(ItemStack st) {
-                return st.getItem() instanceof MultiToolItem;
+                return ToolMods.isModTool(st);
             }
 
             @Override
@@ -45,11 +45,11 @@ public class UpgradeMenu extends AbstractContainerMenu {
                 return 1;
             }
         });
-        for (int k = 0; k < MultiToolItem.SLOTS; k++) {
+        for (int k = 0; k < ToolMods.SLOTS; k++) {
             this.addSlot(new Slot(box, 1 + k, 38 + k * 28, 52) {
                 @Override
                 public boolean mayPlace(ItemStack st) {
-                    return !box.getItem(0).isEmpty() && MultiToolItem.moduleId(st) > 0;
+                    return validFor(st, this.getContainerSlot());
                 }
 
                 @Override
@@ -64,23 +64,53 @@ public class UpgradeMenu extends AbstractContainerMenu {
         for (int c = 0; c < 9; c++) this.addSlot(new Slot(inv, c, 8 + c * 18, 142));
     }
 
+    /** Codigos dos outros encaixes (menos o indicado). */
+    private int[] othersOf(int skipSlot) {
+        int[] o = new int[ToolMods.SLOTS];
+        for (int k = 0; k < ToolMods.SLOTS; k++) o[k] = k + 1 == skipSlot ? 0 : ToolMods.moduleId(box.getItem(k + 1));
+        return o;
+    }
+
+    /** O item (modulo ou livro encantado) pode entrar neste encaixe da ferramenta que esta na mesa? */
+    private boolean validFor(ItemStack st, int slot) {
+        ItemStack tool = box.getItem(0);
+        if (tool.isEmpty()) return false;
+        net.minecraft.core.RegistryAccess ra = player.level().registryAccess();
+        int code = ToolMods.isConvertible(st) ? ToolMods.bookCode(tool, st, othersOf(slot), ra) : ToolMods.moduleId(st);
+        return code > 0 && ToolMods.accepts(tool, code, othersOf(slot), ra);
+    }
+
+    private boolean fitsAnySlot(ItemStack st) {
+        for (int k = 1; k <= ToolMods.SLOTS; k++) if (box.getItem(k).isEmpty() && validFor(st, k)) return true;
+        return false;
+    }
+
     private void changed() {
         if (busy || player.level().isClientSide) return;
         busy = true;
         try {
             ItemStack tool = box.getItem(0);
+            net.minecraft.core.RegistryAccess ra = player.level().registryAccess();
             if (tool.isEmpty()) {
-                for (int k = 1; k <= MultiToolItem.SLOTS; k++) box.setItem(k, ItemStack.EMPTY);
+                for (int k = 1; k <= ToolMods.SLOTS; k++) box.setItem(k, ItemStack.EMPTY);
                 lastTool = ItemStack.EMPTY;
             } else if (tool != lastTool) {
                 // ferramenta nova na mesa: mostra os modulos que ela ja tem
-                int[] mods = MultiToolItem.getMods(tool);
-                for (int k = 0; k < MultiToolItem.SLOTS; k++) box.setItem(k + 1, MultiToolItem.moduleItem(mods[k]));
+                int[] mods = ToolMods.getMods(tool);
+                for (int k = 0; k < ToolMods.SLOTS; k++) box.setItem(k + 1, ToolMods.moduleItem(mods[k]));
                 lastTool = tool;
             } else {
-                int[] ids = new int[MultiToolItem.SLOTS];
-                for (int k = 0; k < MultiToolItem.SLOTS; k++) ids[k] = MultiToolItem.moduleId(box.getItem(k + 1));
-                MultiToolItem.setMods(tool, ids, player.level().registryAccess());
+                // livro encantado no encaixe: e consumido e vira um Modulo de Encantamento
+                for (int k = 1; k <= ToolMods.SLOTS; k++) {
+                    ItemStack st = box.getItem(k);
+                    if (ToolMods.isConvertible(st)) {
+                        int code = ToolMods.bookCode(tool, st, othersOf(k), ra);
+                        box.setItem(k, code > 0 ? ToolMods.moduleItem(code) : ItemStack.EMPTY);
+                    }
+                }
+                int[] ids = new int[ToolMods.SLOTS];
+                for (int k = 0; k < ToolMods.SLOTS; k++) ids[k] = ToolMods.moduleId(box.getItem(k + 1));
+                ToolMods.setMods(tool, ids, ra);
             }
         } finally {
             busy = false;
@@ -96,9 +126,9 @@ public class UpgradeMenu extends AbstractContainerMenu {
         ItemStack copy = st.copy();
         if (index < INV_FIRST) {
             if (!this.moveItemStackTo(st, INV_FIRST, INV_END, true)) return ItemStack.EMPTY;
-        } else if (st.getItem() instanceof MultiToolItem) {
+        } else if (ToolMods.isModTool(st)) {
             if (!this.moveItemStackTo(st, 0, 1, false)) return ItemStack.EMPTY;
-        } else if (MultiToolItem.moduleId(st) > 0) {
+        } else if (fitsAnySlot(st)) {
             if (!this.moveItemStackTo(st, 1, INV_FIRST, false)) return ItemStack.EMPTY;
         } else {
             return ItemStack.EMPTY;

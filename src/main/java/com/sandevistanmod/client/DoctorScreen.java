@@ -116,7 +116,8 @@ public class DoctorScreen extends Screen {
 
     /** Esmeraldas que a cirurgia de tudo que esta encaixado custa. */
     private int totalCost() {
-        int sum = Integer.bitCount(pendingMask()) * SandevistanLogic.CLINIC_EMERALDS;
+        int sum = 0;
+        for (int s = 0; s < SandevistanData.SLOT_COUNT; s++) if ((pendingMask() & (1 << s)) != 0) sum += SandevistanData.slotPrice(s, placedVar, placedTier[s]);
         for (int e = 0; e < SandevistanData.EXT_COUNT; e++) {
             int s = SandevistanData.SLOT_COUNT + e;
             if (placed[s] && ClientData.DATA.ext[e] == 0) sum += SandevistanData.extCost(e, placedTier[s], placedEye);
@@ -153,6 +154,9 @@ public class DoctorScreen extends Screen {
             }
             if (e == SandevistanData.EXT_MANTIS_R || e == SandevistanData.EXT_MANTIS_L) {
                 return x.slot() == SandevistanData.EXT_MANTIS_R;
+            }
+            if (e == SandevistanData.EXT_CANNON_R || e == SandevistanData.EXT_CANNON_L) {
+                return x.slot() == SandevistanData.EXT_CANNON_R;
             }
             return x.slot() == e;
         }
@@ -525,7 +529,7 @@ public class DoctorScreen extends Screen {
         float cap = d.capacity();
         float add = pendingLoad();
         gg.drawCenteredString(this.font, add > 0f ? Tx.t("load.preview", Math.round(cap), Math.round(cap + add))
-                : Tx.t("load.title", Math.round(cap)), cx, top + 187, cap + add >= d.loadThreshold() ? 0xFFAA33 : 0x88FFAA);
+                : Tx.t("load.title", Math.round(cap)), cx, top + 187, cap + add > d.loadThreshold() ? 0xFFAA33 : 0x88FFAA);
         ClientOverlay.bar(gg, cx - 100, top + 198, 200, 9, cap / 100f, ClientOverlay.loadColor(cap));
         if (add > 0f) {
             int x1 = cx - 100 + (int) (200 * Math.min(1f, cap / 100f));

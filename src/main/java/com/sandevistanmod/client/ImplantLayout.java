@@ -23,8 +23,8 @@ final class ImplantLayout {
     static final Group[] GROUPS = {
             new Group("group.back", -1, 0, new int[] {SandevistanData.SLOT_BACK, P + SandevistanData.EXT_JET, P + SandevistanData.EXT_INJECTOR}),
             new Group("group.head", 1, 0, new int[] {SandevistanData.SLOT_NEURAL, P + SandevistanData.EXT_SOLAR, P + SandevistanData.EXT_EYE}),
-            new Group("group.armr", -1, 1, new int[] {SandevistanData.SLOT_ARM_R, P + SandevistanData.EXT_MANTIS_R}),
-            new Group("group.arml", 1, 1, new int[] {SandevistanData.SLOT_ARM_L, P + SandevistanData.EXT_MANTIS_L}),
+            new Group("group.armr", -1, 1, new int[] {SandevistanData.SLOT_ARM_R, P + SandevistanData.EXT_MANTIS_R, P + SandevistanData.EXT_CANNON_R}),
+            new Group("group.arml", 1, 1, new int[] {SandevistanData.SLOT_ARM_L, P + SandevistanData.EXT_MANTIS_L, P + SandevistanData.EXT_CANNON_L}),
             new Group("group.bone", -1, 2, new int[] {SandevistanData.SLOT_BONE}),
             new Group("group.nerve", 1, 2, new int[] {SandevistanData.SLOT_NERVE}),
             new Group("group.legr", -1, 3, new int[] {SandevistanData.SLOT_LEG_R, P + SandevistanData.EXT_BOOT_R}),

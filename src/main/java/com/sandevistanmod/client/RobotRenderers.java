@@ -48,6 +48,7 @@ public final class RobotRenderers {
 
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers e) {
+        e.registerEntityRenderer(ModRegistries.TNT_ROCKET.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
         e.registerEntityRenderer(ModRegistries.ROBO_ZUMBI.get(), ctx -> new ZombieRenderer(ctx) {
             @Override
             public ResourceLocation getTextureLocation(Zombie z) {

@@ -288,7 +288,7 @@ public class SandevistanScreen extends Screen {
         // Carga Cibernetica
         float cap = d.capacity();
         gg.drawCenteredString(this.font, Tx.t("load.title", Math.round(cap)), cx, y0 + 170,
-                cap >= d.loadThreshold() ? 0xFFAA33 : 0x88FFAA);
+                cap > d.loadThreshold() ? 0xFFAA33 : 0x88FFAA);
         ClientOverlay.bar(gg, cx - 88, y0 + 182, 176, 9, cap / 100f, ClientOverlay.loadColor(cap));
 
         // chips
@@ -424,7 +424,7 @@ public class SandevistanScreen extends Screen {
         }
         y = y0 + 168;
         float cap = d.capacity();
-        gg.drawString(this.font, Tx.t("load.title", Math.round(cap)), x, y, cap >= d.loadThreshold() ? 0xFFAA33 : 0x88FFAA);
+        gg.drawString(this.font, Tx.t("load.title", Math.round(cap)), x, y, cap > d.loadThreshold() ? 0xFFAA33 : 0x88FFAA);
         if (d.chipMind() > 0f) {
             gg.drawString(this.font, Tx.t("eff.mind", (int) d.chipMind()), x, y + 11, 0x55AAFF);
         }

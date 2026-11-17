@@ -108,9 +108,9 @@ public final class FlightSounds {
         RandomSource r = pl.getRandom();
         if (jet) {
             for (int k = -1; k <= 1; k += 2) {
-                double x = pl.getX() - fx * 0.32 + rx * 0.2 * k;
-                double z = pl.getZ() - fz * 0.32 + rz * 0.2 * k;
-                double y = pl.getY() + 0.5;
+                double x = pl.getX() - fx * 0.33 + rx * 0.225 * k;
+                double z = pl.getZ() - fz * 0.33 + rz * 0.225 * k;
+                double y = pl.getY() + 0.68;
                 mc.level.addParticle(ParticleTypes.FLAME, x, y, z, (r.nextDouble() - 0.5) * 0.04, -0.18, (r.nextDouble() - 0.5) * 0.04);
                 if (r.nextInt(3) == 0) {
                     mc.level.addParticle(ParticleTypes.SMOKE, x, y - 0.1, z, 0, -0.08, 0);

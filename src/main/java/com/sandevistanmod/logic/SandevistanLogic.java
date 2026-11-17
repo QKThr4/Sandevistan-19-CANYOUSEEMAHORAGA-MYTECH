@@ -288,12 +288,13 @@ public final class SandevistanLogic {
             bar(p, Tx.t(ChatFormatting.RED, "lowhp", IMPLANT_HEARTS));
             return false;
         }
-        if (!creative && countEmeralds(p) < CLINIC_EMERALDS) {
-            bar(p, Tx.t(ChatFormatting.RED, "clinic.noemerald", CLINIC_EMERALDS));
+        int cost1 = SandevistanData.slotPrice(slot, variant, tier);
+        if (!creative && countEmeralds(p) < cost1) {
+            bar(p, Tx.t(ChatFormatting.RED, "clinic.noemerald", cost1));
             return false;
         }
         if (!creative) {
-            takeEmeralds(p, CLINIC_EMERALDS);
+            takeEmeralds(p, cost1);
             takeItem(p, item);
         }
         p.hurt(p.damageSources().magic(), IMPLANT_DAMAGE);
@@ -348,7 +349,8 @@ public final class SandevistanLogic {
                 bar(p, Tx.t(ChatFormatting.RED, "lowhp", IMPLANT_HEARTS));
                 return false;
             }
-            int price = CLINIC_EMERALDS * slots.size();
+            int price = 0;
+            for (int s : slots) price += SandevistanData.slotPrice(s, variant, tierIn(tiers, s));
             if (countEmeralds(p) < price) {
                 bar(p, Tx.t(ChatFormatting.RED, "clinic.noemerald", price));
                 return false;
@@ -463,6 +465,7 @@ public final class SandevistanLogic {
             case 21 -> ExtLogic.eye(p, d);
             case 22 -> ExtLogic.toggleInjector(p, d);
             case 23 -> ExtLogic.toggleMantis(p, d);
+            case 24 -> ExtLogic.fireCannon(p, d, false);
             default -> {
                 // 30 a 65: instala a bateria que esta nesse espaco do inventario
                 if (action >= 30 && action < 30 + 36) {
@@ -661,7 +664,7 @@ public final class SandevistanLogic {
         float cap = d.capacity();
         float thr = d.loadThreshold();
         // o Chip de RAM gasta durabilidade (1 a cada 5 s) so enquanto a carga esta na faixa que ele protege
-        if (cap >= SandevistanData.BASE_LOAD_THRESHOLD && d.chipActive(SandevistanData.CHIP_RAM)) {
+        if (cap > SandevistanData.BASE_LOAD_THRESHOLD && d.chipActive(SandevistanData.CHIP_RAM)) {
             d.ramT += dt;
             while (d.ramT >= 5f) {
                 d.ramT -= 5f;
@@ -670,7 +673,7 @@ public final class SandevistanLogic {
         } else {
             d.ramT = 0f;
         }
-        if (cap >= thr) {
+        if (cap > thr) {
             d.loadT += dt;
             while (d.loadT >= 5f) {
                 d.loadT -= 5f;
@@ -1081,7 +1084,7 @@ public final class SandevistanLogic {
             d.insT = 0f;
         }
         // descida: parado e com a carga abaixo do limite, no mesmo ritmo da ciberpsicose (por fase)
-        boolean loadHigh = d.capacity() >= d.loadThreshold();
+        boolean loadHigh = d.capacity() > d.loadThreshold();
         if (d.ins > 0f && !d.active && !loadHigh) {
             d.insDecayT += dt;
             float period = DECAY_SECONDS[phase(d.ins)];

@@ -33,8 +33,8 @@ public final class ItemMeshRenderer extends BlockEntityWithoutLevelRenderer {
         ps.translate(0.5f, 0.5f, 0.5f);
         ps.mulPose(Axis.ZP.rotationDegrees(180f));
         if (jet) {
-            ps.scale(1.05f, 1.05f, 1.05f);
-            ps.translate(0f, -5.8f / 16f, -3.2f / 16f);
+            ps.scale(1.0f, 1.0f, 1.0f);
+            ps.translate(0f, -6.5f / 16f, -3.4f / 16f);
             MeshModel.get("jetpack").render(ps, buffer, light);
         } else {
             ps.scale(0.8f, 0.8f, 0.8f);

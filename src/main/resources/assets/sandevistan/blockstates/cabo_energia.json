@@ -1,8 +1,27 @@
 {
   "multipart": [
     {
+      "when": {
+        "mode": "0"
+      },
       "apply": {
-        "model": "sandevistan:block/cabo_energia_core"
+        "model": "sandevistan:block/cabo_energia_core0"
+      }
+    },
+    {
+      "when": {
+        "mode": "1"
+      },
+      "apply": {
+        "model": "sandevistan:block/cabo_energia_core1"
+      }
+    },
+    {
+      "when": {
+        "mode": "2"
+      },
+      "apply": {
+        "model": "sandevistan:block/cabo_energia_core2"
       }
     },
     {

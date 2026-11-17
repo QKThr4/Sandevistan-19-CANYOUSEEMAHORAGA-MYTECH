@@ -30,7 +30,7 @@ public class GearLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Abs
     private static final float[] FLAME = {0.52f, 0.52f, 0.98f, 0.98f};
     private static final float[] FULL = {0f, 0f, 1f, 1f};
     private static final int BRIGHT = LightTexture.FULL_BRIGHT;
-    static final float JET_SCALE = 1.5f;
+    static final float JET_SCALE = 1.2f;
     /** Sobe a lamina no braco (px): o mecanismo fica no meio do antebraco e a ponta passa um pouco da mao. */
     static final float MANTIS_UP = 4f;
 
@@ -95,9 +95,8 @@ public class GearLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Abs
     /** O jetpack do modelo enviado, 1,5x maior (ancorado na placa das costas); as chamas ficam nos bocais. */
     private static void jetpack(PoseStack ps, MultiBufferSource buffer, int light, float zb, boolean fly, float age) {
         ps.pushPose();
-        ps.translate(0f, 5.8f / 16f, zb / 16f);
-        ps.scale(JET_SCALE, JET_SCALE, JET_SCALE);
-        ps.translate(0f, -5.8f / 16f, 0f);
+        // o modelo (1,2x, ~30% dentro do torso) ja vem posicionado no .bin; so recua com a armadura do peito
+        ps.translate(0f, 0f, (zb - 2.5f) / 16f);
         MeshModel.get("jetpack").render(ps, buffer, light);
         // sem chama modelada: o fogo do jetpack e so de particulas (FlightSounds)
         ps.popPose();

@@ -6,11 +6,11 @@ package com.sandevistanmod.data;
  */
 public enum SandevistanVariant {
     //          nome        slow% seg  carga força haste resist esquiva knock  dano  ar    mitig  tela(ARGB)  silhueta
-    APOGEE("apogee", 85, 30f, 30f, 3, 2, 3, 0.50f, 0.45, 1.0f, 1.0f, 1.0f, 0x1C00FF40, 0x30FF70),
-    FALCON("falcon", 70, 35f, 25f, 2, 2, 2, 0.40f, 0.35, 1.0f, 1.0f, 1.0f, 0x1E00B038, 0x1FA84A),
-    DYNALAR("dynalar", 50, 40f, 20f, 1, 1, 1, 0.30f, 0.25, 1.0f, 1.0f, 1.0f, 0x260A64FF, 0x2F8CFF),
-    ZETATECH("zetatech", 30, 45f, 15f, -1, -1, -1, 0.20f, 0.20, 2.0f, 1.25f, 1.0f, 0x1CB8B48A, 0xC2C68A),
-    QIANT("qiant", 20, 50f, 10f, -1, -1, 3, 0.0f, 0.10, 1.0f, 1.0f, 0.5f, 0x26FF8A1E, 0xFF8A1E);
+    APOGEE("apogee", 85, 30f, 27f, 3, 2, 3, 0.50f, 0.45, 1.0f, 1.0f, 1.0f, 0x1C00FF40, 0x30FF70),
+    FALCON("falcon", 70, 35f, 22f, 2, 2, 2, 0.40f, 0.35, 1.0f, 1.0f, 1.0f, 0x1E00B038, 0x1FA84A),
+    DYNALAR("dynalar", 50, 40f, 17f, 1, 1, 1, 0.30f, 0.25, 1.0f, 1.0f, 1.0f, 0x260A64FF, 0x2F8CFF),
+    ZETATECH("zetatech", 30, 45f, 12f, -1, -1, -1, 0.20f, 0.20, 2.0f, 1.25f, 1.0f, 0x1CB8B48A, 0xC2C68A),
+    QIANT("qiant", 20, 50f, 7f, -1, -1, 3, 0.0f, 0.10, 1.0f, 1.0f, 0.5f, 0x26FF8A1E, 0xFF8A1E);
 
     public final String id;
     /** Quanto desacelera o mundo (%). */

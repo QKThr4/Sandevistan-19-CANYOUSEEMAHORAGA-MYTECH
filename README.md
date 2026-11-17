@@ -243,3 +243,6 @@ Braço de Ferro, Pernas Cibernéticas, Estrutura Óssea, Sistema Nervoso, Coraç
 - Baterias: 2.000 / 6.000 / 10.000 / 15.000 / 30.000 FE; cada uma pede a anterior para ser feita.
 - Geradores não guardam energia: entregam direto ao Carregador encostado (máx. 5 FE/t).
 - JEI: receitas das bancadas aparecem (dependência compileOnly do JEI em build.gradle).
+
+## Credits
+- Jetpack 3D model: "Jetpack - Minecraft" by ollypop567 (https://sketchfab.com/ollypop567), licensed under CC BY 4.0 (http://creativecommons.org/licenses/by/4.0/). Converted/scaled for this mod.

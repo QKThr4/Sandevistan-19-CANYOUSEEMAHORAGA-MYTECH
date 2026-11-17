@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " SX",
+    "S X",
+    " SX"
+  ],
+  "key": {
+    "S": {
+      "item": "sandevistan:lingote_aco"
+    },
+    "X": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "id": "sandevistan:arco_aco",
+    "count": 1
+  }
+}

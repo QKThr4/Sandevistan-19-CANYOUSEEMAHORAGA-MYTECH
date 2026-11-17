@@ -67,7 +67,7 @@ public final class ClientOverlay {
     /** Cor da Carga Cibernetica: verde ate 70%, laranja a partir de 70% (pode dar psicose), vermelho a partir de 90%. */
     public static int loadColor(float load) {
         if (load >= 90f) return 0xFFFF3333;
-        if (load >= ClientData.DATA.loadThreshold()) return 0xFFFF9A22;
+        if (load > ClientData.DATA.loadThreshold()) return 0xFFFF9A22;
         return 0xFF39FF14;
     }
 

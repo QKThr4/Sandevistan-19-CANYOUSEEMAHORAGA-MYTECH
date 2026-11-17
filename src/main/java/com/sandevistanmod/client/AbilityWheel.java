@@ -65,6 +65,13 @@ public final class AbilityWheel {
             Component name = st.getHoverName().copy().append(" ").append(Tx.t(d.mantisOn ? "wheel.on" : "wheel.off"));
             out.add(new Ability(st, name, () -> PacketDistributor.sendToServer(new ActionPayload(23))));
         }
+        int cr = d.extTier(SandevistanData.EXT_CANNON_R);
+        int cl = d.extTier(SandevistanData.EXT_CANNON_L);
+        if (cr != 0 || cl != 0) {
+            ItemStack st = new ItemStack(cr != 0 ? ModRegistries.extItem(SandevistanData.EXT_CANNON_R, cr, 0)
+                    : ModRegistries.extItem(SandevistanData.EXT_CANNON_L, cl, 0));
+            out.add(new Ability(st, st.getHoverName(), () -> PacketDistributor.sendToServer(new ActionPayload(24))));
+        }
         if (d.extTier(SandevistanData.EXT_INJECTOR) != 0) {
             ItemStack st = new ItemStack(ModRegistries.extItem(SandevistanData.EXT_INJECTOR, d.ext[SandevistanData.EXT_INJECTOR], 0));
             Component name = st.getHoverName().copy().append(" ").append(Tx.t(d.injOn ? "wheel.on" : "wheel.off"));

@@ -50,7 +50,7 @@ public final class RipperdocTalk {
         String ctx;
         if (perm < 10f) ctx = "greet.crit";
         else if (perm < 30f) ctx = "greet.low";
-        else if (d.capacity() >= d.loadThreshold()) ctx = "greet.load";
+        else if (d.capacity() > d.loadThreshold()) ctx = "greet.load";
         else if (implants(d) >= 5) ctx = "greet.many";
         else if (perm < 60f) ctx = "greet.mind";
         else if (d.psy > 0f) ctx = "greet.psy";
@@ -62,7 +62,7 @@ public final class RipperdocTalk {
 
     /** Fala logo depois de uma cirurgia. */
     public static void afterImplant(ServerPlayer p, SandevistanData d) {
-        if (d.capacity() >= d.loadThreshold()) say(p, "load.after");
+        if (d.capacity() > d.loadThreshold()) say(p, "load.after");
         else if (implants(d) >= 5) say(p, "after.many");
         else say(p, "after.ok");
     }

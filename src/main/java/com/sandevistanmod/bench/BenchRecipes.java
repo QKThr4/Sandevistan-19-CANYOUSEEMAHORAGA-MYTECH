@@ -218,6 +218,10 @@ public final class BenchRecipes {
         out.add(r(ModRegistries.INJETORES.get(0).get(), 1, i(ModRegistries.SERINGA, 2), servo, placa, resina, cap, melh2));
         out.add(r(ModRegistries.INJETORES.get(1).get(), 1, i(ModRegistries.INJETORES.get(0).get(), 1), melh3, cristal, chip));
         out.add(r(ModRegistries.INJETORES.get(2).get(), 1, i(ModRegistries.INJETORES.get(1).get(), 1), alta3, nucleo, chip));
+        // Canhao de Braco (um por braco; faca duas para os dois)
+        out.add(r(ModRegistries.CANHOES.get(0).get(), 1, i(Items.DISPENSER, 1), i(ModRegistries.LINGOTE_ACO, 6), i(Items.TNT, 2), servo, cap, melh3, chip));
+        out.add(r(ModRegistries.CANHOES.get(1).get(), 1, i(ModRegistries.CANHOES.get(0).get(), 1), alta3, i(ModRegistries.LIGA, 3), servo, i(Items.TNT, 2)));
+        out.add(r(ModRegistries.CANHOES.get(2).get(), 1, i(ModRegistries.CANHOES.get(1).get(), 1), alta3, i(ModRegistries.LIGA, 3), nucleo, i(Items.TNT, 4), chip));
 
         // implantes (tier I: componentes comuns; II: o implante anterior + melhorados; III: o anterior + alta precisao)
         int[] slots = {SandevistanData.SLOT_ARM_R, SandevistanData.SLOT_LEG_R, SandevistanData.SLOT_BONE,
@@ -281,18 +285,36 @@ public final class BenchRecipes {
 
         // Ferramenta Multiuso e modulos da Mesa de Upgrades (3 tiers por modulo)
         Req nucleo2 = i(ModRegistries.NUCLEO_COMP, 1);
-        out.add(r(ModRegistries.MULTITOOL.get(), 1, i(Items.DIAMOND_PICKAXE, 1), i(Items.DIAMOND_AXE, 1), i(Items.DIAMOND_SHOVEL, 1),
-                i(Items.NETHERITE_INGOT, 1), i(ModRegistries.LIGA, 3), i(ModRegistries.LINGOTE_ACO, 4), i(ModRegistries.NUCLEO_COMP, 1)));
+        out.add(r(ModRegistries.MULTITOOL.get(), 1, i(ModRegistries.PICARETA_ACO, 1), i(ModRegistries.MACHADO_ACO, 1), i(ModRegistries.PA_ACO, 1),
+                i(Items.DIAMOND, 3), i(ModRegistries.LIGA, 3), i(ModRegistries.LINGOTE_ACO, 4), i(ModRegistries.NUCLEO_COMP, 1)));
         out.add(r(ModRegistries.MOD_VELOCIDADE.get(0).get(), 1, servo, cap, i(ModRegistries.LINGOTE_ACO, 2), chip, i(Items.REDSTONE, 4)));
         out.add(r(ModRegistries.MOD_DANO.get(0).get(), 1, i(ModRegistries.LIGA, 2), fios2, i(ModRegistries.LINGOTE_ACO, 2), chip, i(Items.DIAMOND, 1)));
         out.add(r(ModRegistries.MOD_EFICIENCIA.get(0).get(), 1, servo, fios2, placa, i(ModRegistries.LINGOTE_ACO, 2), chip));
         out.add(r(ModRegistries.MOD_FORTUNA.get(0).get(), 1, i(ModRegistries.NUCLEO_COMP, 1), i(Items.EMERALD, 4), i(Items.DIAMOND, 2), i(ModRegistries.CHIP, 2), i(ModRegistries.LINGOTE_ACO, 3)));
-        Req[] up2 = {i(Items.REDSTONE_BLOCK, 1), i(Items.DIAMOND, 2), i(Items.AMETHYST_SHARD, 4), i(Items.EMERALD, 4)};
-        Req[] up3 = {i(Items.GLOWSTONE, 2), i(Items.NETHERITE_INGOT, 1), i(Items.DIAMOND, 2), i(Items.EMERALD_BLOCK, 1)};
-        for (int t = 0; t < 4; t++) {
+        out.add(r(ModRegistries.MOD_DURAB.get(0).get(), 1, chip, cap, i(ModRegistries.LINGOTE_ACO, 2), i(ModRegistries.LIGA, 2), i(Items.OBSIDIAN, 1)));
+        out.add(r(ModRegistries.MOD_CONGELANTE.get(0).get(), 1, chip, cap, i(ModRegistries.LINGOTE_ACO, 2), i(Items.BLUE_ICE, 2), i(Items.SNOW_BLOCK, 4)));
+        out.add(r(ModRegistries.MOD_VENENOSO.get(0).get(), 1, chip, cap, i(ModRegistries.LINGOTE_ACO, 2), i(Items.SPIDER_EYE, 4), i(Items.FERMENTED_SPIDER_EYE, 2)));
+        out.add(r(ModRegistries.MOD_WITHER.get(0).get(), 1, chip, cap, i(ModRegistries.LINGOTE_ACO, 2), i(Items.WITHER_ROSE, 2), i(Items.SOUL_SAND, 4)));
+        out.add(r(ModRegistries.MOD_TROVAO.get(0).get(), 1, chip, cap, i(ModRegistries.LINGOTE_ACO, 2), i(Items.LIGHTNING_ROD, 2), i(Items.COPPER_BLOCK, 1)));
+        Req[][] up2 = {{i(Items.REDSTONE_BLOCK, 1)}, {i(Items.DIAMOND, 2)}, {i(Items.AMETHYST_SHARD, 4)}, {i(Items.EMERALD, 4)},
+                {i(Items.OBSIDIAN, 2), i(Items.DIAMOND, 1)}, {i(Items.BLUE_ICE, 4), i(Items.DIAMOND, 1)}, {i(Items.FERMENTED_SPIDER_EYE, 4), i(Items.DIAMOND, 1)},
+                {i(Items.SOUL_SAND, 8), i(Items.DIAMOND, 1)}, {i(Items.LIGHTNING_ROD, 2), i(Items.DIAMOND, 1)}};
+        Req[][] up3 = {{i(Items.GLOWSTONE, 2)}, {i(Items.NETHERITE_INGOT, 1), i(Items.DIAMOND, 2)}, {i(Items.DIAMOND, 2)}, {i(Items.EMERALD_BLOCK, 1)},
+                {i(Items.NETHERITE_INGOT, 1), i(Items.DIAMOND, 2)}, {i(Items.BLUE_ICE, 8), i(Items.NETHERITE_INGOT, 1)}, {i(Items.FERMENTED_SPIDER_EYE, 8), i(Items.NETHERITE_INGOT, 1)},
+                {i(Items.WITHER_SKELETON_SKULL, 1), i(Items.NETHERITE_INGOT, 1)}, {i(Items.LIGHTNING_ROD, 4), i(Items.NETHERITE_INGOT, 1)}};
+        for (int t = 0; t < ModRegistries.MODULOS.size(); t++) {
             List<net.neoforged.neoforge.registries.DeferredItem<net.minecraft.world.item.Item>> mods = ModRegistries.MODULOS.get(t);
-            out.add(r(mods.get(1).get(), 1, i(mods.get(0), 1), melh3, servo, cap, up2[t]));
-            out.add(r(mods.get(2).get(), 1, i(mods.get(1), 1), alta3, nucleo2, chip, up3[t]));
+            out.add(new Recipe(Arrays.asList(cat(new Req[] {i(mods.get(0), 1), melh3, servo, cap}, up2[t])), new ItemStack(mods.get(1).get())));
+            out.add(new Recipe(Arrays.asList(cat(new Req[] {i(mods.get(1), 1), alta3, nucleo2, chip}, up3[t])), new ItemStack(mods.get(2).get())));
+        }
+
+        // Ferramentas de Aco que precisam da bancada (tridente: melhora o tridente vanilla e mantem os encantamentos) e Ferramentas Ciber
+        out.add(r(ModRegistries.MACA_ACO.get(), 1, i(ModRegistries.LINGOTE_ACO, 6), i(Items.IRON_BLOCK, 1), i(Items.STICK, 1), i(ModRegistries.LIGA, 2)));
+        out.add(r(ModRegistries.TRIDENTE_ACO.get(), 1, new Req(st -> st.is(Items.TRIDENT), 1, new ItemStack(Items.TRIDENT), null),
+                i(ModRegistries.LINGOTE_ACO, 4), i(ModRegistries.LIGA, 2)));
+        for (int k = 0; k < ModRegistries.FERRAMENTAS_CIBER.size(); k++) {
+            out.add(r(ModRegistries.FERRAMENTAS_CIBER.get(k).get(), 1, i(ModRegistries.FERRAMENTAS_ACO.get(k), 1), i(ModRegistries.COMP_ALTA, 3),
+                    i(ModRegistries.NUCLEO_COMP, 1), chip));
         }
 
         // Sandevistan Apogee: tres pecas (9 itens cada) e a montagem final

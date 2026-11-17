@@ -157,6 +157,109 @@ public final class ExtLogic {
         return true;
     }
 
+    // ---------- Canhao de Braco ----------
+    private static int countTnt(ServerPlayer p) {
+        int n = 0;
+        for (ItemStack st : p.getInventory().items) if (st.is(net.minecraft.world.item.Items.TNT)) n += st.getCount();
+        for (ItemStack st : p.getInventory().offhand) if (st.is(net.minecraft.world.item.Items.TNT)) n += st.getCount();
+        return n;
+    }
+
+    private static void takeTnt(ServerPlayer p, int n) {
+        for (ItemStack st : p.getInventory().items) {
+            if (n <= 0) return;
+            if (st.is(net.minecraft.world.item.Items.TNT)) {
+                int k = Math.min(n, st.getCount());
+                st.shrink(k);
+                n -= k;
+            }
+        }
+        for (ItemStack st : p.getInventory().offhand) {
+            if (n <= 0) return;
+            if (st.is(net.minecraft.world.item.Items.TNT)) {
+                int k = Math.min(n, st.getCount());
+                st.shrink(k);
+                n -= k;
+            }
+        }
+    }
+
+    /**
+     * Dispara o(s) canhao(oes): cada um gasta 1 TNT do inventario e 400 FE; recarga de 15 s compartilhada.
+     * Com os dois bracos, os dois disparam juntos. Alvo opcional (disparo automatico da psicose).
+     */
+    public static void fireCannon(ServerPlayer p, SandevistanData d, boolean auto) {
+        fireCannon(p, d, auto, null);
+    }
+
+    public static void fireCannon(ServerPlayer p, SandevistanData d, boolean auto, net.minecraft.world.entity.LivingEntity target) {
+        int tr = d.extTier(SandevistanData.EXT_CANNON_R);
+        int tl = d.extTier(SandevistanData.EXT_CANNON_L);
+        int n = (tr != 0 ? 1 : 0) + (tl != 0 ? 1 : 0);
+        if (n == 0) return;
+        if (d.cannonCd > 0f) {
+            if (!auto) p.displayClientMessage(Tx.t(ChatFormatting.RED, "cannon.cd", Math.round(d.cannonCd)), true);
+            return;
+        }
+        boolean creative = p.getAbilities().instabuild;
+        int tnt = creative ? n : countTnt(p);
+        if (tnt <= 0) {
+            if (!auto) p.displayClientMessage(Tx.t(ChatFormatting.RED, "cannon.notnt"), true);
+            return;
+        }
+        // quantos canhoes conseguem disparar (TNT e energia)
+        int shots = Math.min(n, tnt);
+        if (!creative) {
+            if (!d.hasEnergy()) shots = 0;
+            else shots = Math.min(shots, (int) (d.batEnergy / SandevistanData.CANNON_FE));
+        }
+        if (shots <= 0) {
+            if (!auto) p.displayClientMessage(Tx.t(ChatFormatting.RED, "ext.noenergy"), true);
+            return;
+        }
+        if (!creative) {
+            takeTnt(p, shots);
+            SandevistanLogic.drainEnergy(d, SandevistanData.CANNON_FE * shots);
+        }
+        net.minecraft.world.phys.Vec3 look = p.getLookAngle();
+        if (target != null) look = target.getBoundingBox().getCenter().subtract(p.getEyePosition()).normalize();
+        net.minecraft.world.phys.Vec3 right = look.cross(new net.minecraft.world.phys.Vec3(0, 1, 0)).normalize();
+        boolean[] sides = n == 2 ? new boolean[] {true, false} : new boolean[] {tr != 0};
+        int fired = 0;
+        for (boolean isRight : sides) {
+            if (fired >= shots) break;
+            int tier = isRight ? tr : tl;
+            if (tier == 0) continue;
+            TntRocket r = new TntRocket(p.level(), p);
+            double off = isRight ? 0.4 : -0.4;
+            r.setPos(p.getX() + right.x * off + look.x * 0.6, p.getEyeY() - 0.25 + look.y * 0.6, p.getZ() + right.z * off + look.z * 0.6);
+            r.shoot(look.x, look.y, look.z, SandevistanData.CANNON_SPEED[Math.min(2, tier - 1)], 0f);
+            p.level().addFreshEntity(r);
+            fired++;
+        }
+        d.cannonCd = SandevistanData.CANNON_COOLDOWN;
+        p.level().playSound(null, p.blockPosition(), net.minecraft.sounds.SoundEvents.FIREWORK_ROCKET_LAUNCH, net.minecraft.sounds.SoundSource.PLAYERS, 1.2f, 0.7f);
+        SandevistanLogic.send(p, d);
+    }
+
+    /** Recarga do canhao e, no apagao da ciberpsicose, disparo automatico contra o alvo mais proximo a mais de 8 blocos. */
+    private static void cannonTick(ServerPlayer p, SandevistanData d, float dt) {
+        if (d.cannonCd > 0f) d.cannonCd = Math.max(0f, d.cannonCd - dt);
+        if (!d.blind || d.cannonCd > 0f || p.tickCount % 10 != 0) return;
+        if (d.extTier(SandevistanData.EXT_CANNON_R) == 0 && d.extTier(SandevistanData.EXT_CANNON_L) == 0) return;
+        net.minecraft.world.entity.LivingEntity best = null;
+        double bd = 1e9;
+        for (net.minecraft.world.entity.LivingEntity e : p.level().getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,
+                p.getBoundingBox().inflate(40.0), x -> x != p && x.isAlive() && !(x instanceof net.minecraft.world.entity.decoration.ArmorStand))) {
+            double dist = e.distanceToSqr(p);
+            if (dist > 64.0 && dist < bd && p.hasLineOfSight(e)) {
+                bd = dist;
+                best = e;
+            }
+        }
+        if (best != null) fireCannon(p, d, true, best);
+    }
+
     // ---------- acoes do jogador ----------
     public static void xray(ServerPlayer p, SandevistanData d) {
         int tier = d.extTier(SandevistanData.EXT_XRAY);
@@ -241,6 +344,7 @@ public final class ExtLogic {
         Quests.tick(p, d, dt);
         energyTick(p, d, dt);
         mantisTick(d, dt);
+        cannonTick(p, d, dt);
         injectorTick(p, d, dt);
         flight(p, d, dt);
         glide(p, d, dt);

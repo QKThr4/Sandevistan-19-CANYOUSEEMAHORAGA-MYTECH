@@ -49,16 +49,16 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final int SLOT_COUNT = 9;
 
     /** Quanto cada implante soma na Carga Cibernetica (%) e cada chip. */
-    public static final float LOAD_SANDEVISTAN = 30f;
-    public static final float LOAD_ARM = 10f;
+    public static final float LOAD_SANDEVISTAN = 27f;
+    public static final float LOAD_ARM = 8f;
     public static final float LOAD_NEURAL = 0f;
     /** Estrutura Ossea Reforcada e Sistema Nervoso Aprimorado. */
-    public static final float LOAD_BONE = 5f;
-    public static final float LOAD_NERVE = 5f;
+    public static final float LOAD_BONE = 3f;
+    public static final float LOAD_NERVE = 3f;
     /** Coracao de Ferro (5%) e cada Perna Cibernetica (10%). */
-    public static final float LOAD_HEART = 5f;
-    public static final float LOAD_LEG = 10f;
-    public static final float LOAD_CHIP = 5f;
+    public static final float LOAD_HEART = 3f;
+    public static final float LOAD_LEG = 8f;
+    public static final float LOAD_CHIP = 4f;
     /** Mente permanente que cada chip inserido tira e segundos para ele baixar antes de funcionar. */
     public static final float CHIP_MIND = 5f;
     public static final float CHIP_LOAD_SECONDS = 10f;
@@ -76,7 +76,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final float[] RAM_BONUS = {5f, 7f, 10f};
     /** Durabilidade de cada chip por tipo e tier (1 uso = 1 de durabilidade); o de Mineracao nao tem tiers. */
     private static final int[][] CHIP_DURABILITY = {
-            {0, 0, 0}, {800, 900, 1000}, {500, 600, 700}, {2000, 2000, 2000}, {400, 500, 600}, {800, 800, 800}};
+            {0, 0, 0}, {800, 900, 1000}, {500, 600, 700}, {2000, 2000, 2000}, {400, 500, 600}, {1200, 1200, 1200}};
     /** Mente permanente que cada chip tira, por tier. */
     private static final float[] CHIP_MIND_TIER = {5f, 4f, 3f};
 
@@ -135,8 +135,8 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final double[] NERVE_ATTACK = {0.12, 0.15, 0.18};
     public static final double[] HEART_HP = {10.0, 12.0, 14.0};
     public static final double[] HEART_HEAL = {0.10, 0.15, 0.20};
-    private static final float[] LOAD_BIG_T = {9f, 11f, 13f};
-    private static final float[] LOAD_SMALL_T = {4f, 5f, 6f};
+    private static final float[] LOAD_BIG_T = {8f, 9f, 11f};
+    private static final float[] LOAD_SMALL_T = {3f, 4f, 5f};
 
     public static double at(double[] arr, int tier) {
         return arr[clampTier(tier) - 1];
@@ -457,7 +457,9 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final int EXT_MANTIS_R = 8;
     public static final int EXT_MANTIS_L = 9;
     public static final int EXT_INJECTOR = 10;
-    public static final int EXT_COUNT = 11;
+    public static final int EXT_CANNON_R = 11;
+    public static final int EXT_CANNON_L = 12;
+    public static final int EXT_COUNT = 13;
     /** 0 = vazio; senao o tier (1 a 4) do implante naquele encaixe. */
     public final int[] ext = new int[EXT_COUNT];
     /** Tipo do par de olhos: 1 Zoom, 2 Tatico, 3 Laser, 4 Visao Noturna/Termica (0 sem olhos). */
@@ -510,9 +512,10 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final float[] LASER_DAMAGE = {7f, 8f, 9f};
     public static final float[] LASER_CHARGE = {1.5f, 1.2f, 0.9f};
     public static final int[] VISION_RANGE = {16, 24, 32};
-    private static final float[][] EXT_LOAD = {{4f, 5f, 6f, 6f}, {4f, 5f, 6f, 6f}, {8f, 10f, 12f, 15f}, {3f, 4f, 5f, 5f}, {5f, 6f, 7f, 7f},
-            {0f, 0f, 0f, 0f}, {3f, 4f, 5f, 5f}, {8f, 10f, 12f, 15f}, {7f, 8f, 9f, 11f}, {7f, 8f, 9f, 11f}, {3f, 4f, 5f, 5f}};
-    private static final float[][] EYE_LOAD = {{3f, 3f, 4f, 4f}, {5f, 5f, 5f, 5f}, {5f, 6f, 7f, 7f}, {4f, 5f, 5f, 5f}};
+    private static final float[][] EXT_LOAD = {{3f, 4f, 5f, 5f}, {3f, 4f, 5f, 5f}, {7f, 8f, 10f, 13f}, {2f, 3f, 4f, 4f}, {4f, 5f, 6f, 6f},
+            {0f, 0f, 0f, 0f}, {2f, 3f, 4f, 4f}, {7f, 8f, 10f, 13f}, {6f, 7f, 8f, 9f}, {6f, 7f, 8f, 9f}, {2f, 3f, 4f, 4f},
+            {8f, 9f, 9f, 9f}, {8f, 9f, 9f, 9f}};
+    private static final float[][] EYE_LOAD = {{2f, 2f, 3f, 3f}, {4f, 4f, 4f, 4f}, {4f, 5f, 6f, 6f}, {3f, 4f, 4f, 4f}};
     private static final int[][] EXT_COST = {{10, 14, 18, 18}, {10, 14, 18, 18}, {16, 22, 28, 64}, {8, 12, 16, 16}, {10, 14, 18, 18},
             {0, 0, 0, 0}, {10, 14, 18, 18}, {30, 40, 50, 120}, {14, 18, 22, 48}, {14, 18, 22, 48}, {10, 14, 18, 18}};
     private static final int[][] EYE_COST = {{8, 12, 16, 16}, {12, 16, 20, 20}, {14, 18, 24, 24}, {10, 14, 18, 18}};
@@ -553,6 +556,11 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public transient float injPillCd;
     public transient float injImmunoCd;
     public transient boolean lowWarned;
+    /** Recarga (s) do Canhao de Braco, compartilhada entre os dois bracos. */
+    public static final float CANNON_COOLDOWN = 15f;
+    public static final float[] CANNON_SPEED = {1.4f, 2.0f, 2.6f};
+    public static final float CANNON_FE = 400f;
+    public transient float cannonCd;
     public transient float solarFrac;
 
     /** Carga Cibernetica de um implante extra (o par de olhos depende do tipo). */
@@ -562,13 +570,15 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
         return EXT_LOAD[Math.max(0, Math.min(EXT_COUNT - 1, slot))][i];
     }
 
-    /** Preco em esmeraldas para o Ripperdoc implantar. */
+    /** Preco em esmeraldas para o Ripperdoc implantar: igual a Carga Cibernetica do implante (minimo 1). */
     public static int extCost(int slot, int tier, int eyeType) {
-        int i = clampExtTier(tier) - 1;
-        int base = slot == EXT_EYE ? EYE_COST[Math.max(1, Math.min(4, eyeType)) - 1][i]
-                : EXT_COST[Math.max(0, Math.min(EXT_COUNT - 1, slot))][i];
-        // metade do preco antigo, e nada custa mais de 10 esmeraldas
-        return Math.min(10, Math.max(1, (base + 1) / 2));
+        return Math.max(1, Math.round(extLoad(slot, tier, eyeType)));
+    }
+
+    /** Preco em esmeraldas de um implante de corpo: igual a sua Carga (Link Neural custa 1). */
+    public static int slotPrice(int slot, int variant, int tier) {
+        float l = slot == SLOT_BACK ? SandevistanVariant.of(variant).load : loadOf(slot, tier);
+        return Math.max(1, Math.round(l));
     }
 
     /** Quantos implantes que gastam energia estao instalados (cada um aumenta o consumo dos outros em 10%). */

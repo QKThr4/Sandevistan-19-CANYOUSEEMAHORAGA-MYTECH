@@ -195,7 +195,43 @@ public final class ModRegistries {
     public static final List<DeferredItem<Item>> MOD_DANO = List.of(plain("modulo_dano"), plain("modulo_dano_2"), plain("modulo_dano_3"));
     public static final List<DeferredItem<Item>> MOD_EFICIENCIA = List.of(plain("modulo_eficiencia"), plain("modulo_eficiencia_2"), plain("modulo_eficiencia_3"));
     public static final List<DeferredItem<Item>> MOD_FORTUNA = List.of(plain("modulo_fortuna"), plain("modulo_fortuna_2"), plain("modulo_fortuna_3"));
-    public static final List<List<DeferredItem<Item>>> MODULOS = List.of(MOD_VELOCIDADE, MOD_DANO, MOD_EFICIENCIA, MOD_FORTUNA);
+    public static final List<DeferredItem<Item>> MOD_DURAB = List.of(plain("modulo_durabilidade"), plain("modulo_durabilidade_2"), plain("modulo_durabilidade_3"));
+    public static final List<DeferredItem<Item>> MOD_CONGELANTE = List.of(plain("modulo_congelante"), plain("modulo_congelante_2"), plain("modulo_congelante_3"));
+    public static final List<DeferredItem<Item>> MOD_VENENOSO = List.of(plain("modulo_venenoso"), plain("modulo_venenoso_2"), plain("modulo_venenoso_3"));
+    public static final List<DeferredItem<Item>> MOD_WITHER = List.of(plain("modulo_wither"), plain("modulo_wither_2"), plain("modulo_wither_3"));
+    public static final List<DeferredItem<Item>> MOD_TROVAO = List.of(plain("modulo_trovejante"), plain("modulo_trovejante_2"), plain("modulo_trovejante_3"));
+    /** Tipos 1..9 (codigo = tipo*10 + tier): velocidade, dano, eficiencia, fortuna, durabilidade, congelante, venenoso, wither, trovejante. */
+    public static final List<List<DeferredItem<Item>>> MODULOS = List.of(MOD_VELOCIDADE, MOD_DANO, MOD_EFICIENCIA, MOD_FORTUNA,
+            MOD_DURAB, MOD_CONGELANTE, MOD_VENENOSO, MOD_WITHER, MOD_TROVAO);
+    /** Modulo de encantamento: criado na Mesa de Upgrades a partir de um livro encantado (guarda o encantamento e o nivel). */
+    public static final DeferredItem<Item> MOD_ENCANTO = ITEMS.register("modulo_encantamento",
+            () -> new com.sandevistanmod.tool.EnchantModuleItem(new Item.Properties().stacksTo(1)));
+
+    // ---- Ferramentas de Aco e Ciber ----
+    public static final DeferredItem<Item> ESPADA_ACO = ITEMS.register("espada_aco", com.sandevistanmod.tool.ModTools::steelSword);
+    public static final DeferredItem<Item> PICARETA_ACO = ITEMS.register("picareta_aco", com.sandevistanmod.tool.ModTools::steelPick);
+    public static final DeferredItem<Item> MACHADO_ACO = ITEMS.register("machado_aco", com.sandevistanmod.tool.ModTools::steelAxe);
+    public static final DeferredItem<Item> PA_ACO = ITEMS.register("pa_aco", com.sandevistanmod.tool.ModTools::steelShovel);
+    public static final DeferredItem<Item> ENXADA_ACO = ITEMS.register("enxada_aco", com.sandevistanmod.tool.ModTools::steelHoe);
+    public static final DeferredItem<Item> ARCO_ACO = ITEMS.register("arco_aco", com.sandevistanmod.tool.ModTools::steelBow);
+    public static final DeferredItem<Item> BESTA_ACO = ITEMS.register("besta_aco", com.sandevistanmod.tool.ModTools::steelCrossbow);
+    public static final DeferredItem<Item> TRIDENTE_ACO = ITEMS.register("tridente_aco", com.sandevistanmod.tool.ModTools::steelTrident);
+    public static final DeferredItem<Item> MACA_ACO = ITEMS.register("maca_aco", com.sandevistanmod.tool.ModTools::steelMace);
+    public static final DeferredItem<Item> FLECHA_ACO = ITEMS.register("flecha_aco", () -> new com.sandevistanmod.tool.ModTools.SteelArrow(new Item.Properties()));
+    public static final DeferredItem<Item> ESPADA_CIBER = ITEMS.register("espada_ciber", com.sandevistanmod.tool.ModTools.CySword::new);
+    public static final DeferredItem<Item> PICARETA_CIBER = ITEMS.register("picareta_ciber", com.sandevistanmod.tool.ModTools.CyPick::new);
+    public static final DeferredItem<Item> MACHADO_CIBER = ITEMS.register("machado_ciber", com.sandevistanmod.tool.ModTools.CyAxe::new);
+    public static final DeferredItem<Item> PA_CIBER = ITEMS.register("pa_ciber", com.sandevistanmod.tool.ModTools.CyShovel::new);
+    public static final DeferredItem<Item> ENXADA_CIBER = ITEMS.register("enxada_ciber", com.sandevistanmod.tool.ModTools.CyHoe::new);
+    public static final DeferredItem<Item> ARCO_CIBER = ITEMS.register("arco_ciber", com.sandevistanmod.tool.ModTools.CyBow::new);
+    public static final DeferredItem<Item> BESTA_CIBER = ITEMS.register("besta_ciber", com.sandevistanmod.tool.ModTools.CyCrossbow::new);
+    public static final DeferredItem<Item> TRIDENTE_CIBER = ITEMS.register("tridente_ciber", com.sandevistanmod.tool.ModTools.CyTrident::new);
+    public static final DeferredItem<Item> MACA_CIBER = ITEMS.register("maca_ciber", com.sandevistanmod.tool.ModTools.CyMace::new);
+    /** Aco: espada, picareta, machado, pa, enxada, arco, besta, tridente, maca, flecha; Ciber: os mesmos 9 sem a flecha. */
+    public static final List<DeferredItem<Item>> FERRAMENTAS_ACO = List.of(ESPADA_ACO, PICARETA_ACO, MACHADO_ACO, PA_ACO, ENXADA_ACO,
+            ARCO_ACO, BESTA_ACO, TRIDENTE_ACO, MACA_ACO, FLECHA_ACO);
+    public static final List<DeferredItem<Item>> FERRAMENTAS_CIBER = List.of(ESPADA_CIBER, PICARETA_CIBER, MACHADO_CIBER, PA_CIBER, ENXADA_CIBER,
+            ARCO_CIBER, BESTA_CIBER, TRIDENTE_CIBER, MACA_CIBER);
     public static final DeferredBlock<BenchBlock> BANCADA_MONTAGEM = bench("bancada_montagem", BenchBlock.ASSEMBLY);
     public static final DeferredBlock<BenchBlock> BANCADA_MEDICINAL = bench("bancada_medicinal", BenchBlock.MEDICINAL);
     public static final DeferredBlock<BenchBlock> RECICLADOR = bench("reciclador_sucata", BenchBlock.RECYCLER);
@@ -302,6 +338,8 @@ public final class ModRegistries {
             new Object[][] {{20}, {35}, {55}, {90}});
     public static final List<DeferredItem<ExtItem>> MANTIS = extTiers("lamina_mantis", SandevistanData.EXT_MANTIS_R, 0, "tooltip.ext.mantis",
             new Object[][] {{5}, {6}, {7}, {9}});
+    public static final List<DeferredItem<ExtItem>> CANHOES = extTiers("canhao_de_braco", SandevistanData.EXT_CANNON_R, 0, "tooltip.ext.cannon",
+            new Object[][] {{1}, {2}, {3}});
     public static final List<DeferredItem<ExtItem>> INJETORES = extTiers("injetor_automatico", SandevistanData.EXT_INJECTOR, 0, "tooltip.ext.injector",
             new Object[][] {{70, 40}, {60, 35}, {50, 30}});
     public static final List<DeferredItem<ExtItem>> SCANNER = extTiers("scanner_minerios", SandevistanData.EXT_XRAY, 0, "tooltip.ext.xray",
@@ -331,6 +369,8 @@ public final class ModRegistries {
                 return REATORES.get(Math.min(i, REATORES.size() - 1)).get();
             case SandevistanData.EXT_MANTIS_R, SandevistanData.EXT_MANTIS_L:
                 return MANTIS.get(Math.min(i, MANTIS.size() - 1)).get();
+            case SandevistanData.EXT_CANNON_R, SandevistanData.EXT_CANNON_L:
+                return CANHOES.get(Math.min(i, CANHOES.size() - 1)).get();
             case SandevistanData.EXT_INJECTOR:
                 return INJETORES.get(Math.min(i, INJETORES.size() - 1)).get();
             default:
@@ -348,6 +388,10 @@ public final class ModRegistries {
         return ENTITIES.register(name, () -> net.minecraft.world.entity.EntityType.Builder.of(factory, cat).sized(w, h)
                 .clientTrackingRange(range).build(name));
     }
+
+    public static final Supplier<net.minecraft.world.entity.EntityType<com.sandevistanmod.logic.TntRocket>> TNT_ROCKET = ENTITIES.register("foguete_tnt",
+            () -> net.minecraft.world.entity.EntityType.Builder.<com.sandevistanmod.logic.TntRocket>of(com.sandevistanmod.logic.TntRocket::new,
+                    net.minecraft.world.entity.MobCategory.MISC).sized(0.4f, 0.4f).clientTrackingRange(8).updateInterval(2).build("foguete_tnt"));
 
     public static final Supplier<net.minecraft.world.entity.EntityType<RoboZombie>> ROBO_ZUMBI =
             entity("robo_zumbi", RoboZombie::new, net.minecraft.world.entity.MobCategory.MONSTER, 0.6f, 1.95f, 8);
@@ -503,6 +547,9 @@ public final class ModRegistries {
                         out.accept(MESA_UPGRADES_ITEM.get());
                         out.accept(MULTITOOL.get());
                         for (List<DeferredItem<Item>> mods : MODULOS) for (DeferredItem<Item> it : mods) out.accept(it.get());
+                        out.accept(MOD_ENCANTO.get());
+                        for (DeferredItem<Item> it : FERRAMENTAS_ACO) out.accept(it.get());
+                        for (DeferredItem<Item> it : FERRAMENTAS_CIBER) out.accept(it.get());
                         for (DeferredItem<BlockItem> it : ENERGY_ITEMS) out.accept(it.get());
                         out.accept(CABO_ITEM.get());
                         out.accept(BATERIA_ARMAZ_ITEM.get());
@@ -513,6 +560,7 @@ public final class ModRegistries {
                         for (DeferredItem<ExtItem> it : SOLARES) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : REATORES) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : MANTIS) out.accept(it.get());
+                        for (DeferredItem<ExtItem> it : CANHOES) out.accept(it.get());
                         for (DeferredItem<ExtItem> it : INJETORES) out.accept(it.get());
                         out.accept(BOBINA_FUSAO.get());
                         out.accept(MATRIZ_CONTENCAO.get());
