@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sandevistan:item/canhao_de_braco_3"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:item/bow",
+  "textures": {
+    "layer0": "minecraft:item/bow"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 1
+      },
+      "model": "sandevistan:item/arco_aco_pulling_0"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.65
+      },
+      "model": "sandevistan:item/arco_aco_pulling_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.9
+      },
+      "model": "sandevistan:item/arco_aco_pulling_2"
+    }
+  ]
+}
