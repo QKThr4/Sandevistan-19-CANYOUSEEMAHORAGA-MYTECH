@@ -25,7 +25,7 @@ public class SandevistanScreen extends Screen {
     private Button nextPage;
     private static int guidePage;
     private static boolean asked;
-    private static final int GUIDE_PAGES = 10;
+    private static final int GUIDE_PAGES = 14;
     private final java.util.List<Button> page0 = new java.util.ArrayList<>();
     /** 0 implantes, 1 efeitos, 2 energia, 3 livro guia. */
     private static int tab;

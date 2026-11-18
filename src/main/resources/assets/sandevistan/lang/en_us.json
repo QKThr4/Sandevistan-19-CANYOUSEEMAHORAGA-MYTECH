@@ -581,5 +581,13 @@
   "sandevistan.cannon.notnt": "No TNT in the inventory",
   "emi_category.sandevistan.assembly": "Assembly Bench",
   "emi_category.sandevistan.medicinal": "Medicinal Bench",
-  "emi_category.sandevistan.recycler": "Scrap Recycler"
+  "emi_category.sandevistan.recycler": "Scrap Recycler",
+  "sandevistan.guide.10.t": "Steel and Cyber tools",
+  "sandevistan.guide.10.b": "Steel Ingot tools: sword, pickaxe, axe, shovel, hoe, bow, crossbow, trident, mace and arrow. Sword, pickaxe, axe, shovel, hoe, bow, crossbow and arrow are made on the crafting table; the mace on the Assembly Bench; the Steel Trident upgrades a vanilla trident there and keeps its enchantments. Steel sits between iron and diamond (it does not break obsidian), can be enchanted and takes no modules. The steel mace works like a tougher axe (no smash attack, breaks shields). The Steel Arrow hits 25% harder, pierces one mob and works with any bow. Cyber tools: a steel tool + 3 High-Precision Components + a Computing Core + a Circuit Chip at the Assembly Bench. Diamond-level, 4 module slots, cannot be enchanted, and the Cyber Pickaxe breaks obsidian.",
+  "sandevistan.guide.11.t": "Modules and Aspects",
+  "sandevistan.guide.11.b": "Put a Multi-Tool or Cyber tool on the Upgrade Table and fit up to 4 modules. Speed (attack speed; draw speed on bows and crossbows) and Damage only go on weapons; pickaxes, shovels and hoes take Efficiency and Fortune. Durability = Unbreaking. Each module has tiers I to III and tiers add up. Enchantment Module: craft an empty one, then combine it with an enchanted book on an Anvil; it keeps that enchantment (any mod's) and can be fitted on a tool that accepts it, following the normal incompatibilities. Aspects (only the highest tier counts): Freezing = Slowness II and freeze; Venomous = Poison; Wither = Wither (levels I to III follow the tier, 5 s); Thunderous = 5%, 8% or 12% chance per hit of a safe lightning bolt, 5 s cooldown.",
+  "sandevistan.guide.12.t": "Arm Cannon",
+  "sandevistan.guide.12.b": "Arm implant, one per arm, tiers I to III. It fires a TNT rocket that explodes like TNT: it breaks blocks and hurts you and your pets. Each cannon uses 1 TNT from your inventory and 400 FE per shot; the cooldown is 15 s shared by both arms, and with two cannons they fire together. A higher tier shoots faster. Use it from the ability wheel (hold TAB and scroll, then R). During a cyberpsychosis blackout it fires on its own at targets farther than 8 blocks if it has TNT and energy.",
+  "sandevistan.guide.13.t": "Energy Cable and Storage",
+  "sandevistan.guide.13.b": "Energy Cables link generators, batteries and any block that handles FE. Sneak and click a cable to change its mode: receives and delivers, only receives and carries energy (blue stripes), or only delivers (orange stripes). The Storage Battery keeps up to 10,000 FE. Cables connect to any block with an energy capability, including other mods."
 }

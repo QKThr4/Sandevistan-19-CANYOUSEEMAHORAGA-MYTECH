@@ -114,18 +114,24 @@ public final class ToolEvents {
         }
         int th = ToolMods.maxTier(w, ToolMods.THUNDER);
         if (th > 0 && src.getEntity() instanceof LivingEntity at && t.level() instanceof ServerLevel sl) {
-            long now = sl.getGameTime();
-            if (now >= at.getPersistentData().getLong("sdv_thunder") && at.getRandom().nextFloat() < new float[] {0.05f, 0.08f, 0.12f}[th - 1]) {
-                at.getPersistentData().putLong("sdv_thunder", now + 100);
-                // raio seguro: so visual + dano, sem fogo nem transformacoes
-                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(sl);
-                if (bolt != null) {
-                    bolt.moveTo(t.getX(), t.getY(), t.getZ());
-                    bolt.setVisualOnly(true);
-                    sl.addFreshEntity(bolt);
+            try {
+                long now = sl.getGameTime();
+                var pd = at.getPersistentData();
+                long next = pd.getLong("sdv_thunder");
+                if (next > now + 200) next = 0; // tempo de jogo reiniciado/mundo diferente
+                if (now >= next && Math.random() < new double[] {0.05, 0.08, 0.12}[Math.min(th, 3) - 1]) {
+                    pd.putLong("sdv_thunder", now + 100);
+                    LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(sl);
+                    if (bolt != null) {
+                        bolt.setPos(t.getX(), t.getY(), t.getZ());
+                        bolt.setVisualOnly(true);
+                        sl.addFreshEntity(bolt);
+                    }
+                    t.invulnerableTime = 0;
+                    t.hurt(sl.damageSources().lightningBolt(), 5.0f);
                 }
-                t.invulnerableTime = 0;
-                t.hurt(sl.damageSources().lightningBolt(), 5.0f);
+            } catch (Throwable ex) {
+                com.mojang.logging.LogUtils.getLogger().warn("Thunderous aspect failed", ex);
             }
         }
     }
