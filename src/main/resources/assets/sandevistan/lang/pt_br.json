@@ -562,7 +562,7 @@
   "item.sandevistan.modulo_trovejante_3": "Aspecto Trovejante III",
   "item.sandevistan.modulo_encantamento": "Módulo de Encantamento",
   "sandevistan.module.ench": "Módulo: %s %s",
-  "sandevistan.module.ench.tip": "Feito na Mesa de Upgrades: coloque um livro encantado em um encaixe (o livro é consumido).",
+  "sandevistan.module.ench.tip": "Módulo vazio: junte com um livro encantado na bigorna para guardar o encantamento; depois instale na Mesa de Upgrades.",
   "sandevistan.tool.mod.1": "Poder de Velocidade %s (velocidade de ataque / de puxar)",
   "sandevistan.tool.mod.2": "Poder de Dano %s",
   "sandevistan.tool.mod.3": "Poder de Eficiência %s",

@@ -308,6 +308,9 @@ public final class BenchRecipes {
             out.add(new Recipe(Arrays.asList(cat(new Req[] {i(mods.get(1), 1), alta3, nucleo2, chip}, up3[t])), new ItemStack(mods.get(2).get())));
         }
 
+        // Modulo de Encantamento vazio: na bigorna, com um livro encantado, ele passa a carregar aquele encantamento
+        out.add(r(ModRegistries.MOD_ENCANTO.get(), 1, chip, cap, i(ModRegistries.LINGOTE_ACO, 2), i(Items.LAPIS_LAZULI, 4), i(Items.AMETHYST_SHARD, 2)));
+
         // Ferramentas de Aco que precisam da bancada (tridente: melhora o tridente vanilla e mantem os encantamentos) e Ferramentas Ciber
         out.add(r(ModRegistries.MACA_ACO.get(), 1, i(ModRegistries.LINGOTE_ACO, 6), i(Items.IRON_BLOCK, 1), i(Items.STICK, 1), i(ModRegistries.LIGA, 2)));
         out.add(r(ModRegistries.TRIDENTE_ACO.get(), 1, new Req(st -> st.is(Items.TRIDENT), 1, new ItemStack(Items.TRIDENT), null),

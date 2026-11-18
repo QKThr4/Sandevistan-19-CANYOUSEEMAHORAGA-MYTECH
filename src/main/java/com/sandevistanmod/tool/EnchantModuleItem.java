@@ -15,15 +15,16 @@ public class EnchantModuleItem extends Item {
 
     @Override
     public boolean isFoil(ItemStack st) {
-        return ToolMods.moduleId(st) > 0;
+        return !ToolMods.modOf(st).none();
     }
 
     @Override
     public Component getName(ItemStack st) {
-        int code = ToolMods.moduleId(st);
-        if (code <= 0) return super.getName(st);
-        String path = ToolMods.ENCH.get(ToolMods.enchIndex(code)).key().location().getPath();
-        return Tx.t("module.ench", Component.translatable("enchantment.minecraft." + path), Component.translatable("enchantment.level." + ToolMods.tier(code)));
+        ToolMods.Mod m = ToolMods.modOf(st);
+        if (m.none()) return super.getName(st);
+        net.minecraft.resources.ResourceLocation id = net.minecraft.resources.ResourceLocation.parse(m.e());
+        return Tx.t("module.ench", Component.translatable("enchantment." + id.getNamespace() + "." + id.getPath().replace('/', '.')),
+                Component.translatable("enchantment.level." + m.l()));
     }
 
     @Override

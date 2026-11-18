@@ -78,11 +78,11 @@ public final class ToolClient {
                 int n = t >= ToolMods.FREEZE ? ToolMods.maxTier(st, t) : ToolMods.power(st, t);
                 if (n > 0) e.getToolTip().add(Tx.t(ChatFormatting.GREEN, "tool.mod." + t, n));
             }
-            for (int m : ToolMods.getMods(st)) {
-                if (ToolMods.isEnchCode(m)) {
-                    String path = ToolMods.ENCH.get(ToolMods.enchIndex(m)).key().location().getPath();
-                    e.getToolTip().add(net.minecraft.network.chat.Component.translatable("enchantment.minecraft." + path)
-                            .append(" ").append(net.minecraft.network.chat.Component.translatable("enchantment.level." + ToolMods.tier(m)))
+            for (ToolMods.Mod m : ToolMods.getModsFull(st)) {
+                if (ToolMods.isEnchCode(m.code())) {
+                    net.minecraft.resources.ResourceLocation id = net.minecraft.resources.ResourceLocation.parse(m.e());
+                    e.getToolTip().add(net.minecraft.network.chat.Component.translatable("enchantment." + id.getNamespace() + "." + id.getPath().replace('/', '.'))
+                            .append(" ").append(net.minecraft.network.chat.Component.translatable("enchantment.level." + m.l()))
                             .withStyle(ChatFormatting.LIGHT_PURPLE));
                 }
             }

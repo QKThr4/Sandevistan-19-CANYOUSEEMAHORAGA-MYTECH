@@ -39,6 +39,26 @@ public final class ToolEvents {
         return st.is(l.get(idx).get());
     }
 
+    /** Bigorna: Modulo de Encantamento + livro encantado = modulo que carrega o primeiro encantamento do livro (serve com encantamentos de outros mods). */
+    @SubscribeEvent
+    public static void anvil(net.neoforged.neoforge.event.AnvilUpdateEvent e) {
+        ItemStack left = e.getLeft();
+        ItemStack right = e.getRight();
+        if (!left.is(ModRegistries.MOD_ENCANTO.get()) || !right.is(net.minecraft.world.item.Items.ENCHANTED_BOOK)) return;
+        net.minecraft.world.item.enchantment.ItemEnchantments en = right.getOrDefault(net.minecraft.core.component.DataComponents.STORED_ENCHANTMENTS,
+                net.minecraft.world.item.enchantment.ItemEnchantments.EMPTY);
+        for (net.minecraft.core.Holder<net.minecraft.world.item.enchantment.Enchantment> h : en.keySet()) {
+            var key = h.unwrapKey();
+            if (key.isEmpty()) continue;
+            ItemStack out = ToolMods.modItem(new ToolMods.Mod(ToolMods.ENCH_CODE, key.get().location().toString(), en.getLevel(h)));
+            if (out.isEmpty()) continue;
+            e.setOutput(out);
+            e.setCost(Math.max(1, en.getLevel(h)));
+            e.setMaterialCost(1);
+            return;
+        }
+    }
+
     /** Tridente de Aco/Ciber arremessado: avisa os clientes para usarem a textura certa. */
     @SubscribeEvent
     public static void tridentJoin(EntityJoinLevelEvent e) {
@@ -75,6 +95,7 @@ public final class ToolEvents {
     public static void aspects(LivingDamageEvent.Post e) {
         DamageSource src = e.getSource();
         ItemStack w = src.getWeaponItem();
+        if ((w == null || w.isEmpty()) && src.getEntity() instanceof LivingEntity le && src.getDirectEntity() == le) w = le.getMainHandItem();
         if (w == null || w.isEmpty() || !ToolMods.isModTool(w)) return;
         LivingEntity t = e.getEntity();
         if (t.level().isClientSide || !t.isAlive()) return;

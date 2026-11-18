@@ -64,20 +64,18 @@ public class UpgradeMenu extends AbstractContainerMenu {
         for (int c = 0; c < 9; c++) this.addSlot(new Slot(inv, c, 8 + c * 18, 142));
     }
 
-    /** Codigos dos outros encaixes (menos o indicado). */
-    private int[] othersOf(int skipSlot) {
-        int[] o = new int[ToolMods.SLOTS];
-        for (int k = 0; k < ToolMods.SLOTS; k++) o[k] = k + 1 == skipSlot ? 0 : ToolMods.moduleId(box.getItem(k + 1));
+    /** Modulos dos outros encaixes (menos o indicado). */
+    private ToolMods.Mod[] othersOf(int skipSlot) {
+        ToolMods.Mod[] o = new ToolMods.Mod[ToolMods.SLOTS];
+        for (int k = 0; k < ToolMods.SLOTS; k++) o[k] = k + 1 == skipSlot ? ToolMods.Mod.NONE : ToolMods.modOf(box.getItem(k + 1));
         return o;
     }
 
-    /** O item (modulo ou livro encantado) pode entrar neste encaixe da ferramenta que esta na mesa? */
+    /** O item e um modulo que a ferramenta da mesa aceita neste encaixe? */
     private boolean validFor(ItemStack st, int slot) {
         ItemStack tool = box.getItem(0);
         if (tool.isEmpty()) return false;
-        net.minecraft.core.RegistryAccess ra = player.level().registryAccess();
-        int code = ToolMods.isConvertible(st) ? ToolMods.bookCode(tool, st, othersOf(slot), ra) : ToolMods.moduleId(st);
-        return code > 0 && ToolMods.accepts(tool, code, othersOf(slot), ra);
+        return ToolMods.accepts(tool, ToolMods.modOf(st), othersOf(slot), player.level().registryAccess());
     }
 
     private boolean fitsAnySlot(ItemStack st) {
@@ -96,21 +94,13 @@ public class UpgradeMenu extends AbstractContainerMenu {
                 lastTool = ItemStack.EMPTY;
             } else if (tool != lastTool) {
                 // ferramenta nova na mesa: mostra os modulos que ela ja tem
-                int[] mods = ToolMods.getMods(tool);
-                for (int k = 0; k < ToolMods.SLOTS; k++) box.setItem(k + 1, ToolMods.moduleItem(mods[k]));
+                ToolMods.Mod[] mods = ToolMods.getModsFull(tool);
+                for (int k = 0; k < ToolMods.SLOTS; k++) box.setItem(k + 1, ToolMods.modItem(mods[k]));
                 lastTool = tool;
             } else {
-                // livro encantado no encaixe: e consumido e vira um Modulo de Encantamento
-                for (int k = 1; k <= ToolMods.SLOTS; k++) {
-                    ItemStack st = box.getItem(k);
-                    if (ToolMods.isConvertible(st)) {
-                        int code = ToolMods.bookCode(tool, st, othersOf(k), ra);
-                        box.setItem(k, code > 0 ? ToolMods.moduleItem(code) : ItemStack.EMPTY);
-                    }
-                }
-                int[] ids = new int[ToolMods.SLOTS];
-                for (int k = 0; k < ToolMods.SLOTS; k++) ids[k] = ToolMods.moduleId(box.getItem(k + 1));
-                ToolMods.setMods(tool, ids, ra);
+                ToolMods.Mod[] mods = new ToolMods.Mod[ToolMods.SLOTS];
+                for (int k = 0; k < ToolMods.SLOTS; k++) mods[k] = ToolMods.modOf(box.getItem(k + 1));
+                ToolMods.setMods(tool, mods, ra);
             }
         } finally {
             busy = false;

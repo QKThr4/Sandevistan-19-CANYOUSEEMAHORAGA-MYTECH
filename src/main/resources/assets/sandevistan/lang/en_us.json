@@ -562,7 +562,7 @@
   "item.sandevistan.modulo_trovejante_3": "Thunderous Aspect III",
   "item.sandevistan.modulo_encantamento": "Enchantment Module",
   "sandevistan.module.ench": "Module: %s %s",
-  "sandevistan.module.ench.tip": "Made at the Upgrade Table: put an enchanted book in a module slot (the book is consumed).",
+  "sandevistan.module.ench.tip": "Empty module: combine it with an enchanted book on an Anvil to store that enchantment, then install it on the Upgrade Table.",
   "sandevistan.tool.mod.1": "Speed power %s (attack speed / draw speed)",
   "sandevistan.tool.mod.2": "Damage power %s",
   "sandevistan.tool.mod.3": "Efficiency power %s",

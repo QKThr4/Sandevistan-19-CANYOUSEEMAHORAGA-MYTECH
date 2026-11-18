@@ -1,4 +1,12 @@
 {
-  "parent": "sandevistan:block/bateria_armazenamento",
-  "gui_light": "front"
+  "loader": "neoforge:separate_transforms",
+  "gui_light": "front",
+  "base": {
+    "parent": "sandevistan:block/bateria_armazenamento"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "sandevistan:block/bateria_armazenamento_gui"
+    }
+  }
 }

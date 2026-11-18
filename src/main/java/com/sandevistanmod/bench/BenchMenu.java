@@ -94,13 +94,23 @@ public class BenchMenu extends AbstractContainerMenu {
     }
 
     private boolean matches(BenchRecipes.Recipe r) {
+        return mult(r) > 0;
+    }
+
+    /** Quantas vezes a receita cabe exatamente na grade (como na mesa de trabalho: 35 tabuas fazem 35 botoes); 0 se nao casa. */
+    private int mult(BenchRecipes.Recipe r) {
+        int sum = 0;
+        for (BenchRecipes.Req q : r.in()) sum += q.count();
+        int total = 0;
+        for (int s = 0; s < 9; s++) total += grid.getItem(s).getCount();
+        if (total <= 0 || sum <= 0 || total % sum != 0) return 0;
+        int m = total / sum;
+        if ((long) r.out().getCount() * m > r.out().getMaxStackSize()) return 0;
         int[] left = new int[r.in().size()];
-        for (int j = 0; j < left.length; j++) left[j] = r.in().get(j).count();
-        boolean any = false;
+        for (int j = 0; j < left.length; j++) left[j] = r.in().get(j).count() * m;
         for (int s = 0; s < 9; s++) {
             ItemStack st = grid.getItem(s);
             if (st.isEmpty()) continue;
-            any = true;
             for (int u = 0; u < st.getCount(); u++) {
                 int k = -1;
                 for (int j = 0; j < left.length; j++) {
@@ -109,19 +119,19 @@ public class BenchMenu extends AbstractContainerMenu {
                         break;
                     }
                 }
-                if (k < 0) return false;
+                if (k < 0) return 0;
                 left[k]--;
             }
         }
-        if (!any) return false;
-        for (int l : left) if (l > 0) return false;
-        return true;
+        for (int l : left) if (l > 0) return 0;
+        return m;
     }
 
     private void updateResult() {
         if (player.level().isClientSide) return;
         BenchRecipes.Recipe r = match();
         ItemStack out = r == null ? ItemStack.EMPTY : r.out().copy();
+        if (r != null) out.setCount(out.getCount() * mult(r));
         if (!out.isEmpty() && out.is(ModRegistries.TRIDENTE_ACO.get())) {
             // melhorar o tridente vanilla mantem os encantamentos e o nome
             for (int s = 0; s < 9; s++) {
@@ -157,8 +167,9 @@ public class BenchMenu extends AbstractContainerMenu {
     private void craft(Player p) {
         BenchRecipes.Recipe r = match();
         if (r == null) return;
+        int m = Math.max(1, mult(r));
         for (BenchRecipes.Req q : r.in()) {
-            int need = q.count();
+            int need = q.count() * m;
             for (int s = 0; s < 9 && need > 0; s++) {
                 ItemStack st = grid.getItem(s);
                 while (need > 0 && !st.isEmpty() && q.test().test(st)) {

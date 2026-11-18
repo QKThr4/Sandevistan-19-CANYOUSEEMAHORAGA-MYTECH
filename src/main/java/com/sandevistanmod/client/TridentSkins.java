@@ -25,16 +25,14 @@ public final class TridentSkins {
         return CACHE.computeIfAbsent(kind, k -> {
             try (var in = Minecraft.getInstance().getResourceManager().open(VANILLA)) {
                 NativeImage img = NativeImage.read(in);
-                float tr = k == 1 ? 0.66f : 0.34f, tg = k == 1 ? 0.74f : 0.36f, tb = k == 1 ? 0.82f : 0.43f;
                 for (int x = 0; x < img.getWidth(); x++) {
                     for (int y = 0; y < img.getHeight(); y++) {
                         int p = img.getPixelRGBA(x, y);
                         int a = p >>> 24, b = (p >> 16) & 255, g = (p >> 8) & 255, r = p & 255;
-                        // realca o brilho (o tridente vanilla e escuro) antes da tinta
-                        r = Math.min(255, (int) ((r * 1.6f + 30) * tr * 1.4f));
-                        g = Math.min(255, (int) ((g * 1.6f + 30) * tg * 1.4f));
-                        b = Math.min(255, (int) ((b * 1.6f + 30) * tb * 1.4f));
-                        img.setPixelRGBA(x, y, (a << 24) | (b << 16) | (g << 8) | r);
+                        int lum = (r + g + b) / 3;
+                        // Aco: quase branco; Ciber: quase preto (mantem so um pouco do sombreado para ler a forma)
+                        int v = k == 1 ? Math.min(255, 200 + lum / 4) : lum / 12;
+                        img.setPixelRGBA(x, y, (a << 24) | (v << 16) | (v << 8) | v);
                     }
                 }
                 ResourceLocation id = ResourceLocation.fromNamespaceAndPath(SandevistanMod.MODID, "dyn/trident_" + k);
