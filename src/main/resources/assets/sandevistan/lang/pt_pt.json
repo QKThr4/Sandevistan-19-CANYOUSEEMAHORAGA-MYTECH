@@ -578,5 +578,8 @@
   "entity.sandevistan.foguete_tnt": "Foguete de TNT",
   "sandevistan.tooltip.ext.cannon": "Implante de braço (um por braço). Dispara um foguete de TNT (gasta 1 TNT e 400 FE por canhão); recarga de 15 s compartilhada. A velocidade do foguete cresce com o tier. Fere você e seus pets.",
   "sandevistan.cannon.cd": "Canhão recarregando: %ss",
-  "sandevistan.cannon.notnt": "Sem TNT no inventário"
+  "sandevistan.cannon.notnt": "Sem TNT no inventário",
+  "emi_category.sandevistan.assembly": "Bancada de Montagem",
+  "emi_category.sandevistan.medicinal": "Bancada Medicinal",
+  "emi_category.sandevistan.recycler": "Reciclador de Sucata"
 }

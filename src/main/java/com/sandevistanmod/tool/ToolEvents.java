@@ -39,6 +39,16 @@ public final class ToolEvents {
         return st.is(l.get(idx).get());
     }
 
+    /** Tridente de Aco/Ciber arremessado: avisa os clientes para usarem a textura certa. */
+    @SubscribeEvent
+    public static void tridentJoin(EntityJoinLevelEvent e) {
+        if (e.getLevel().isClientSide() || e.loadedFromDisk() || !(e.getEntity() instanceof net.minecraft.world.entity.projectile.ThrownTrident t)) return;
+        if (!(t.getOwner() instanceof LivingEntity o)) return;
+        ItemStack st = o.getUseItem();
+        int kind = st.is(ModRegistries.TRIDENTE_ACO.get()) ? 1 : st.is(ModRegistries.TRIDENTE_CIBER.get()) ? 2 : 0;
+        if (kind > 0) net.neoforged.neoforge.network.PacketDistributor.sendToAllPlayers(new com.sandevistanmod.net.TridentSkinPayload(t.getUUID(), kind));
+    }
+
     /** Flechas de arcos/bestas de Aco (+10% de dano) e Ciber (+20%); modulo de Dano na besta (+10% por ponto). */
     @SubscribeEvent
     public static void arrowJoin(EntityJoinLevelEvent e) {
@@ -75,10 +85,10 @@ public final class ToolEvents {
             if (t.level() instanceof ServerLevel sl) sl.sendParticles(ParticleTypes.SNOWFLAKE, t.getX(), t.getY() + t.getBbHeight() / 2, t.getZ(), 12, 0.3, 0.4, 0.3, 0.02);
         }
         int vn = ToolMods.maxTier(w, ToolMods.VENOM);
-        if (vn > 0 && !t.getType().is(EntityTypeTags.UNDEAD)) t.addEffect(new MobEffectInstance(MobEffects.POISON, (3 + vn * 2) * 20, 0));
+        if (vn > 0 && !t.getType().is(EntityTypeTags.UNDEAD)) t.addEffect(new MobEffectInstance(MobEffects.POISON, 5 * 20, vn - 1));
         int wi = ToolMods.maxTier(w, ToolMods.WITHER);
         if (wi > 0) {
-            MobEffectInstance eff = new MobEffectInstance(MobEffects.WITHER, (2 + wi) * 20, 0);
+            MobEffectInstance eff = new MobEffectInstance(MobEffects.WITHER, 5 * 20, wi - 1);
             if (t.canBeAffected(eff)) t.addEffect(eff);
         }
         int th = ToolMods.maxTier(w, ToolMods.THUNDER);

@@ -26,6 +26,8 @@ public final class Net {
                 (payload, ctx) -> ctx.enqueueWork(ClientNet::openDoctor));
         reg.playToClient(IntroPayload.TYPE, IntroPayload.CODEC,
                 (payload, ctx) -> ctx.enqueueWork(com.sandevistanmod.client.IntroVideo::start));
+        reg.playToClient(TridentSkinPayload.TYPE, TridentSkinPayload.CODEC,
+                (payload, ctx) -> ctx.enqueueWork(() -> com.sandevistanmod.client.TridentSkins.KIND.put(payload.uuid(), payload.kind())));
         reg.playToServer(DoctorActionPayload.TYPE, DoctorActionPayload.CODEC,
                 (payload, ctx) -> ctx.enqueueWork(() -> {
                     if (ctx.player() instanceof ServerPlayer sp) {

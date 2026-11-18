@@ -578,5 +578,8 @@
   "entity.sandevistan.foguete_tnt": "TNT Rocket",
   "sandevistan.tooltip.ext.cannon": "Arm implant (one per arm). Fires a TNT rocket (uses 1 TNT and 400 FE per cannon); 15 s shared cooldown. Rocket speed grows with the tier. Hurts you and your pets.",
   "sandevistan.cannon.cd": "Cannon recharging: %ss",
-  "sandevistan.cannon.notnt": "No TNT in the inventory"
+  "sandevistan.cannon.notnt": "No TNT in the inventory",
+  "emi_category.sandevistan.assembly": "Assembly Bench",
+  "emi_category.sandevistan.medicinal": "Medicinal Bench",
+  "emi_category.sandevistan.recycler": "Scrap Recycler"
 }

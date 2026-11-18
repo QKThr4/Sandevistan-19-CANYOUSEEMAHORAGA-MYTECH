@@ -10,6 +10,11 @@ group = 'com.sandevistanmod'
 repositories {
     mavenLocal()
     maven {
+        name = 'TerraformersMC'
+        url = 'https://maven.terraformersmc.com/'
+        content { includeGroup 'dev.emi' }
+    }
+    maven {
         name = 'BlameJared'
         url = 'https://maven.blamejared.com'
     }
@@ -18,6 +23,8 @@ repositories {
 dependencies {
     // so a API do JEI para compilar; o JEI de verdade e opcional em jogo
     compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.+'
+    // so a API do EMI para compilar; o EMI de verdade e opcional em jogo
+    compileOnly 'dev.emi:emi-neoforge:1.1.23+1.21.1:api'
 }
 
 base {

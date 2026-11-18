@@ -1,3 +1,4 @@
 {
-  "parent": "sandevistan:block/bateria_armazenamento"
+  "parent": "sandevistan:block/bateria_armazenamento",
+  "gui_light": "front"
 }

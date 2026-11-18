@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,7 +18,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 /** Tela das bancadas: grade 3x3, resultado e, ao lado, o livro de receitas (clique para preencher com o que voce tem). */
 public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
     private static final int ROW_H = 22;
-    private static final int ROWS = 7;
+    private static final int ROWS = 6;
     private static final int PANEL_W = 136;
     private int scroll;
     private boolean open = true;
@@ -27,6 +28,11 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
     private Button back;
     private Button next;
     private int page;
+    private EditBox search;
+    private Button lprev;
+    private Button lnext;
+    private String query = "";
+    private List<Integer> vis = new ArrayList<>();
     private static final int PER_PAGE = 5;
 
     public BenchScreen(BenchMenu menu, Inventory inv, Component title) {
@@ -58,10 +64,47 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
                 page = (page + 1) % Math.max(1, pages);
             }
         }).bounds(panelX() + PANEL_W - 24, topPos + 36, 20, 14).build());
+        lprev = addRenderableWidget(Button.builder(Component.literal("<"), b -> scroll = Math.max(0, scroll - ROWS))
+                .bounds(panelX() + 4, topPos + imageHeight - 20, 18, 16).build());
+        lnext = addRenderableWidget(Button.builder(Component.literal(">"), b -> {
+            if (scroll + ROWS < vis.size()) scroll += ROWS;
+        }).bounds(panelX() + PANEL_W - 22, topPos + imageHeight - 20, 18, 16).build());
+        search = new EditBox(font, panelX() + 25, topPos + imageHeight - 20, PANEL_W - 50, 16, Component.literal("search"));
+        search.setMaxLength(32);
+        search.setHint(Component.literal("\u00a77Search..."));
+        search.setValue(query);
+        search.setResponder(v -> {
+            query = v.toLowerCase();
+            scroll = 0;
+            refilter();
+        });
+        addRenderableWidget(search);
+        refilter();
         sync();
     }
 
+    private void refilter() {
+        vis = new ArrayList<>();
+        List<BenchRecipes.Recipe> all = recipes();
+        for (int i = 0; i < all.size(); i++) {
+            if (query.isEmpty() || all.get(i).out().getHoverName().getString().toLowerCase().contains(query)) vis.add(i);
+        }
+    }
+
+    @Override
+    public boolean keyPressed(int key, int sc, int mod) {
+        if (search != null && search.isFocused() && key != 256) return search.keyPressed(key, sc, mod) || search.canConsumeInput();
+        return super.keyPressed(key, sc, mod);
+    }
+
     private void sync() {
+        boolean listMode = open && selected < 0;
+        if (lprev != null) lprev.visible = listMode;
+        if (lnext != null) lnext.visible = listMode;
+        if (search != null) {
+            search.visible = listMode;
+            if (!listMode) search.setFocused(false);
+        }
         if (next != null) {
             boolean more = false;
             if (open && selected >= 0 && selected < recipes().size()) more = recipes().get(selected).in().size() > PER_PAGE;
@@ -140,11 +183,11 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
                     px + 4, topPos + imageHeight - 34, 0xFFFFFF, false);
             return;
         }
-        scroll = Math.max(0, Math.min(Math.max(0, list.size() - ROWS), scroll));
+        scroll = Math.max(0, Math.min(Math.max(0, vis.size() - ROWS), scroll));
         for (int row = 0; row < ROWS; row++) {
-            int idx = scroll + row;
-            if (idx >= list.size()) break;
-            BenchRecipes.Recipe r = list.get(idx);
+            int vi = scroll + row;
+            if (vi >= vis.size()) break;
+            BenchRecipes.Recipe r = list.get(vis.get(vi));
             int ry = topPos + 16 + row * ROW_H;
             boolean hover = mouseX >= px && mouseX < px + PANEL_W && mouseY >= ry && mouseY < ry + ROW_H;
             gg.fill(px + 2, ry, px + PANEL_W - 2, ry + ROW_H - 2, hover ? 0xFF4A6275 : 0xFF3A4C5B);
@@ -155,8 +198,8 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
             gg.drawString(font, name, px + 24, ry + 7, lk ? 0xFF8A6A6A : canMake(r) ? 0xFF7CFFA0 : 0xFFC8D2DC, false);
             if (lk) gg.drawString(font, "\u00a7c#" + com.sandevistanmod.logic.Quests.needed(r.out()), px + PANEL_W - 18, ry + 7, 0xFFFFFF, false);
         }
-        if (list.size() > ROWS) {
-            gg.drawString(font, (scroll + 1) + "-" + Math.min(list.size(), scroll + ROWS) + "/" + list.size(),
+        if (vis.size() > ROWS) {
+            gg.drawString(font, (scroll + 1) + "-" + Math.min(vis.size(), scroll + ROWS) + "/" + vis.size(),
                     px + PANEL_W - 52, topPos + 4, 0xFF8899AA, false);
         }
     }
@@ -168,11 +211,11 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
         int px = panelX();
         List<BenchRecipes.Recipe> list = recipes();
         for (int row = 0; row < ROWS; row++) {
-            int idx = scroll + row;
-            if (idx >= list.size()) break;
+            int vi = scroll + row;
+            if (vi >= vis.size()) break;
             int ry = topPos + 16 + row * ROW_H;
             if (mouseX >= px && mouseX < px + PANEL_W && mouseY >= ry && mouseY < ry + ROW_H) {
-                BenchRecipes.Recipe r = list.get(idx);
+                BenchRecipes.Recipe r = list.get(vis.get(vi));
                 List<Component> tip = new ArrayList<>();
                 tip.add(r.out().getHoverName().copy().withStyle(ChatFormatting.WHITE));
                 if (locked(r)) tip.add(Tx.t(ChatFormatting.RED, "bench.locked.tip", com.sandevistanmod.logic.Quests.needed(r.out())));
@@ -195,11 +238,11 @@ public class BenchScreen extends AbstractContainerScreen<BenchMenu> {
         List<BenchRecipes.Recipe> list = recipes();
         if (button == 0 && open && selected < 0 && mx >= px && mx < px + PANEL_W) {
             for (int row = 0; row < ROWS; row++) {
-                int idx = scroll + row;
-                if (idx >= list.size()) break;
+                int vi = scroll + row;
+                if (vi >= vis.size()) break;
                 int ry = topPos + 16 + row * ROW_H;
                 if (my >= ry && my < ry + ROW_H) {
-                    selected = idx;
+                    selected = vis.get(vi);
                     page = 0;
                     sync();
                     return true;

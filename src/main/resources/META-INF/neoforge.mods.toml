@@ -4,7 +4,7 @@ license="MIT"
 
 [[mods]]
 modId="sandevistan"
-version="5.0.2"
+version="5.1.0"
 displayName="Sandevistan"
 credits="Jetpack model: Jetpack - Minecraft by ollypop567 (CC BY 4.0)"
 description='''Adds only the Sandevistan from Cyberpunk: Edgerunners: craft it, implant it, and slow the whole world down to 2 ticks per second while you move at absurd speed.'''
