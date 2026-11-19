@@ -65,10 +65,13 @@ for k in range(9):
     y = 6.0 + k * 2.0
     box(-5.95 + k * 0.1, y, -0.55, -5.55 + k * 0.1, y + 0.9, 0.55, MID)
 
+SCALE = 0.7  # reduz o conjunto (ancorado na carcaca, que fica presa ao braco)
+ANCHOR = np.array([-2.0, 4.0, 0.0])
+
 def write(name, mirror):
     verts = []
     for (v, col) in tris:
-        P = np.array(v, dtype=float) / 16.0
+        P = (ANCHOR + (np.array(v, dtype=float) - ANCHOR) * SCALE) / 16.0
         if mirror: P[:, 0] *= -1
         n = np.cross(P[1] - P[0], P[2] - P[0]); n = n / (np.linalg.norm(n) or 1)
         u = ((col % 4) * 4 + 2) / 16.0; w = ((col // 4) * 4 + 2) / 16.0
