@@ -67,11 +67,12 @@ for k in range(9):
 
 SCALE = 0.7  # reduz o conjunto (ancorado na carcaca, que fica presa ao braco)
 ANCHOR = np.array([-2.0, 4.0, 0.0])
+DOWN = 2.0  # desce o conjunto no braco (pixels)
 
 def write(name, mirror):
     verts = []
     for (v, col) in tris:
-        P = (ANCHOR + (np.array(v, dtype=float) - ANCHOR) * SCALE) / 16.0
+        P = (ANCHOR + (np.array(v, dtype=float) - ANCHOR) * SCALE + np.array([0.0, DOWN, 0.0])) / 16.0
         if mirror: P[:, 0] *= -1
         n = np.cross(P[1] - P[0], P[2] - P[0]); n = n / (np.linalg.norm(n) or 1)
         u = ((col % 4) * 4 + 2) / 16.0; w = ((col // 4) * 4 + 2) / 16.0
