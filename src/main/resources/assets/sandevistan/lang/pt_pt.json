@@ -384,7 +384,7 @@
   "item.sandevistan.nucleo_estelar": "Núcleo Estelar",
   "sandevistan.tooltip.ext.solar": "Painel na cabeça: recarrega %s FE/s na bateria de dia e ao ar livre (metade na chuva).",
   "sandevistan.tooltip.ext.reactor": "Reator no peito: recarrega %s FE/s na bateria o tempo todo, de dia ou de noite.",
-  "sandevistan.tooltip.ext.mantis": "Lâmina no antebraço: +%s de dano corpo a corpo (como uma espada) e as mãos continuam livres. Uma em cada braço soma +1.",
+  "sandevistan.tooltip.ext.mantis": "Lâmina no antebraço: %s de dano corpo a corpo (como uma espada) e as mãos continuam livres. Uma em cada braço soma +1.",
   "sandevistan.tooltip.ext.injector": "Aplica sozinho a Pílula (Insanidade a partir de %s) e o Imunossupressor (ciberpsicose a partir de %s), uma injeção por vez e com espera. Usa itens do seu inventário. Liga/desliga na roleta.",
   "sandevistan.ext.slot.6": "Solar",
   "sandevistan.ext.slot.7": "Reator",

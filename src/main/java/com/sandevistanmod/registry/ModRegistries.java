@@ -337,7 +337,7 @@ public final class ModRegistries {
     public static final List<DeferredItem<ExtItem>> REATORES = extTiers("reator_arc", SandevistanData.EXT_REACTOR, 0, "tooltip.ext.reactor",
             new Object[][] {{20}, {35}, {55}, {90}});
     public static final List<DeferredItem<ExtItem>> MANTIS = extTiers("lamina_mantis", SandevistanData.EXT_MANTIS_R, 0, "tooltip.ext.mantis",
-            new Object[][] {{5}, {6}, {7}, {9}});
+            new Object[][] {{4}, {5}, {5.5}, {6}});
     public static final List<DeferredItem<ExtItem>> CANHOES = extTiers("canhao_de_braco", SandevistanData.EXT_CANNON_R, 0, "tooltip.ext.cannon",
             new Object[][] {{1}, {2}, {3}});
     public static final List<DeferredItem<ExtItem>> INJETORES = extTiers("injetor_automatico", SandevistanData.EXT_INJECTOR, 0, "tooltip.ext.injector",

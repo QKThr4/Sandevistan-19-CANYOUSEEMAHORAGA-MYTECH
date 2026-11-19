@@ -384,7 +384,7 @@
   "item.sandevistan.nucleo_estelar": "Stellar Core",
   "sandevistan.tooltip.ext.solar": "Head panel: recharges %s FE/s into the battery in daylight and open sky (half in rain).",
   "sandevistan.tooltip.ext.reactor": "Chest reactor: recharges %s FE/s into the battery all the time, day or night.",
-  "sandevistan.tooltip.ext.mantis": "Forearm blade: +%s melee damage (like a sword) and your hands stay free. One on each arm adds +1.",
+  "sandevistan.tooltip.ext.mantis": "Forearm blade: %s melee damage (like a sword) and your hands stay free. One on each arm adds +1.",
   "sandevistan.tooltip.ext.injector": "Automatically uses the Pill (Insanity from %s) and the Immunosuppressant (cyberpsychosis from %s), one injection at a time with a cooldown. Uses items from your inventory. Toggle on the wheel.",
   "sandevistan.ext.slot.6": "Solar",
   "sandevistan.ext.slot.7": "Reactor",

@@ -520,7 +520,8 @@ public final class ExtLogic {
         int l = d.mantisOk(1) ? d.extTier(SandevistanData.EXT_MANTIS_L) : 0;
         if ((r == 0 && l == 0) || !d.mantisOn || !d.hasEnergy()) return 0f;
         if (p.getMainHandItem().getItem() instanceof net.minecraft.world.item.TieredItem) return 0f;
-        float dmg = SandevistanData.MANTIS_DAMAGE[Math.max(r, l) - 1] + (r != 0 && l != 0 ? 1f : 0f);
+        // o valor da tabela e o dano TOTAL do golpe: tira 1 do punho, que ja entra no ataque
+        float dmg = SandevistanData.MANTIS_DAMAGE[Math.max(r, l) - 1] - 1f + (r != 0 && l != 0 ? 1f : 0f);
         return dmg * p.getAttackStrengthScale(0.5f);
     }
 

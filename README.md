@@ -214,7 +214,7 @@ Braço de Ferro, Pernas Cibernéticas, Estrutura Óssea, Sistema Nervoso, Coraç
 **Novos implantes (Ripperdoc, 3 tiers, Carga Cibernética):**
 - **Implante Solar** (cabeça): recarrega 4/7/10 FE/s na bateria de dia e ao ar livre (metade na chuva).
 - **Reator Arc** (peito): recarrega 20/35/55/**90** FE/s sempre. Receita muito difícil: Núcleo Estelar (Estrela do Nether + Sinalizador + Bobina de Fusão + Matriz de Contenção).
-- **Lâminas Mantis** (um implante por braço): +5/6/7/**9** de dano corpo a corpo (como espada de ferro/diamante/netherite) com as mãos livres; as duas juntas somam +1.
+- **Lâminas Mantis** (um implante por braço): 4/5/5,5/**6** de dano corpo a corpo com as mãos livres; as duas juntas somam +1.
 - **Injetor Automático** (ombro): aplica sozinho a Pílula (Insanidade ≥ 70/60/50) e o Imunossupressor (ciberpsicose ≥ 40/35/30). Segurança: uma injeção por conferência, Pílula com espera de 40 s e só sem pílula agindo; Imunossupressor com espera de 180 s, só sem dose/sequência em andamento — nunca com ciberpsicose baixa. Liga/desliga na roleta.
 
 **Tier IV:** só Jetpack, Reator Arc e Lâminas Mantis. Crafts extremamente difíceis (Wither, Sinalizador, Núcleo Estelar, Fragmentos de Eco...).
@@ -229,8 +229,9 @@ Braço de Ferro, Pernas Cibernéticas, Estrutura Óssea, Sistema Nervoso, Coraç
 - **Remédios com tiers 1–3:** Estabilizador (recupera 8/12/16 de Mente máxima), Pílula (1/1,5/2 de Insanidade por segundo), Imunossupressor (tira até 40/55/70 de psicose, +20/30/40 de Mente atual). Tier II e III dependem das licenças do Ripperdoc. Preços: Estabilizador 10 e Imunossupressor 8 esmeraldas.
 - **Bugs:** a Mente máxima baixa não mexe mais na psicose (era o que fazia ela subir sozinha e não descer). O tick rate agora lê a taxa real do servidor a cada tick, então o Sandevistan reaplica se o Sharingan mudar por cima e a Mente não gasta de uma vez.
 
-## Modelos GLB (jetpack_utrm e Lamina Mantis)
-- `tools/gen_models.py <jetpack.glb> <mantis.glb>` converte os modelos para `assets/sandevistan/models/gear/*.bin` + texturas.
+## Modelos 3D (jetpack e Lamina Mantis)
+- Jetpack: `tools/gen_jetpack2.py <jetpack.glb>` converte o modelo (ollypop567, CC BY 4.0) para `assets/sandevistan/models/gear/jetpack.bin` + texturas.
+- Lamina Mantis: modelo ORIGINAL, desenhado do zero e gerado por `tools/gen_mantis.py` (cinza, sem modelo de terceiros).
 - `client/MeshModel` le as malhas; `GearLayer` desenha jetpack (costas) e Mantis (bracos, 3a pessoa).
 - `client/MantisHand`: em primeira pessoa, com a mao vazia e Mantis no braco, a mao vira a "mao de Mantis".
 

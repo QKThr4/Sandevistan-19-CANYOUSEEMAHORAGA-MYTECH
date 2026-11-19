@@ -523,7 +523,7 @@ public class SandevistanData implements INBTSerializable<CompoundTag> {
     public static final float[] SOLAR_REGEN = {4f, 7f, 10f};
     public static final float[] REACTOR_REGEN = {20f, 35f, 55f, 90f};
     /** Dano extra das Laminas Mantis (como uma espada de ferro, de diamante e de netherite). */
-    public static final float[] MANTIS_DAMAGE = {4f, 4.5f, 5f, 6f};
+    public static final float[] MANTIS_DAMAGE = {4f, 5f, 5.5f, 6f};
     /** Injetor automatico: Insanidade a partir da qual toma a Pilula e ciberpsicose a partir da qual aplica o Imunossupressor. */
     public static final float[] INJ_INS = {70f, 60f, 50f};
     public static final float[] INJ_PSY = {40f, 35f, 30f};
